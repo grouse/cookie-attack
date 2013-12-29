@@ -5,7 +5,10 @@ int main(int argc, char* argv[]) {
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 
-	SDL_Init(SDL_INIT_VIDEO);
+	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+		std::cerr << "Error initialising SDL\n" << SDL_GetError() << "\n";
+		return -1;
+	}
 	
 	window = SDL_CreateWindow(
 		"Pong",
@@ -16,10 +19,23 @@ int main(int argc, char* argv[]) {
 		SDL_WINDOW_OPENGL
 	);
 
+	if (window == NULL) {
+		std::cerr << "Error initialising window\n" << SDL_GetError() << "\n";
+		SDL_Quit();
+		return -1;
+	}
+
 	renderer = SDL_CreateRenderer(
 		window, -1, 
 		SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC	
 	);
+
+	if (renderer == NULL) {
+		std::cerr << "Error initialising renderer\n" << SDL_GetError() << "\n";
+		SDL_DestroyWindow(window);
+		SDL_Quit();
+		return -1;
+	}
 
 
 	bool quit = false;
@@ -47,6 +63,5 @@ int main(int argc, char* argv[]) {
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 
-	std::cout << "Working";
-	return -1;
+	return 0;
 }
