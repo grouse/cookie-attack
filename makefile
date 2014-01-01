@@ -1,5 +1,12 @@
-pong: main.o
-	g++ -lSDL2 bin/main.o -o pong
+OBJS = main.o
+CC = g++
+DEBUG = -g
+CFLAGS = -c $(DEBUG)
+LFLAGS = -lSDL2 $(DEBUG)
+
+
+pong: $(OBJS)
+	$(CC) $(LFLAGS) bin/main.o -o pong
 
 main.o: src/main.cpp
-	g++ src/main.cpp -c -o bin/main.o
+	$(CC) src/main.cpp $(CFLAGS) -o bin/main.o
