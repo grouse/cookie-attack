@@ -2,7 +2,7 @@ OBJS = main.o engine.o
 CC = g++
 DEBUG = -g
 CFLAGS = -c $(DEBUG)
-LFLAGS = -lSDL2 $(DEBUG)
+LFLAGS = -lGL -lSDL2 $(DEBUG)
 
 
 pong: $(OBJS)

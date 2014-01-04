@@ -1,6 +1,8 @@
 #include <SDL2/SDL.h>
-#include <iostream>
+#include <SDL2/SDL_opengl.h>
 
+#include <iostream>
+#include <math.h>
 
 class Engine {
 	public:
@@ -15,6 +17,9 @@ class Engine {
 	private:
 		SDL_Window* window;
 		SDL_Renderer* renderer;
+		SDL_GLContext glcontext;
 
 		bool quit;
+
+		void initGL(int, int);
 };
