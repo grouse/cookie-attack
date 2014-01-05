@@ -1,8 +1,13 @@
+#ifndef ENGINE_H
+#define ENGINE_H
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 
 #include <iostream>
 #include <math.h>
+
+#include "rect.h"
 
 class Engine {
 	public:
@@ -23,3 +28,5 @@ class Engine {
 
 		void initGL(int, int);
 };
+
+#endif

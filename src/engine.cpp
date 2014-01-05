@@ -1,5 +1,7 @@
 #include "engine.h"
 
+#include "rect.h"
+
 Engine::Engine() {
 	quit = true;
 }
@@ -70,6 +72,8 @@ void Engine::initGL(int w, int h) {
 void Engine::run() {
 	SDL_Event e;
 
+	Rect* rect = new Rect(100.0f, -100.0f, 32.0f, 32.0f);
+
 	while (!quit) {
 		while (SDL_PollEvent(&e)) {
 			if (e.type == SDL_QUIT)
@@ -80,22 +84,7 @@ void Engine::run() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glLoadIdentity();
-		glTranslatef(-1.5f, 0.0f, -6.0f);
-
-		glBegin(GL_TRIANGLES);
-			glVertex3f(0.0f, 1.0f, 0.0f);
-			glVertex3f(-1.0f, 1.0f, 0.0f);
-			glVertex3f(1.0f, -1.0f, 0.0f);
-		glEnd();
-
-		glTranslatef(3.0f, 0.0f, 0.0f);
-
-		glBegin(GL_QUADS);
-			glVertex3f(-1.0f, 1.0f, 0.0f);
-			glVertex3f(1.0f, 1.0f, 0.0f);
-			glVertex3f(1.0f, -1.0f, 0.0f);
-			glVertex3f(-1.0f, -1.0f, 0.0f);
-		glEnd();
+		rect->render();
 
 		SDL_GL_SwapWindow(window);
 		SDL_RenderPresent(renderer);
