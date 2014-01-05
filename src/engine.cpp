@@ -90,6 +90,8 @@ void Engine::run() {
 		SDL_RenderPresent(renderer);
 	}
 
+	delete rect;
+
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
