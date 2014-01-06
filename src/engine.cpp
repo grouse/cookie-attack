@@ -54,16 +54,7 @@ void Engine::initGL(int w, int h) {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
-	GLfloat ratio;
-	ratio = (GLfloat)w / (GLfloat)h;
-	
-	const GLdouble pi = 3.1415926535897932384626433832795;
-   	GLdouble fW, fH;
-	
-	fH = tan(45.0f/ 360*pi)*0.1f;
-	fW = fH * ratio;
-
-	glFrustum(-fW, fW, -fH, fH, 0.1f, 100.0f);
+	glOrtho(0.0f, w, h, 0.0f, 0.0f, 1.0f);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -72,7 +63,7 @@ void Engine::initGL(int w, int h) {
 void Engine::run() {
 	SDL_Event e;
 
-	Rect* rect = new Rect(100.0f, -100.0f, 32.0f, 32.0f);
+	Rect* rect = new Rect(0, 0, 32.0f, 32.0f);
 
 	while (!quit) {
 		while (SDL_PollEvent(&e)) {

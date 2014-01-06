@@ -12,15 +12,15 @@ Rect::~Rect() {
 }
 
 void Rect::render() { 
-	glTranslatef(-1.5f, 0.0f, -6.0f);
+	glTranslatef(x, y, 0.0f);
 
 	glColor3f(255, 255, 255);
 
 	glBegin(GL_QUADS);
-		glVertex3f(-1.0f, 1.0f, 0.0f);
-		glVertex3f(1.0f, 1.0f, 0.0f);
-	   	glVertex3f(1.0f, -1.0f, 0.0f);
-		glVertex3f(-1.0f, -1.0f, 0.0f);
+		glVertex3f(-(w/2.0f), h/2.0, 0.0f);
+		glVertex3f(w/2.0f, h/2.0f, 0.0f);
+	   	glVertex3f(w/2.0f, -(h/2.0f), 0.0f);
+		glVertex3f(-(w/2.0f), -(h/2.0f), 0.0f);
 	glEnd();	
 }
 
