@@ -27,6 +27,10 @@ class Engine {
 		bool quit;
 
 		void initGL(int, int);
+
+	public:
+		Rect** frame;
+
 };
 
 #endif

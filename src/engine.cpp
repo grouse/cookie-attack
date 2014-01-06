@@ -1,5 +1,6 @@
 #include "engine.h"
 
+
 #include "rect.h"
 
 Engine::Engine() {
@@ -30,7 +31,13 @@ int Engine::init() {
 		SDL_Quit();
 		return -1;
 	}
+
 	initGL(640, 480);
+
+	frame = new Rect*[2];
+	frame[0] = new Rect(0, 0,  640, 16);
+	frame[1] = new Rect(0, 464, 640, 16);
+
 
 	quit = false;
 
@@ -63,8 +70,6 @@ void Engine::initGL(int w, int h) {
 void Engine::run() {
 	SDL_Event e;
 
-	Rect* rect = new Rect(0, 0, 32.0f, 32.0f);
-
 	while (!quit) {
 		while (SDL_PollEvent(&e)) {
 			if (e.type == SDL_QUIT)
@@ -75,13 +80,18 @@ void Engine::run() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glLoadIdentity();
-		rect->render();
+	
+		frame[0]->render();
+		frame[1]->render();
+		
 
 		SDL_GL_SwapWindow(window);
 		SDL_RenderPresent(renderer);
 	}
 
-	delete rect;
+	delete frame[0];
+	delete frame[1];
+	delete[] frame;
 
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);

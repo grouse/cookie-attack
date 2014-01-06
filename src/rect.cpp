@@ -17,10 +17,10 @@ void Rect::render() {
 	glColor3f(255, 255, 255);
 
 	glBegin(GL_QUADS);
-		glVertex3f(-(w/2.0f), h/2.0, 0.0f);
-		glVertex3f(w/2.0f, h/2.0f, 0.0f);
-	   	glVertex3f(w/2.0f, -(h/2.0f), 0.0f);
-		glVertex3f(-(w/2.0f), -(h/2.0f), 0.0f);
+		glVertex3f(0, 0, 0.0f);
+		glVertex3f(w, 0, 0.0f);
+	   	glVertex3f(w, h, 0.0f);
+		glVertex3f(0, h, 0.0f);
 	glEnd();	
 }
 
