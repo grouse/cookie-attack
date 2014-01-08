@@ -21,7 +21,9 @@ void Rect::render() {
 		glVertex3f(w, 0, 0.0f);
 	   	glVertex3f(w, h, 0.0f);
 		glVertex3f(0, h, 0.0f);
-	glEnd();	
+	glEnd();
+
+	glTranslatef(-x, -y, 0.0f);	
 }
 
 void Rect::move(float dx, float dy) {

@@ -3,8 +3,13 @@
 
 #include "rect.h"
 
+#include <iostream>
+
 Engine::Engine() {
 	quit = true;
+
+	window = NULL;
+	renderer = NULL;
 }
 
 Engine::~Engine() {
@@ -12,6 +17,7 @@ Engine::~Engine() {
 }
 
 int Engine::init() {
+
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 		std::cerr << SDL_GetError() << "\n";
 		return -1;
@@ -38,6 +44,7 @@ int Engine::init() {
 	frame[0] = new Rect(0, 0,  640, 16);
 	frame[1] = new Rect(0, 464, 640, 16);
 
+	player = new Rect(32, 32, 16, 64);
 
 	quit = false;
 
@@ -74,6 +81,21 @@ void Engine::run() {
 		while (SDL_PollEvent(&e)) {
 			if (e.type == SDL_QUIT)
 				exit();
+
+			if (e.type == SDL_KEYDOWN) {
+				switch (e.key.keysym.sym) {
+					case SDLK_UP:
+					case SDLK_w:
+						player->move(0, -16);
+						break;
+
+					case SDLK_DOWN:
+					case SDLK_s:
+						player->move(0, 16);
+						break;
+						
+				}
+			}
 		}
 		
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -84,6 +106,7 @@ void Engine::run() {
 		frame[0]->render();
 		frame[1]->render();
 		
+		player->render();
 
 		SDL_GL_SwapWindow(window);
 		SDL_RenderPresent(renderer);
@@ -92,6 +115,7 @@ void Engine::run() {
 	delete frame[0];
 	delete frame[1];
 	delete[] frame;
+	delete player;
 
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);

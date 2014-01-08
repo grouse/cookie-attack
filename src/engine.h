@@ -30,7 +30,7 @@ class Engine {
 
 	public:
 		Rect** frame;
-
+		Rect* player;
 };
 
 #endif
