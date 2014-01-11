@@ -28,7 +28,6 @@ class Engine {
 
 		void initGL(int, int);
 
-	public:
 		Rect** frame;
 		Rect* player;
 };

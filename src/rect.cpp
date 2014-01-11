@@ -1,14 +1,30 @@
 #include "rect.h"
 
-Rect::Rect(float x, float y, float w, float h) {
+#include <iostream>
+
+
+Rect::Rect(float x, float y, float w, float h, float speed) {
 	this->x = x;
 	this->y = y;
 	this->w = w;
 	this->h = h;
+	this->speed = speed;
+	directionX = NONE;
+	directionY = NONE;
 }
 
 Rect::~Rect() {
 
+}
+
+int Rect::intersects(Rect* r) {
+
+	if (y+h < r->y) return 0;
+	if (y > r->y+r->h) return 0;
+	if (x+w < r->x) return 0;
+	if (x > r->x+r->w) return 0;
+
+	return 1;
 }
 
 void Rect::render() { 
@@ -24,6 +40,16 @@ void Rect::render() {
 	glEnd();
 
 	glTranslatef(-x, -y, 0.0f);	
+}
+
+void Rect::update() {
+	x += speed*directionX;
+	y += speed*directionY;
+}
+
+void Rect::move(DIRECTION x, DIRECTION y) {
+	directionX = x;
+	directionY = y;
 }
 
 void Rect::move(float dx, float dy) {

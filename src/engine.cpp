@@ -41,10 +41,10 @@ int Engine::init() {
 	initGL(640, 480);
 
 	frame = new Rect*[2];
-	frame[0] = new Rect(0, 0,  640, 16);
-	frame[1] = new Rect(0, 464, 640, 16);
+	frame[0] = new Rect(0, 0,  640, 16, 0);
+	frame[1] = new Rect(0, 464, 640, 16, 0);
 
-	player = new Rect(32, 32, 16, 64);
+	player = new Rect(32, 32, 16, 64, 1);
 
 	quit = false;
 
@@ -86,14 +86,25 @@ void Engine::run() {
 				switch (e.key.keysym.sym) {
 					case SDLK_UP:
 					case SDLK_w:
-						player->move(0, -16);
+						player->move(Rect::NONE, Rect::UP);
 						break;
 
 					case SDLK_DOWN:
 					case SDLK_s:
-						player->move(0, 16);
+						player->move(Rect::NONE, Rect::DOWN);
 						break;
 						
+				}
+			}
+
+			if (e.type == SDL_KEYUP) {
+				switch (e.key.keysym.sym) {
+					case SDLK_UP:
+					case SDLK_DOWN:
+					case SDLK_w:
+					case SDLK_s:
+						player->move(Rect::NONE, Rect::NONE);
+						break;
 				}
 			}
 		}
@@ -105,7 +116,16 @@ void Engine::run() {
 	
 		frame[0]->render();
 		frame[1]->render();
-		
+
+
+		if (player->intersects(frame[0]) == 1)
+			player->move(0, 1);
+
+		if (player->intersects(frame[1]) == 1) {
+			player->move(0, -1);
+		}
+
+		player->update();
 		player->render();
 
 		SDL_GL_SwapWindow(window);
