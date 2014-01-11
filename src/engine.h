@@ -30,6 +30,7 @@ class Engine {
 
 		Rect** frame;
 		Rect* player;
+		Rect* ball;
 };
 
 #endif

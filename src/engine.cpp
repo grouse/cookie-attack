@@ -45,6 +45,7 @@ int Engine::init() {
 	frame[1] = new Rect(0, 464, 640, 16, 0);
 
 	player = new Rect(32, 32, 16, 64, 1);
+	ball = new Rect(312, 232, 16, 16, 1);
 
 	quit = false;
 
@@ -93,6 +94,10 @@ void Engine::run() {
 					case SDLK_s:
 						player->move(Rect::NONE, Rect::DOWN);
 						break;
+
+					case SDLK_SPACE:
+						ball->move(Rect::LEFT, Rect::NONE);
+						break;
 						
 				}
 			}
@@ -114,19 +119,23 @@ void Engine::run() {
 
 		glLoadIdentity();
 	
-		frame[0]->render();
-		frame[1]->render();
-
-
 		if (player->intersects(frame[0]) == 1)
 			player->move(0, 1);
 
-		if (player->intersects(frame[1]) == 1) {
+		if (player->intersects(frame[1]) == 1)
 			player->move(0, -1);
-		}
+
+		if (player->intersects(ball) == 1)
+			ball->move(Rect::RIGHT, Rect::NONE);
+		
 
 		player->update();
+		ball->update();
+		
 		player->render();
+		ball->render();
+		frame[0]->render();
+		frame[1]->render();
 
 		SDL_GL_SwapWindow(window);
 		SDL_RenderPresent(renderer);
@@ -136,6 +145,7 @@ void Engine::run() {
 	delete frame[1];
 	delete[] frame;
 	delete player;
+	delete ball;
 
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
