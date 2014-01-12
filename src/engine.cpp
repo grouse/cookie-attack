@@ -8,7 +8,15 @@ Engine::Engine() {
 }
 
 Engine::~Engine() {
-
+	delete frame[0];
+	delete frame[1];
+	delete player;
+	delete ball;
+	
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window);
+	SDL_GL_DeleteContext(glcontext);
+	SDL_Quit();
 }
 
 int Engine::init() {
@@ -35,7 +43,6 @@ int Engine::init() {
 
 	initGL(640, 480);
 
-	frame = new Rect*[2];
 	frame[0] = new Rect(0, 0,  640, 16);
 	frame[1] = new Rect(0, 464, 640, 16);
 
@@ -140,19 +147,10 @@ void Engine::run() {
 		SDL_RenderPresent(renderer);
 	}
 
-	delete frame[0];
-	delete frame[1];
-	delete[] frame;
-	delete player;
-	delete ball;
 	delete up;
 	delete down;
 	delete ballDirection;
 
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
-	SDL_Quit();
-	SDL_GL_DeleteContext(glcontext);
 }
 
 void Engine::exit() {

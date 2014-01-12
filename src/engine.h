@@ -29,7 +29,7 @@ class Engine {
 
 		void initGL(int, int);
 
-		Rect** frame;
+		Rect* frame[2];
 		Rect* player;
 		Rect* ball;
 };
