@@ -22,7 +22,6 @@ class Engine {
 
 	private:
 		SDL_Window* window;
-		SDL_Renderer* renderer;
 		SDL_GLContext glcontext;
 
 		bool quit;

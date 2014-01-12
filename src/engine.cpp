@@ -4,7 +4,6 @@ Engine::Engine() {
 	quit = true;
 
 	window = NULL;
-	renderer = NULL;
 }
 
 Engine::~Engine() {
@@ -13,7 +12,6 @@ Engine::~Engine() {
 	delete player;
 	delete ball;
 	
-	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_GL_DeleteContext(glcontext);
 	SDL_Quit();
@@ -144,7 +142,6 @@ void Engine::run() {
 		frame[1]->render();
 
 		SDL_GL_SwapWindow(window);
-		SDL_RenderPresent(renderer);
 	}
 
 	delete up;
