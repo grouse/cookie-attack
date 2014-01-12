@@ -1,16 +1,12 @@
 #include "rect.h"
 
-#include <iostream>
-
-
-Rect::Rect(float x, float y, float w, float h, float speed) {
+Rect::Rect(float x, float y, float w, float h) {
 	this->x = x;
 	this->y = y;
 	this->w = w;
 	this->h = h;
-	this->speed = speed;
-	directionX = NONE;
-	directionY = NONE;
+
+	target = NULL;
 }
 
 Rect::~Rect() {
@@ -43,13 +39,15 @@ void Rect::render() {
 }
 
 void Rect::update() {
-	x += speed*directionX;
-	y += speed*directionY;
+	if (target == NULL) 
+		return;
+
+	x += target->getLength()*cos(target->getAngle());
+	y -= target->getLength()*sin(target->getAngle());
 }
 
-void Rect::move(DIRECTION x, DIRECTION y) {
-	directionX = x;
-	directionY = y;
+void Rect::move(Polar2f* target) {
+	this->target = target;
 }
 
 void Rect::move(float dx, float dy) {

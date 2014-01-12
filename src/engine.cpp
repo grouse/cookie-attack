@@ -1,10 +1,5 @@
 #include "engine.h"
 
-
-#include "rect.h"
-
-#include <iostream>
-
 Engine::Engine() {
 	quit = true;
 
@@ -41,11 +36,11 @@ int Engine::init() {
 	initGL(640, 480);
 
 	frame = new Rect*[2];
-	frame[0] = new Rect(0, 0,  640, 16, 0);
-	frame[1] = new Rect(0, 464, 640, 16, 0);
+	frame[0] = new Rect(0, 0,  640, 16);
+	frame[1] = new Rect(0, 464, 640, 16);
 
-	player = new Rect(32, 32, 16, 64, 1);
-	ball = new Rect(312, 232, 16, 16, 1);
+	player = new Rect(32, 32, 16, 64);
+	ball = new Rect(312, 232, 16, 16);
 
 	quit = false;
 
@@ -78,6 +73,10 @@ void Engine::initGL(int w, int h) {
 void Engine::run() {
 	SDL_Event e;
 
+	Polar2f* up = new Polar2f(0.5, 1);
+	Polar2f* down = new Polar2f(1.5, 1);
+	Polar2f* ballDirection = new Polar2f(1, 1);
+
 	while (!quit) {
 		while (SDL_PollEvent(&e)) {
 			if (e.type == SDL_QUIT)
@@ -87,16 +86,16 @@ void Engine::run() {
 				switch (e.key.keysym.sym) {
 					case SDLK_UP:
 					case SDLK_w:
-						player->move(Rect::NONE, Rect::UP);
+						player->move(up);
 						break;
 
 					case SDLK_DOWN:
 					case SDLK_s:
-						player->move(Rect::NONE, Rect::DOWN);
+						player->move(down);
 						break;
 
 					case SDLK_SPACE:
-						ball->move(Rect::LEFT, Rect::NONE);
+						ball->move(ballDirection);
 						break;
 						
 				}
@@ -108,7 +107,7 @@ void Engine::run() {
 					case SDLK_DOWN:
 					case SDLK_w:
 					case SDLK_s:
-						player->move(Rect::NONE, Rect::NONE);
+						player->move(NULL);
 						break;
 				}
 			}
@@ -126,7 +125,7 @@ void Engine::run() {
 			player->move(0, -1);
 
 		if (player->intersects(ball) == 1)
-			ball->move(Rect::RIGHT, Rect::NONE);
+			ballDirection->rotate(-1);
 		
 
 		player->update();
@@ -146,6 +145,9 @@ void Engine::run() {
 	delete[] frame;
 	delete player;
 	delete ball;
+	delete up;
+	delete down;
+	delete ballDirection;
 
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
