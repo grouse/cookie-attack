@@ -13,7 +13,7 @@ class Rect {
 		virtual ~Rect();
 
 		void render();
-		void update();
+		void update(float);
 
 		void move(Polar2f*);
 		void move(float, float);

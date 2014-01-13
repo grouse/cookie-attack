@@ -1,5 +1,7 @@
 #include "rect.h"
 
+#include <iostream>
+
 Rect::Rect(float x, float y, float w, float h) {
 	this->x = x;
 	this->y = y;
@@ -38,12 +40,12 @@ void Rect::render() {
 	glTranslatef(-x, -y, 0.0f);	
 }
 
-void Rect::update() {
+void Rect::update(float dt) {
 	if (target == NULL) 
 		return;
 
-	x += target->getLength()*cos(target->getAngle());
-	y -= target->getLength()*sin(target->getAngle());
+	x += dt*target->getLength()*cos(target->getAngle());
+	y -= dt*target->getLength()*sin(target->getAngle());
 }
 
 void Rect::move(Polar2f* target) {

@@ -78,11 +78,20 @@ void Engine::initGL(int w, int h) {
 void Engine::run() {
 	SDL_Event e;
 
-	Polar2f* up = new Polar2f(0.5, 1);
-	Polar2f* down = new Polar2f(1.5, 1);
-	Polar2f* ballDirection = new Polar2f(1, 1);
+	Polar2f* up = new Polar2f(0.5, 200);
+	Polar2f* down = new Polar2f(1.5, 200);
+	Polar2f* ballDirection = new Polar2f(1, 100);
+
+	Uint32 old_time, current_time;
+	float dt;
+
+	current_time = SDL_GetTicks();
 
 	while (!quit) {
+		old_time = current_time;
+		current_time = SDL_GetTicks();
+		dt = (current_time - old_time) / 1000.0f;
+
 		while (SDL_PollEvent(&e)) {
 			if (e.type == SDL_QUIT)
 				exit();
@@ -133,8 +142,8 @@ void Engine::run() {
 			ballDirection->rotate(-1);
 		
 
-		player->update();
-		ball->update();
+		player->update(dt);
+		ball->update(dt);
 		
 		player->render();
 		ball->render();
