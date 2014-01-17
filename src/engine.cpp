@@ -44,8 +44,8 @@ int Engine::init() {
 	frame[0] = new Rect(0, 0,  640, 16);
 	frame[1] = new Rect(0, 464, 640, 16);
 
-	player = new Rect(32, 32, 16, 64);
-	ball = new Rect(312, 232, 16, 16);
+	player = new Rect(32, 32, 16, 64, 200);
+	ball = new Rect(312, 232, 16, 16, 200);
 
 	quit = false;
 
@@ -78,9 +78,10 @@ void Engine::initGL(int w, int h) {
 void Engine::run() {
 	SDL_Event e;
 
-	Polar2f* up = new Polar2f(0.5, 200);
-	Polar2f* down = new Polar2f(1.5, 200);
-	Polar2f* ballDirection = new Polar2f(1, 100);
+	Vector2f* paddleDirection = new Vector2f(0, 0);
+	Vector2f* ballDirection = new Vector2f(-1, 0);
+
+	player->setDirection(paddleDirection);
 
 	Uint32 old_time, current_time;
 	float dt;
@@ -100,16 +101,16 @@ void Engine::run() {
 				switch (e.key.keysym.sym) {
 					case SDLK_UP:
 					case SDLK_w:
-						player->move(up);
+						paddleDirection->y = -1;
 						break;
 
 					case SDLK_DOWN:
 					case SDLK_s:
-						player->move(down);
+						paddleDirection->y = 1;
 						break;
 
 					case SDLK_SPACE:
-						ball->move(ballDirection);
+						ball->setDirection(ballDirection);
 						break;
 						
 				}
@@ -121,7 +122,7 @@ void Engine::run() {
 					case SDLK_DOWN:
 					case SDLK_w:
 					case SDLK_s:
-						player->move(NULL);
+						paddleDirection->y = 0;
 						break;
 				}
 			}
@@ -139,8 +140,7 @@ void Engine::run() {
 			player->move(0, -1);
 
 		if (player->intersects(ball) == 1)
-			ballDirection->rotate(-1);
-		
+			ballDirection->x = 1;	
 
 		player->update(dt);
 		ball->update(dt);
@@ -153,8 +153,7 @@ void Engine::run() {
 		SDL_GL_SwapWindow(window);
 	}
 
-	delete up;
-	delete down;
+	delete paddleDirection;
 	delete ballDirection;
 
 }

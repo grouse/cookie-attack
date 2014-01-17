@@ -6,24 +6,31 @@
 #include <SDL2/SDL_opengl.h>
 
 #include "polar2f.h"
+#include "vector2f.h"
 
 class Rect {
 	public:
+		Rect(float, float, float, float, float);
 		Rect(float, float, float, float);
+
 		virtual ~Rect();
 
 		void render();
 		void update(float);
 
-		void move(Polar2f*);
+		void setDirection(Vector2f*);
+		
 		void move(float, float);
-
+		void move(Vector2f&);
+		
 		int intersects(Rect*);
 
 	private:
-		float x, y;
-		float w, h;
-		Polar2f* target;
+		Vector2f pos;
+		Vector2f size;
+		Vector2f* direction;
+
+		float speed;
 };
 
 #endif
