@@ -5,7 +5,6 @@
 
 #include <SDL2/SDL_opengl.h>
 
-#include "polar2f.h"
 #include "vector2f.h"
 
 class Rect {
@@ -23,7 +22,8 @@ class Rect {
 		void move(float, float);
 		void move(Vector2f&);
 		
-		int intersects(Rect*);
+		Vector2f getIntersection(Rect*);
+		int isIntersecting(Rect*);
 
 	private:
 		Vector2f pos;

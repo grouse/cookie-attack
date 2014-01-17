@@ -8,7 +8,6 @@
 #include <math.h>
 
 #include "rect.h"
-#include "polar2f.h"
 
 class Engine {
 	public:

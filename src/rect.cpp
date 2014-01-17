@@ -18,14 +18,36 @@ Rect::Rect(float x, float y, float w, float h) :
 
 Rect::~Rect() {}
 
-int Rect::intersects(Rect* r) {
+int Rect::isIntersecting(Rect* r) {
 
 	if (pos.y+size.y < r->pos.y) return 0;
 	if (pos.y > r->pos.y+r->size.y) return 0;
 	if (pos.x+size.x < r->pos.x) return 0;
 	if (pos.x > r->pos.x+r->size.x) return 0;
-
+	
 	return 1;
+}
+
+Vector2f Rect::getIntersection(Rect* r) {
+
+	float ix = 0, iy = 0;
+
+
+	if (!(pos.x > r->pos.x && pos.x + size.x < r->pos.x + r->size.x)) {
+		if (pos.x > r->pos.x) {
+			ix = r->pos.x + r->size.x - pos.x;
+		} else if (pos.x < r->pos.x) {
+			ix = pos.x + size.x - r->pos.x;
+		}
+	}
+	
+	if (pos.y >= r->pos.y) {
+		iy = r->pos.y + r->size.y - pos.y;
+	} else {
+		iy = r->pos.y - pos.y - size.y;
+	}
+
+	return Vector2f(ix, iy);
 }
 
 void Rect::render() { 

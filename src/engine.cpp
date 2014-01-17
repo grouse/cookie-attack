@@ -132,19 +132,25 @@ void Engine::run() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glLoadIdentity();
-	
-		if (player->intersects(frame[0]) == 1)
-			player->move(0, 1);
-
-		if (player->intersects(frame[1]) == 1)
-			player->move(0, -1);
-
-		if (player->intersects(ball) == 1)
-			ballDirection->x = 1;	
 
 		player->update(dt);
 		ball->update(dt);
 		
+		Vector2f intersection = Vector2f(0,0);
+		if (player->isIntersecting(frame[0]) != 0) {	
+			intersection = player->getIntersection(frame[0]);
+			player->move(intersection);
+		}
+
+
+		if (player->isIntersecting(frame[1]) != 0) {	
+			intersection = player->getIntersection(frame[1]);
+			player->move(intersection);
+		}
+
+		if (player->isIntersecting(ball) != 0) 
+			ballDirection->x = 1;
+
 		player->render();
 		ball->render();
 		frame[0]->render();
