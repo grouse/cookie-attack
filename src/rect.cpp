@@ -4,14 +4,16 @@
 
 Rect::Rect(float x, float y, float w, float h, float speed) : 
 	size(w, h),
-	pos(x, y) {
+	pos(x, y),
+	origin(x + w/2, y + h/2) {
 	
 	this->speed = speed;
 }
 
 Rect::Rect(float x, float y, float w, float h) : 
 	size(w, h),
-	pos(x, y) {
+	pos(x, y),
+	origin(x + w/2, y + h/2) {
 	
 	this->speed = 0;
 }
@@ -28,6 +30,14 @@ int Rect::isIntersecting(Rect* r) {
 	return 1;
 }
 
+Vector2f Rect::getOrigin() {
+	Vector2f origin(pos.x + size.x/2, pos.y + size.y/2);
+
+	//return Vector2f(pos.x + size.x/2, pos.y + size.y/2);
+	return origin;
+}
+
+
 Vector2f Rect::getIntersection(Rect* r) {
 
 	float ix = 0, iy = 0;
@@ -41,11 +51,13 @@ Vector2f Rect::getIntersection(Rect* r) {
 		}
 	}
 	
-	if (pos.y >= r->pos.y) {
-		iy = r->pos.y + r->size.y - pos.y;
-	} else {
-		iy = r->pos.y - pos.y - size.y;
-	}
+	if (!(pos.y > r->pos.y && pos.y + size.y < r->pos.y + r->size.y)) {
+		if (pos.y >= r->pos.y) {
+			iy = r->pos.y + r->size.y - pos.y;
+		} else {
+			iy = r->pos.y - pos.y - size.y;
+		}
+	} 
 
 	return Vector2f(ix, iy);
 }
@@ -75,6 +87,11 @@ void Rect::update(float dt) {
 
 void Rect::setDirection(Vector2f* direction) {
 	this->direction = direction;
+}
+
+void Rect::setPos(float x, float y) {
+	pos.x = x;
+	pos.y = y;
 }
 
 void Rect::move(float dx, float dy) {

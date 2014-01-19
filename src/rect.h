@@ -25,8 +25,12 @@ class Rect {
 		Vector2f getIntersection(Rect*);
 		int isIntersecting(Rect*);
 
+		void setPos(float, float);
+
+		Vector2f getOrigin();
+
 	private:
-		Vector2f pos;
+		Vector2f pos, origin;
 		Vector2f size;
 		Vector2f* direction;
 

@@ -27,8 +27,9 @@ class Engine {
 
 		void initGL(int, int);
 
-		Rect* frame[2];
-		Rect* player;
+		Rect* frame[4];
+		Rect* player1;
+		Rect* player2;
 		Rect* ball;
 };
 
