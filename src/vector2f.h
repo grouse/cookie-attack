@@ -11,10 +11,8 @@ class Vector2f {
 		
 		float x, y;
 
-		void normalize();
 		float getMagnitude();
 		float angleBetween(Vector2f);
-		void rotate(float);
 		void setRotation(float);
 };
 
