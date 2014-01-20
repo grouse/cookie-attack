@@ -6,7 +6,7 @@ DEBUG = -g
 CFLAGS = -c -MMD $(DEBUG)
 LFLAGS = -lGL -lSDL2 $(DEBUG)
 
-pong: $(OBJ_FILES)
+cookie-attack: $(OBJ_FILES)
 	$(CC) $(LFLAGS) -o $@ $^
 
 obj/%.o: src/%.cpp
