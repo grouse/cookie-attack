@@ -9,28 +9,30 @@
 
 #include "rect.h"
 
-class Engine {
-	public:
-		Engine();
-		virtual ~Engine();
+namespace JEngine {
+	class Engine {
+		public:
+			Engine();
+			virtual ~Engine();
 
-		int init();
-		void run();
-		void cleanup();
-		void exit();
+			int init();
+			void run();
+			void cleanup();
+			void exit();
 
-	private:
-		SDL_Window* window;
-		SDL_GLContext glcontext;
+		private:
+			SDL_Window* window;
+			SDL_GLContext glcontext;
 
-		bool quit;
+			bool quit;
 
-		void initGL(int, int);
+			void initGL(int, int);
 
-		Rect* frame[4];
-		Rect* player1;
-		Rect* player2;
-		Rect* ball;
-};
+			Rect* frame[4];
+			Rect* player1;
+			Rect* player2;
+			Rect* ball;
+	};
+}
 
 #endif
