@@ -5,9 +5,11 @@
 #include <SDL2/SDL_opengl.h>
 
 #include <iostream>
-#include <math.h>
 
-#include "rect.h"
+#include "entity.h"
+#include "component.h"
+#include "position.h"
+#include "shape.h"
 
 namespace JEngine {
 	class Engine {
@@ -15,23 +17,21 @@ namespace JEngine {
 			Engine();
 			virtual ~Engine();
 
-			int init();
-			void run();
-			void cleanup();
-			void exit();
+			int init(const char*, int, int);
+
+			void handleInput(SDL_Event&);
+			void update(float);
+
+			void quit();
+			bool isRunning();
 
 		private:
 			SDL_Window* window;
 			SDL_GLContext glcontext;
 
-			bool quit;
+			bool run;
 
 			void initGL(int, int);
-
-			Rect* frame[4];
-			Rect* player1;
-			Rect* player2;
-			Rect* ball;
 	};
 }
 

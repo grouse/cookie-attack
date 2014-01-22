@@ -1,15 +1,9 @@
 #include "engine.h"
 
-#include "entity.h"
-#include "component.h"
-#include "position.h"
-#include "shape.h"
-
 namespace JEngine {
 
 	Engine::Engine() {
-		quit = true;
-
+		run = false;
 		window = NULL;
 	}
 
@@ -19,7 +13,7 @@ namespace JEngine {
 		SDL_Quit();
 	}
 
-	int Engine::init() {
+	int Engine::init(const char* title, int w, int h) {
 
 		if (SDL_Init(SDL_INIT_VIDEO) != 0) {
 			std::cerr << SDL_GetError() << "\n";
@@ -27,11 +21,11 @@ namespace JEngine {
 		}
 
 		window = SDL_CreateWindow(
-			"Cookie Attack!",
+			title,
 			SDL_WINDOWPOS_UNDEFINED,
 			SDL_WINDOWPOS_UNDEFINED,
-			1280,
-			720,
+			w,
+			h,
 			SDL_WINDOW_OPENGL		
 		);
 
@@ -41,13 +35,9 @@ namespace JEngine {
 			return -1;
 		}
 
-		initGL(1280, 720);
+		initGL(w, h);
 
-		quit = false;
-
-
-
-
+		run = true;
 		return 0;
 	}
 
@@ -77,69 +67,41 @@ namespace JEngine {
 		glLoadIdentity();
 	}
 
-	void Engine::run() {
-		SDL_Event e;
+	void Engine::handleInput(SDL_Event& e) {
+		if (e.type == SDL_QUIT)
+			quit();
 
-		Uint32 old_time, current_time;
-		float dt;
+		if (e.type == SDL_KEYDOWN) {
+			switch (e.key.keysym.sym) {
 
-		current_time = SDL_GetTicks();
-
-		Entity entity;
-		Position p(64.0f, 64.0f, 0.0f);
-		Shape s({
-			-16.0f, -16.0f, 0.0f,
-			16.0f, -16.0f, 0.0f,
-			16.0f, 16.0f, 0.0f,
-			-16.0f, 16.0f, 0.0f
-		});
-
-		if (entity.attach(&p)) {
-			std::cout << "attached position to entity\n";
+			}
 		}
 
-		if (entity.attach(&s)) 
-			std::cout << "attached shape to entity\n";
+		if (e.type == SDL_KEYUP) {
+			switch (e.key.keysym.sym) {
 
-		
-
-		while (!quit) {
-			old_time = current_time;
-			current_time = SDL_GetTicks();
-			dt = (current_time - old_time) / 1000.0f;
-
-			while (SDL_PollEvent(&e)) {
-				if (e.type == SDL_QUIT)
-					exit();
-
-				if (e.type == SDL_KEYDOWN) {
-					switch (e.key.keysym.sym) {
-							
-					}
-				}
-
-				if (e.type == SDL_KEYUP) {
-					switch (e.key.keysym.sym) {
-					}
-				}
 			}
-			
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-			glLoadIdentity();
-		
-			glTranslatef(p.x, p.y, p.z);
-			glColor3f(255, 255, 255);
-
-			glVertexPointer(3, GL_FLOAT, 0, s.vertices.data());
-			glDrawArrays(GL_QUADS, 0, 4);	
-
-			SDL_GL_SwapWindow(window);
 		}
 	}
 
-	void Engine::exit() {
-		quit = true;
+	void Engine::update(float dt) {
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		glLoadIdentity();
+	
+		// glTranslatef(p.x, p.y, p.z);
+		// glColor3f(255, 255, 255);
+
+		// glVertexPointer(3, GL_FLOAT, 0, s.vertices.data());
+		// glDrawArrays(GL_QUADS, 0, 4);	
+	}
+
+	void Engine::quit() {
+		run = false;
+	}
+
+	bool Engine::isRunning() {
+		return run;
 	}
 
 }
