@@ -10,6 +10,7 @@
 #include "component.h"
 #include "position.h"
 #include "shape.h"
+#include "velocity.h"
 
 namespace JEngine {
 	class Engine {
@@ -32,6 +33,13 @@ namespace JEngine {
 			bool run;
 
 			void initGL(int, int);
+
+
+			// tmp test ptrs
+			Entity e;
+			Shape* s;
+			Velocity* v;
+			Position* p;
 	};
 }
 

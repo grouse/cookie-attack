@@ -11,6 +11,7 @@ namespace JEngine {
 			~Entity();
 
 			bool hasComponent(unsigned int);
+			Component* getComponent(unsigned int);
 			
 			bool attach(Component*);
 			void detach(unsigned int);

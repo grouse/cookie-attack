@@ -27,4 +27,8 @@ namespace JEngine {
 	bool Entity::hasComponent(unsigned int c) {
 		return (components[c] != 0);
 	}
+
+	Component* Entity::getComponent(unsigned int c) {
+		return components[c];
+	}
 }

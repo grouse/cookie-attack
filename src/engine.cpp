@@ -8,6 +8,10 @@ namespace JEngine {
 	}
 
 	Engine::~Engine() {
+		delete s;
+		delete v;
+		delete p;
+
 		SDL_DestroyWindow(window);
 		SDL_GL_DeleteContext(glcontext);
 		SDL_Quit();
@@ -36,6 +40,35 @@ namespace JEngine {
 		}
 
 		initGL(w, h);
+		
+		p = new Position(0.0f, 0.0f, 0.0f);
+	
+		s = new Shape({
+			-16.0f, -16.0f, 0.0f,
+			16.0f, -16.0f, 0.0f,
+			16.0f, 16.0f, 0.0f,
+			-16.0f, 16.0f, 0.0f		
+		});
+
+		v = new Velocity(20.0f, 0.0f, 0.0f);
+
+		if (!e.attach(p)) {
+			std::cout << "Failed to attach position to entity\n";
+			return -1;
+		}
+
+		if (!e.attach(s)) {
+			std::cout << "Failed to attach shape to entity\n";
+			return -1;
+		}
+
+		if (!e.attach(v)) {
+			std::cout << "Failed to attach velocity to entity\n";
+			return -1;
+		}
+
+		std::cout << "attached components\n";	
+
 
 		run = true;
 		return 0;
@@ -73,7 +106,13 @@ namespace JEngine {
 
 		if (e.type == SDL_KEYDOWN) {
 			switch (e.key.keysym.sym) {
+				case SDLK_d:
+					v->rotate(0.5);
+					break;
 
+				case SDLK_a:				
+					v->rotate(-0.5);
+					break;		
 			}
 		}
 
@@ -85,15 +124,25 @@ namespace JEngine {
 	}
 
 	void Engine::update(float dt) {
+
+		p->x += v->x*dt;
+		p->y += v->y*dt;
+		p->z += v->z*dt;
+
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glLoadIdentity();
 	
-		// glTranslatef(p.x, p.y, p.z);
-		// glColor3f(255, 255, 255);
+		glTranslatef(p->x, p->y, p->z);
+		glColor3f(255, 255, 255);
 
-		// glVertexPointer(3, GL_FLOAT, 0, s.vertices.data());
-		// glDrawArrays(GL_QUADS, 0, 4);	
+		glVertexPointer(3, GL_FLOAT, 0, s->vertices.data());
+		glDrawArrays(GL_QUADS, 0, 4);	
+		
+		glTranslatef(-p->x, -p->y, -p->z);
+
+		SDL_GL_SwapWindow(window);
 	}
 
 	void Engine::quit() {
