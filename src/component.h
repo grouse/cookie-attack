@@ -17,6 +17,8 @@ namespace JEngine {
 
 			
 			const unsigned int type;
+			Entity* owner;
+
 			virtual bool canAttach(Entity&) = 0;
 	};
 }

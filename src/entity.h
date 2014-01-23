@@ -11,7 +11,9 @@ namespace JEngine {
 			~Entity();
 
 			bool hasComponent(unsigned int);
+			
 			bool attach(Component*);
+			void detach(unsigned int);
 
 		private:
 			Component* components[Component::NUM_TYPES];

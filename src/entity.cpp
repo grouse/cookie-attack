@@ -11,10 +11,17 @@ namespace JEngine {
 	bool Entity::attach(Component* c) {
 		if (components[c->type] == 0 && c->canAttach(*this)) {
 			components[c->type] = c;
+			c->owner = this;
+
 			return true;
 		}
 
 		return false;
+	}
+
+	void Entity::detach(unsigned int c) {
+		components[c]->owner = 0;
+		components[c] = 0;
 	}
 
 	bool Entity::hasComponent(unsigned int c) {
