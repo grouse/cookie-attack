@@ -7,7 +7,7 @@ namespace JEngine {
 	
 	class Entity {
 		public:
-			Entity();
+			Entity(float, float, float);
 			~Entity();
 
 			bool hasComponent(unsigned int);
@@ -15,6 +15,8 @@ namespace JEngine {
 			
 			bool attach(Component*);
 			void detach(unsigned int);
+
+			float x, y, z;
 
 		private:
 			Component* components[Component::NUM_TYPES];

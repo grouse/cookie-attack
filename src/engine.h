@@ -5,10 +5,10 @@
 #include <SDL2/SDL_opengl.h>
 
 #include <iostream>
+#include <list>
 
 #include "entity.h"
 #include "component.h"
-#include "position.h"
 #include "shape.h"
 #include "velocity.h"
 
@@ -36,10 +36,10 @@ namespace JEngine {
 
 
 			// tmp test ptrs
-			Entity e;
-			Shape* s;
-			Velocity* v;
-			Position* p;
+			std::list<Entity*> entities;
+			std::list<Component*> components;
+		
+			Entity* player;
 	};
 }
 

@@ -8,9 +8,11 @@ namespace JEngine {
 	}
 
 	Engine::~Engine() {
-		delete s;
-		delete v;
-		delete p;
+		for (auto it = components.begin(); it != components.end(); it++) 
+			delete (*it);
+		
+		for (auto it = entities.begin(); it != entities.end(); it++) 
+			delete (*it);
 
 		SDL_DestroyWindow(window);
 		SDL_GL_DeleteContext(glcontext);
@@ -40,35 +42,23 @@ namespace JEngine {
 		}
 
 		initGL(w, h);
-		
-		p = new Position(0.0f, 0.0f, 0.0f);
-	
-		s = new Shape({
+
+		player = new Entity(0.0f, 0.0f, 0.0f);
+
+		Shape* s = new Shape({
 			-16.0f, -16.0f, 0.0f,
 			16.0f, -16.0f, 0.0f,
 			16.0f, 16.0f, 0.0f,
 			-16.0f, 16.0f, 0.0f		
 		});
+		player->attach(s);
 
-		v = new Velocity(20.0f, 0.0f, 0.0f);
+		Velocity* v = new Velocity(20.0f, 0.0f, 0.0f);
+		player->attach(v);
 
-		if (!e.attach(p)) {
-			std::cout << "Failed to attach position to entity\n";
-			return -1;
-		}
-
-		if (!e.attach(s)) {
-			std::cout << "Failed to attach shape to entity\n";
-			return -1;
-		}
-
-		if (!e.attach(v)) {
-			std::cout << "Failed to attach velocity to entity\n";
-			return -1;
-		}
-
-		std::cout << "attached components\n";	
-
+		components.push_back(v);
+		components.push_back(s);
+		entities.push_back(player);
 
 		run = true;
 		return 0;
@@ -107,40 +97,73 @@ namespace JEngine {
 		if (e.type == SDL_KEYDOWN) {
 			switch (e.key.keysym.sym) {
 				case SDLK_d:
-					v->rotate(0.5);
+					((Velocity*) player->getComponent(Component::VELOCITY))->x = 20;
 					break;
 
 				case SDLK_a:				
-					v->rotate(-0.5);
+					((Velocity*) player->getComponent(Component::VELOCITY))->x = -20;
 					break;		
+
+				case SDLK_w:
+					((Velocity*) player->getComponent(Component::VELOCITY))->y = -20;
+					break;
+				
+				case SDLK_s:
+					((Velocity*) player->getComponent(Component::VELOCITY))->y = 20;
+					break;
+
 			}
 		}
 
 		if (e.type == SDL_KEYUP) {
 			switch (e.key.keysym.sym) {
+				case SDLK_d:
+				case SDLK_a:
+					((Velocity*) player->getComponent(Component::VELOCITY))->x = 0;
+					break;
 
+				case SDLK_w:
+				case SDLK_s:
+					((Velocity*) player->getComponent(Component::VELOCITY))->y = 0;
+					break;
 			}
 		}
 	}
 
 	void Engine::update(float dt) {
 
-		p->x += v->x*dt;
-		p->y += v->y*dt;
-		p->z += v->z*dt;
-
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		glLoadIdentity();
-	
-		glTranslatef(p->x, p->y, p->z);
-		glColor3f(255, 255, 255);
-
-		glVertexPointer(3, GL_FLOAT, 0, s->vertices.data());
-		glDrawArrays(GL_QUADS, 0, 4);	
 		
-		glTranslatef(-p->x, -p->y, -p->z);
+		for (auto it = entities.begin(); it != entities.end(); it++) {
+			Entity* e = (*it);
+
+			if (e->hasComponent(Component::VELOCITY)) {
+				Velocity* v = (Velocity*) e->getComponent(Component::VELOCITY);
+				e->x += v->x*dt;
+				e->y += v->y*dt;
+				e->z += v->z*dt;
+			}
+
+			if (e->hasComponent(Component::SHAPE)) {
+
+				glLoadIdentity();
+
+				glTranslatef(e->x, e->y, e->z);
+				glColor3f(255, 255, 255);
+				
+				Shape* s = (Shape*) e->getComponent(Component::SHAPE);
+
+				glVertexPointer(
+						3, GL_FLOAT, 0, 
+						s->vertices.data()
+					);
+
+				glDrawArrays(GL_QUADS, 0, 4);
+				
+				glTranslatef(-e->x, -e->y, -e->z);
+			}
+		}
 
 		SDL_GL_SwapWindow(window);
 	}

@@ -10,6 +10,6 @@ namespace JEngine {
 	Shape::~Shape() {}
 
 	bool Shape::canAttach(Entity& e) {
-		return (e.hasComponent(Component::POSITION));
+		return true;
 	}
 }

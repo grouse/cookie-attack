@@ -10,11 +10,10 @@ namespace JEngine {
 			Component(unsigned int t) : type(t) {};
 
 			static const unsigned int 
-				POSITION = 0,
-				VELOCITY = 1,
-				SHAPE = 2,
-				TEXTURE = 3,
-				NUM_TYPES = 4;
+				VELOCITY = 0,
+				SHAPE = 1,
+				TEXTURE = 2,
+				NUM_TYPES = 3;
 
 			
 			const unsigned int type;
