@@ -7,6 +7,7 @@
 #include <iostream>
 #include <list>
 
+#include "system.h"
 #include "entity.h"
 #include "component.h"
 #include "shape.h"
@@ -19,6 +20,8 @@ namespace JEngine {
 			virtual ~Engine();
 
 			int init(const char*, int, int);
+
+			void attachSystem(System*);
 
 			void handleInput(SDL_Event&);
 			void update(float);
@@ -34,6 +37,7 @@ namespace JEngine {
 
 			void initGL(int, int);
 
+			std::list<System*> systems;
 
 			// tmp test ptrs
 			std::list<Entity*> entities;

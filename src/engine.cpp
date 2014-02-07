@@ -90,6 +90,11 @@ namespace JEngine {
 		glLoadIdentity();
 	}
 
+	void Engine::attachSystem(System* s) {
+		if (s->init() != -1) 
+			systems.push_back(s);
+	}
+
 	void Engine::handleInput(SDL_Event& e) {
 		if (e.type == SDL_QUIT)
 			quit();
@@ -131,6 +136,9 @@ namespace JEngine {
 	}
 
 	void Engine::update(float dt) {
+
+		for (auto it = systems.begin(); it != systems.end(); it++)
+			(*it)->update(dt);
 
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
