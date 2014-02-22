@@ -1,6 +1,7 @@
 #include "shape.h"
 
 #include <math.h>
+#include <iostream>
 
 namespace JEngine {
 	
@@ -40,5 +41,12 @@ namespace JEngine {
 
 		vertices[9] = x;
 		vertices[10] = y;
+	}
+
+	void Shape::rotate(float dx, float dy, float x, float y) {
+		std::cout << "x: " << dx << ", y: " << dy << "\n";
+		
+		float angle = atan((y-dy)/(x-dx));
+		rotate(angle);
 	}
 }

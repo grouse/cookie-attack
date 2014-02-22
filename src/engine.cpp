@@ -53,7 +53,7 @@ namespace JEngine {
 		});
 		player->attach(s);
 
-		Velocity* v = new Velocity(20.0f, 0.0f, 0.0f);
+		Velocity* v = new Velocity(0.0f, 0.0f, 0.0f);
 		player->attach(v);
 
 		components.push_back(v);
@@ -62,6 +62,7 @@ namespace JEngine {
 
 		s->rotate(0.785398163);
 		
+		s->rotate(0.785398163);
 
 		run = true;
 		return 0;
@@ -134,6 +135,10 @@ namespace JEngine {
 		}
 
 		if (e.type == SDL_MOUSEMOTION) {
+			SDL_MouseMotionEvent motion = e.motion;
+		//	((Shape*) player->getComponent(Component::SHAPE))->rotate(motion.xrel, motion.yrel, player->x, player->y);
+
+
 			// todo: rotate to mouse position	
 		}
 	}
