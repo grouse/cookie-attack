@@ -21,8 +21,6 @@ namespace JEngine {
 
 			int init(const char*, int, int);
 
-			void attachSystem(System*);
-
 			void handleInput(SDL_Event&);
 			void update(float);
 
@@ -36,8 +34,6 @@ namespace JEngine {
 			bool run;
 
 			void initGL(int, int);
-
-			std::list<System*> systems;
 
 			// tmp test ptrs
 			std::list<Entity*> entities;
