@@ -43,7 +43,7 @@ namespace JEngine {
 
 		initGL(w, h);
 
-		player = new Entity(0.0f, 0.0f, 0.0f);
+		player = new Entity(100.0f, 100.0f, 0.0f);
 
 		Shape* s = new Shape({
 			-16.0f, -16.0f, 0.0f,
@@ -59,6 +59,9 @@ namespace JEngine {
 		components.push_back(v);
 		components.push_back(s);
 		entities.push_back(player);
+
+		s->rotate(0.785398163);
+		
 
 		run = true;
 		return 0;
@@ -128,6 +131,10 @@ namespace JEngine {
 					((Velocity*) player->getComponent(Component::VELOCITY))->y = 0;
 					break;
 			}
+		}
+
+		if (e.type == SDL_MOUSEMOTION) {
+			// todo: rotate to mouse position	
 		}
 	}
 

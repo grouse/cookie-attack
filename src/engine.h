@@ -7,7 +7,6 @@
 #include <iostream>
 #include <list>
 
-#include "system.h"
 #include "entity.h"
 #include "component.h"
 #include "shape.h"
