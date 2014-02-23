@@ -1,5 +1,8 @@
 #include "engine.h"
 
+#include <math.h>
+
+
 namespace JEngine {
 
 	Engine::Engine() {
@@ -60,9 +63,8 @@ namespace JEngine {
 		components.push_back(s);
 		entities.push_back(player);
 
-		s->rotate(0.785398163);
 		
-		s->rotate(0.785398163);
+	//	s->rotate(0.785398163);
 
 		run = true;
 		return 0;
@@ -101,48 +103,41 @@ namespace JEngine {
 
 		if (e.type == SDL_KEYDOWN) {
 			switch (e.key.keysym.sym) {
-				case SDLK_d:
-					((Velocity*) player->getComponent(Component::VELOCITY))->x = 20;
-					break;
+				case SDLK_SPACE: 	
+					int x, y;
+					SDL_GetMouseState(&x, &y);
 
-				case SDLK_a:				
-					((Velocity*) player->getComponent(Component::VELOCITY))->x = -20;
-					break;		
+					float angle = atan2(y-player->y, x-player->x);
+					Velocity* v = (Velocity*) player->getComponent(Component::VELOCITY);
 
-				case SDLK_w:
-					((Velocity*) player->getComponent(Component::VELOCITY))->y = -20;
+					v->x = cos(angle);
+					v->y = sin(angle);
 					break;
-				
-				case SDLK_s:
-					((Velocity*) player->getComponent(Component::VELOCITY))->y = 20;
-					break;
-
 			}
 		}
 
 		if (e.type == SDL_KEYUP) {
 			switch (e.key.keysym.sym) {
-				case SDLK_d:
-				case SDLK_a:
-					((Velocity*) player->getComponent(Component::VELOCITY))->x = 0;
-					break;
-
-				case SDLK_w:
-				case SDLK_s:
-					((Velocity*) player->getComponent(Component::VELOCITY))->y = 0;
+				case SDLK_SPACE:
+					Velocity* v = (Velocity*) player->getComponent(Component::VELOCITY);
+					v->x = 0;
+					v->y = 0;
 					break;
 			}
 		}
 
+		
 		if (e.type == SDL_MOUSEMOTION) {
 			SDL_MouseMotionEvent motion = e.motion;
-		//	((Shape*) player->getComponent(Component::SHAPE))->rotate(motion.xrel, motion.yrel, player->x, player->y);
+			Velocity* v = (Velocity*) player->getComponent(Component::VELOCITY);
+
+			float angle = atan2(player->y-e.motion.yrel, player->x-e.motion.xrel);
+			//((Shape*) player->getComponent(Component::SHAPE))->rotate(angle);
 
 
-			// todo: rotate to mouse position	
+			// todo: rotate shape to mouse position	
 		}
 	}
-
 	void Engine::update(float dt) {
 
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -153,9 +148,9 @@ namespace JEngine {
 
 			if (e->hasComponent(Component::VELOCITY)) {
 				Velocity* v = (Velocity*) e->getComponent(Component::VELOCITY);
-				e->x += v->x*dt;
-				e->y += v->y*dt;
-				e->z += v->z*dt;
+				e->x += v->x*dt*100;
+				e->y += v->y*dt*100;
+				e->z += v->z*dt*100;
 			}
 
 			if (e->hasComponent(Component::SHAPE)) {
