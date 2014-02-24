@@ -136,17 +136,9 @@ namespace JEngine {
 		
 		if (e.type == SDL_MOUSEMOTION && rotation == true) {
 			SDL_MouseMotionEvent motion = e.motion;
-			v = (Velocity*) player->getComponent(Component::VELOCITY);
 
 			angle = atan2(player->y-e.motion.y, player->x-e.motion.x);
-			((Shape*) player->getComponent(Component::SHAPE))->setRotation(angle, player->x, player->y);
-			
-
-			std::cout << angle << "\n";
-			//((Shape*) player->getComponent(Component::SHAPE))->rotate(angle);
-
-
-			// todo: rotate shape to mouse position	
+			((Shape*) player->getComponent(Component::SHAPE))->setRotation(angle);
 		}
 	}
 	void Engine::update(float dt) {
