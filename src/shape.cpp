@@ -8,6 +8,8 @@ namespace JEngine {
 	Shape::Shape(std::initializer_list<GLfloat> v) : 
 		vertices(v),
 		Component(Component::SHAPE) {
+		
+			rotation = 0;
 	}
 
 	Shape::~Shape() {}
@@ -17,36 +19,59 @@ namespace JEngine {
 	}
 
 	void Shape::rotate(float angle) {
-		GLfloat x = vertices[0] * cos(angle) - vertices[1] * sin(angle); 
-		GLfloat y = vertices[0] * cos(angle) + vertices[1] * sin(angle);
+		float s = sin(angle); // computer sin & cos once
+		float c = cos(angle);
 
-		vertices[0] = x;
-		vertices[1] = y;
+		float xt, yt; // transformed to ox, oy origin
+		float xr, yr; // rotated coordinates
 
-			
-		x = vertices[3] * cos(angle) - vertices[4] * sin(angle); 
-		y = vertices[3] * cos(angle) + vertices[4] * sin(angle);
+		xt = vertices[0];
+		yt = vertices[1];
 
-		vertices[3] = x;
-		vertices[4] = y;
+		xr = xt * c - yt * s;
+		yr = xt * s + yt * c;
 
-		x = vertices[6] * cos(angle) - vertices[7] * sin(angle); 
-		y = vertices[6] * cos(angle) + vertices[7] * sin(angle);
+		vertices[0] = xr;
+		vertices[1] = yr;
 
-		vertices[6] = x;
-		vertices[7] = y;
+		
+		xt = vertices[3];
+		yt = vertices[4];
 
-		x = vertices[9] * cos(angle) - vertices[10] * sin(angle); 
-		y = vertices[9] * cos(angle) + vertices[10] * sin(angle);
+		xr = xt * c - yt * s;
+		yr = xt * s + yt * c;
 
-		vertices[9] = x;
-		vertices[10] = y;
+		vertices[3] = xr;
+		vertices[4] = yr;
+
+		xt = vertices[6];
+		yt = vertices[7];
+
+		xr = xt * c - yt * s;
+		yr = xt * s + yt * c;
+
+		vertices[6] = xr;
+		vertices[7] = yr;
+
+		xt = vertices[9];
+		yt = vertices[10];
+
+		xr = xt * c - yt * s;
+		yr = xt * s + yt * c;
+
+		vertices[9] = xr;
+		vertices[10] = yr;
+
+		rotation += angle;
 	}
 
-	void Shape::rotate(float dx, float dy, float x, float y) {
-		std::cout << "x: " << dx << ", y: " << dy << "\n";
-		
-		float angle = atan((y-dy)/(x-dx));
+	void Shape::setRotation(float angle) {
+
+		std::cout << "rotating\n";
+
+		if (rotation != 0)
+			rotate(-rotation);
+
 		rotate(angle);
 	}
 }

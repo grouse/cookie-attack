@@ -39,6 +39,7 @@ namespace JEngine {
 			std::list<Component*> components;
 		
 			Entity* player;
+			bool rotation = false;
 	};
 }
 

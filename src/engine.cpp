@@ -98,6 +98,9 @@ namespace JEngine {
 
 
 	void Engine::handleInput(SDL_Event& e) {
+		float angle;
+		Velocity* v;
+
 		if (e.type == SDL_QUIT)
 			quit();
 
@@ -107,11 +110,15 @@ namespace JEngine {
 					int x, y;
 					SDL_GetMouseState(&x, &y);
 
-					float angle = atan2(y-player->y, x-player->x);
-					Velocity* v = (Velocity*) player->getComponent(Component::VELOCITY);
+					angle = atan2(y-player->y, x-player->x);
+					v = (Velocity*) player->getComponent(Component::VELOCITY);
 
 					v->x = cos(angle);
 					v->y = sin(angle);
+					break;
+
+				case SDLK_w:
+					rotation = true;
 					break;
 			}
 		}
@@ -127,11 +134,15 @@ namespace JEngine {
 		}
 
 		
-		if (e.type == SDL_MOUSEMOTION) {
+		if (e.type == SDL_MOUSEMOTION && rotation == true) {
 			SDL_MouseMotionEvent motion = e.motion;
-			Velocity* v = (Velocity*) player->getComponent(Component::VELOCITY);
+			v = (Velocity*) player->getComponent(Component::VELOCITY);
 
-			float angle = atan2(player->y-e.motion.yrel, player->x-e.motion.xrel);
+			angle = atan2(player->y-e.motion.y, player->x-e.motion.x);
+			((Shape*) player->getComponent(Component::SHAPE))->setRotation(angle, player->x, player->y);
+			
+
+			std::cout << angle << "\n";
 			//((Shape*) player->getComponent(Component::SHAPE))->rotate(angle);
 
 
