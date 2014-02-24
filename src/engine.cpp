@@ -59,8 +59,12 @@ namespace JEngine {
 		Velocity* v = new Velocity(0.0f, 0.0f, 0.0f);
 		player->attach(v);
 
+		Direction* d = new Direction(1.0f, 0.0f, 0.0f);
+		player->attach(d);
+
 		components.push_back(v);
 		components.push_back(s);
+		components.push_back(d);
 		entities.push_back(player);
 
 		
@@ -107,14 +111,10 @@ namespace JEngine {
 		if (e.type == SDL_KEYDOWN) {
 			switch (e.key.keysym.sym) {
 				case SDLK_SPACE: 	
-					int x, y;
-					SDL_GetMouseState(&x, &y);
-
-					angle = atan2(y-player->y, x-player->x);
 					v = (Velocity*) player->getComponent(Component::VELOCITY);
 
-					v->x = cos(angle);
-					v->y = sin(angle);
+					v->x = 400;
+					v->y = 400;
 					break;
 
 				case SDLK_w:
@@ -127,6 +127,7 @@ namespace JEngine {
 			switch (e.key.keysym.sym) {
 				case SDLK_SPACE:
 					Velocity* v = (Velocity*) player->getComponent(Component::VELOCITY);
+
 					v->x = 0;
 					v->y = 0;
 					break;
@@ -138,7 +139,11 @@ namespace JEngine {
 			SDL_MouseMotionEvent motion = e.motion;
 
 			angle = atan2(player->y-e.motion.y, player->x-e.motion.x);
+			angle += 3.14159265;
+
 			((Shape*) player->getComponent(Component::SHAPE))->setRotation(angle);
+
+			((Direction*) player->getComponent(Component::DIRECTION))->setRotation(angle);
 		}
 	}
 	void Engine::update(float dt) {
@@ -149,11 +154,13 @@ namespace JEngine {
 		for (auto it = entities.begin(); it != entities.end(); it++) {
 			Entity* e = (*it);
 
-			if (e->hasComponent(Component::VELOCITY)) {
+			if (e->hasComponent(Component::VELOCITY) && e->hasComponent(Component::DIRECTION)) {
 				Velocity* v = (Velocity*) e->getComponent(Component::VELOCITY);
-				e->x += v->x*dt*100;
-				e->y += v->y*dt*100;
-				e->z += v->z*dt*100;
+				Direction* d = (Direction*) e->getComponent(Component::DIRECTION);
+
+				e->x += v->x*d->x*dt;
+				e->y += v->y*d->y*dt;
+				e->z += v->z*d->z*dt;
 			}
 
 			if (e->hasComponent(Component::SHAPE)) {

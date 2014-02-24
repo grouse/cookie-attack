@@ -11,6 +11,7 @@
 #include "component.h"
 #include "shape.h"
 #include "velocity.h"
+#include "direction.h"
 
 namespace JEngine {
 	class Engine {

@@ -15,10 +15,5 @@ namespace JEngine {
 	}
 
 	void Velocity::rotate(float angle) {
-		float nx = x * cos(angle) - y * sin(angle);
-		float ny = x * sin(angle) + y * cos(angle);
-		
-		this->x = nx;
-		this->y = ny;
 	}
 }

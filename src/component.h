@@ -13,7 +13,8 @@ namespace JEngine {
 				VELOCITY = 0,
 				SHAPE = 1,
 				TEXTURE = 2,
-				NUM_TYPES = 3;
+				DIRECTION = 3,
+				NUM_TYPES = 4;
 
 			
 			const unsigned int type;

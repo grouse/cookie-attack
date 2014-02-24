@@ -66,9 +66,6 @@ namespace JEngine {
 	}
 
 	void Shape::setRotation(float angle) {
-
-		std::cout << "rotating\n";
-
 		if (rotation != 0)
 			rotate(-rotation);
 
