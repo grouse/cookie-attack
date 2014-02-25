@@ -6,6 +6,8 @@ namespace JEngine {
 		this->x = x;
 		this->y = y;
 		this->z = z;
+
+		rotation = 0;
 	}
 
 	Velocity::~Velocity() {}
@@ -15,5 +17,22 @@ namespace JEngine {
 	}
 
 	void Velocity::rotate(float angle) {
+		float c = cos(angle);
+		float s = sin(angle);
+
+		float nx = x * c - y * s;
+		float ny = x * s + y * c;
+		
+		this->x = nx;
+		this->y = ny;
+
+		rotation += angle;
+	}
+
+	void Velocity::setRotation(float angle) {
+		if (rotation != 0)
+			rotate(-rotation);
+
+		rotate(angle);
 	}
 }

@@ -18,6 +18,9 @@ namespace JEngine {
 			virtual bool canAttach(Entity&);
 
 			void rotate(float);
+			void setRotation(float);
+	
+			float rotation;
 	};
 }
 

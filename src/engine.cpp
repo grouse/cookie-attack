@@ -110,32 +110,46 @@ namespace JEngine {
 
 		if (e.type == SDL_KEYDOWN) {
 			switch (e.key.keysym.sym) {
-				case SDLK_SPACE: 	
-					v = (Velocity*) player->getComponent(Component::VELOCITY);
-
-					v->x = 400;
-					v->y = 400;
+				case SDLK_w: 	
+					input_w = true;
 					break;
 
-				case SDLK_w:
-					rotation = true;
+				case SDLK_s:
+					input_s = true;
+					break;
+
+				case SDLK_a:
+					input_a = true;
+					break;
+
+				case SDLK_d:
+					input_d = true;
 					break;
 			}
 		}
 
 		if (e.type == SDL_KEYUP) {
 			switch (e.key.keysym.sym) {
-				case SDLK_SPACE:
-					Velocity* v = (Velocity*) player->getComponent(Component::VELOCITY);
+				case SDLK_w:
+					input_w = false;
+					break;
 
-					v->x = 0;
-					v->y = 0;
+				case SDLK_s:
+					input_s = false;
+					break;
+
+				case SDLK_a:
+					input_a = false;
+					break;
+
+				case SDLK_d:
+					input_d = false;
 					break;
 			}
 		}
 
 		
-		if (e.type == SDL_MOUSEMOTION && rotation == true) {
+		if (e.type == SDL_MOUSEMOTION) {
 			SDL_MouseMotionEvent motion = e.motion;
 
 			angle = atan2(player->y-e.motion.y, player->x-e.motion.x);
@@ -143,7 +157,10 @@ namespace JEngine {
 
 			((Shape*) player->getComponent(Component::SHAPE))->setRotation(angle);
 
-			((Direction*) player->getComponent(Component::DIRECTION))->setRotation(angle);
+			Direction* d = (Direction*) player->getComponent(Component::DIRECTION);	
+			Velocity* v = (Velocity*) player->getComponent(Component::VELOCITY);
+
+			d->setRotation(angle);
 		}
 	}
 	void Engine::update(float dt) {
@@ -157,6 +174,53 @@ namespace JEngine {
 			if (e->hasComponent(Component::VELOCITY) && e->hasComponent(Component::DIRECTION)) {
 				Velocity* v = (Velocity*) e->getComponent(Component::VELOCITY);
 				Direction* d = (Direction*) e->getComponent(Component::DIRECTION);
+				
+				float angle;
+
+
+				if (input_w || input_a || input_s || input_d) {
+					if (input_w) {
+						angle = d->rotation;
+					}
+
+					//std::cout << d->rotation * 57 << "\n";
+
+					if (angle >= 360) {
+						std::cout << "Angle is larger than 360, reset\n";
+						angle -= 360;
+					}
+
+
+						v->x = 400;
+						v->y = 400;
+
+
+						v->setRotation(angle);
+
+					std::cout << v->rotation * 57 << "\n";
+
+				} else {	
+					v->x = 0;
+					v->y = 0;
+				}
+				
+				/**if (input_a && input_s) {
+					angle = -135;
+				} else if (input_a && input_w) {
+					angle = -45;
+				} else if (input_d && input_s) {
+					angle = 135;
+				} else if (input_d && input_w) {
+					angle = 45;
+				} else if (input_a) {
+					angle = -90;
+				} else if (input_d) {
+					angle = 90;
+				} else if (input_s) {
+					angle = 180;
+				} else if (input_w) {
+					angle = 0;
+				} **/
 
 				e->x += v->x*d->x*dt;
 				e->y += v->y*d->y*dt;

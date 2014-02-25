@@ -40,7 +40,8 @@ namespace JEngine {
 			std::list<Component*> components;
 		
 			Entity* player;
-			bool rotation = false;
+			
+			bool input_w = false, input_s = false, input_a = false, input_d = false;
 	};
 }
 
