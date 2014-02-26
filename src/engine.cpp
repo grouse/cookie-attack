@@ -155,8 +155,7 @@ namespace JEngine {
 			angle = atan2(player->y-e.motion.y, player->x-e.motion.x);
 			angle += 3.14159265;
 
-			((Shape*) player->getComponent(Component::SHAPE))->setRotation(angle);
-
+			((Direction*) player->getComponent(Component::DIRECTION))->setRotation(angle);
 		}
 	}
 	void Engine::update(float dt) {
@@ -175,7 +174,7 @@ namespace JEngine {
 					SDL_GetMouseState(&x, &y);
 
 					float angle;
-					angle = atan2(player->y-y, player->x-x);
+					angle = atan2(e->y-y, e->x-x);
 					angle += 3.14159265;
 
 					Velocity* v = (Velocity*) e->getComponent(Component::VELOCITY);
@@ -219,6 +218,9 @@ namespace JEngine {
 				glColor3f(255, 255, 255);
 				
 				Shape* s = (Shape*) e->getComponent(Component::SHAPE);
+
+				if (e->hasComponent(Component::DIRECTION)) 
+					s->setRotation(((Direction*) e->getComponent(Component::DIRECTION))->rotation);
 
 				glVertexPointer(
 						3, GL_FLOAT, 0, 
