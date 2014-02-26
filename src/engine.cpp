@@ -56,7 +56,7 @@ namespace JEngine {
 		});
 		player->attach(s);
 
-		Velocity* v = new Velocity(0.0f, 0.0f, 0.0f);
+		Velocity* v = new Velocity(1.0f, 0.0f, 0.0f);
 		player->attach(v);
 
 		Direction* d = new Direction(1.0f, 0.0f, 0.0f);
@@ -172,59 +172,40 @@ namespace JEngine {
 			Entity* e = (*it);
 
 			if (e->hasComponent(Component::VELOCITY) && e->hasComponent(Component::DIRECTION)) {
-				Velocity* v = (Velocity*) e->getComponent(Component::VELOCITY);
-				Direction* d = (Direction*) e->getComponent(Component::DIRECTION);
 				
-				float angle;
-
-
 				if (input_w || input_a || input_s || input_d) {
-					if (input_w) {
-						angle = d->rotation;
-					}
 
-					//std::cout << d->rotation * 57 << "\n";
-
-					if (angle >= 360) {
-						std::cout << "Angle is larger than 360, reset\n";
-						angle -= 360;
-					}
-
-
-						v->x = 400;
-						v->y = 400;
-
-
-						v->setRotation(angle);
-
-					std::cout << v->rotation * 57 << "\n";
-
-				} else {	
-					v->x = 0;
-					v->y = 0;
-				}
+					Velocity* v = (Velocity*) e->getComponent(Component::VELOCITY);
+					Direction* d = (Direction*) e->getComponent(Component::DIRECTION);
 				
-				/**if (input_a && input_s) {
-					angle = -135;
-				} else if (input_a && input_w) {
-					angle = -45;
-				} else if (input_d && input_s) {
-					angle = 135;
-				} else if (input_d && input_w) {
-					angle = 45;
-				} else if (input_a) {
-					angle = -90;
-				} else if (input_d) {
-					angle = 90;
-				} else if (input_s) {
-					angle = 180;
-				} else if (input_w) {
-					angle = 0;
-				} **/
+					v->setRotation(d->rotation);
 
-				e->x += v->x*d->x*dt;
-				e->y += v->y*d->y*dt;
-				e->z += v->z*d->z*dt;
+					float angle;
+					if (input_a && input_s) {
+						angle = -135;
+					} else if (input_a && input_w) {
+						angle = -45;
+					} else if (input_d && input_s) {
+						angle = 135;
+					} else if (input_d && input_w) {
+						angle = 45;
+					} else if (input_a) {
+						angle = -90;
+					} else if (input_d) {
+						angle = 90;
+					} else if (input_s) {
+						angle = 180;
+					} else if (input_w) {
+						angle = 0;
+					}
+
+					angle *= 0.0174532925; // degrees to radians;
+					v->rotate(angle);
+
+					e->x += v->x*dt*400;
+					e->y += v->y*dt*400;
+					e->z += v->z*dt*400;
+				}
 			}
 
 			if (e->hasComponent(Component::SHAPE)) {

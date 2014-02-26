@@ -23,7 +23,6 @@ namespace JEngine {
 
 			std::vector<GLfloat> vertices;
 
-		private:
 			float rotation;
 	};
 }

@@ -30,9 +30,7 @@ namespace JEngine {
 	}
 
 	void Velocity::setRotation(float angle) {
-		if (rotation != 0)
-			rotate(-rotation);
-
+		rotate(-rotation);
 		rotate(angle);
 	}
 }
