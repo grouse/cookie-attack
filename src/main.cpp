@@ -14,13 +14,14 @@ int main(int argc, char* argv[]) {
 	float dt;
 
 	while (engine.isRunning()) {
+		old_time = current_time;
+		current_time = SDL_GetTicks();
+		dt = (current_time - old_time) / 1000.0f;
+
 		SDL_Event e;
 		while (SDL_PollEvent(&e))
 			engine.handleInput(e);
 
-		old_time = current_time;
-		current_time = SDL_GetTicks();
-		dt = (current_time - old_time) / 1000.0f;
 
 		engine.update(dt);		
 	}
