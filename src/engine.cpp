@@ -157,10 +157,6 @@ namespace JEngine {
 
 			((Shape*) player->getComponent(Component::SHAPE))->setRotation(angle);
 
-			Direction* d = (Direction*) player->getComponent(Component::DIRECTION);	
-			Velocity* v = (Velocity*) player->getComponent(Component::VELOCITY);
-
-			d->setRotation(angle);
 		}
 	}
 	void Engine::update(float dt) {
@@ -175,12 +171,19 @@ namespace JEngine {
 				
 				if (input_w || input_a || input_s || input_d) {
 
-					Velocity* v = (Velocity*) e->getComponent(Component::VELOCITY);
-					Direction* d = (Direction*) e->getComponent(Component::DIRECTION);
-				
-					v->setRotation(d->rotation);
+					int x, y;
+					SDL_GetMouseState(&x, &y);
 
 					float angle;
+					angle = atan2(player->y-y, player->x-x);
+					angle += 3.14159265;
+
+					Velocity* v = (Velocity*) e->getComponent(Component::VELOCITY);
+					Direction* d = (Direction*) e->getComponent(Component::DIRECTION);
+			
+					d->setRotation(angle);	
+					v->setRotation(angle);
+
 					if (input_a && input_s) {
 						angle = -135;
 					} else if (input_a && input_w) {
