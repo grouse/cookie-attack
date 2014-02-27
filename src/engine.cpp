@@ -205,12 +205,9 @@ namespace JEngine {
 					angle *= PI/180.0f; // degrees to radians;
 					d->rotate(angle);
 
-					if (v->x < v->max_speed)
-						v->x += v->acceleration*dt;
-
-					if (v->y < v->max_speed)
-						v->y += v->acceleration*dt;
-
+					v->x += v->acceleration*dt;
+					v->y += v->acceleration*dt;
+					
 					if (v->x > v->max_speed)
 						v->x = v->max_speed;
 
@@ -218,11 +215,8 @@ namespace JEngine {
 						v->y = v->max_speed;
 
 				} else {
-					if (v->x > 0)
-						v->x -= v->deacceleration*dt;
-
-					if (v->y > 0)
-						v->y -= v->deacceleration*dt;
+					v->x -= v->deacceleration*dt;
+					v->y -= v->deacceleration*dt;
 					
 					if (v->x < 0)
 						v->x = 0;
