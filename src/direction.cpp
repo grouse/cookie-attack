@@ -16,12 +16,12 @@ namespace JEngine {
 		return true;
 	}
 
-	void Direction::rotate(float angle) {
-		float c = cos(angle);
-		float s = sin(angle);
+	void Direction::rotate(double angle) {
+		double c = cos(angle);
+		double s = sin(angle);
 
-		float nx = x * c - y * s;
-		float ny = x * s + y * c;
+		double nx = x * c - y * s;
+		double ny = x * s + y * c;
 		
 		this->x = nx;
 		this->y = ny;
@@ -29,7 +29,7 @@ namespace JEngine {
 		rotation += angle;
 	}
 
-	void Direction::setRotation(float angle) {
+	void Direction::setRotation(double angle) {
 		rotate(-rotation);
 		rotate(angle);
 	}

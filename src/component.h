@@ -8,6 +8,7 @@ namespace JEngine {
 	class Component {
 		public:
 			Component(unsigned int t) : type(t) {};
+			virtual ~Component() {}
 
 			static const unsigned int 
 				VELOCITY = 0,

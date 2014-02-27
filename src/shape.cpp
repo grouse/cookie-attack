@@ -18,12 +18,12 @@ namespace JEngine {
 		return true;
 	}
 
-	void Shape::rotate(float angle) {
-		float s = sin(angle); // computer sin & cos once
-		float c = cos(angle);
+	void Shape::rotate(double angle) {
+		double s = sin(angle); // computer sin & cos once
+		double c = cos(angle);
 
-		float xt, yt; // transformed to ox, oy origin
-		float xr, yr; // rotated coordinates
+		double xt, yt; // transformed to ox, oy origin
+		double xr, yr; // rotated coordinates
 
 		xt = vertices[0];
 		yt = vertices[1];
@@ -65,7 +65,7 @@ namespace JEngine {
 		rotation += angle;
 	}
 
-	void Shape::setRotation(float angle) {
+	void Shape::setRotation(double angle) {
 		if (rotation != 0)
 			rotate(-rotation);
 

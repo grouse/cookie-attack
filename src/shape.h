@@ -18,12 +18,12 @@ namespace JEngine {
 
 			virtual bool canAttach(Entity&);
 
-			void rotate(float);
-			void setRotation(float);
+			void rotate(double);
+			void setRotation(double);
 
 			std::vector<GLfloat> vertices;
 
-			float rotation;
+			double rotation;
 	};
 }
 

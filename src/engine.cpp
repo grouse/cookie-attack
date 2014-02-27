@@ -2,6 +2,7 @@
 
 #include <math.h>
 
+static const double PI = 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348;
 
 namespace JEngine {
 
@@ -56,7 +57,7 @@ namespace JEngine {
 		});
 		player->attach(s);
 
-		Velocity* v = new Velocity(1.0f, 0.0f, 0.0f);
+		Velocity* v = new Velocity(0.0f, 0.0f, 0.0f, 1000.0f, 1000.0f, 400.0f);
 		player->attach(v);
 
 		Direction* d = new Direction(1.0f, 0.0f, 0.0f);
@@ -153,7 +154,7 @@ namespace JEngine {
 			SDL_MouseMotionEvent motion = e.motion;
 
 			angle = atan2(player->y-e.motion.y, player->x-e.motion.x);
-			angle += 3.14159265;
+			angle += PI;
 
 			((Direction*) player->getComponent(Component::DIRECTION))->setRotation(angle);
 		}
@@ -168,20 +169,20 @@ namespace JEngine {
 
 			if (e->hasComponent(Component::VELOCITY) && e->hasComponent(Component::DIRECTION)) {
 				
+				Velocity* v = (Velocity*) e->getComponent(Component::VELOCITY);
+				Direction* d = (Direction*) e->getComponent(Component::DIRECTION);
+				
 				if (input_w || input_a || input_s || input_d) {
-
+					
 					int x, y;
 					SDL_GetMouseState(&x, &y);
 
-					float angle;
+					double angle;
 					angle = atan2(e->y-y, e->x-x);
-					angle += 3.14159265;
+					angle += PI;
 
-					Velocity* v = (Velocity*) e->getComponent(Component::VELOCITY);
-					Direction* d = (Direction*) e->getComponent(Component::DIRECTION);
 			
-					d->setRotation(angle);	
-					v->setRotation(angle);
+					d->setRotation(angle);
 
 					if (input_a && input_s) {
 						angle = -135;
@@ -201,13 +202,38 @@ namespace JEngine {
 						angle = 0;
 					}
 
-					angle *= 0.0174532925; // degrees to radians;
-					v->rotate(angle);
+					angle *= PI/180.0f; // degrees to radians;
+					d->rotate(angle);
 
-					e->x += v->x*dt*400;
-					e->y += v->y*dt*400;
-					e->z += v->z*dt*400;
+					if (v->x < v->max_speed)
+						v->x += v->acceleration*dt;
+
+					if (v->y < v->max_speed)
+						v->y += v->acceleration*dt;
+
+					if (v->x > v->max_speed)
+						v->x = v->max_speed;
+
+					if (v->y > v->max_speed)
+						v->y = v->max_speed;
+
+				} else {
+					if (v->x > 0)
+						v->x -= v->deacceleration*dt;
+
+					if (v->y > 0)
+						v->y -= v->deacceleration*dt;
+					
+					if (v->x < 0)
+						v->x = 0;
+
+					if (v->y < 0)
+						v->y = 0;
 				}
+
+				e->x += v->x*d->x*dt;
+				e->y += v->y*d->y*dt;
+				e->z += v->z*d->z*dt;
 			}
 
 			if (e->hasComponent(Component::SHAPE)) {
@@ -219,8 +245,17 @@ namespace JEngine {
 				
 				Shape* s = (Shape*) e->getComponent(Component::SHAPE);
 
-				if (e->hasComponent(Component::DIRECTION)) 
-					s->setRotation(((Direction*) e->getComponent(Component::DIRECTION))->rotation);
+				if (e->hasComponent(Component::DIRECTION)) {
+					int x, y;
+					SDL_GetMouseState(&x, &y);
+
+					double angle = atan2(player->y-y, player->x-x);
+					angle += PI;
+					
+					s->setRotation(angle);
+
+
+				}
 
 				glVertexPointer(
 						3, GL_FLOAT, 0, 

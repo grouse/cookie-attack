@@ -10,8 +10,8 @@ namespace JEngine {
 
 	class Velocity : public Component {
 		public:
-			Velocity(float, float, float);
-			~Velocity();
+			Velocity(float, float, float, float, float, float);
+			virtual ~Velocity();
 
 			float x, y, z;
 		
@@ -21,6 +21,7 @@ namespace JEngine {
 			void setRotation(float);
 	
 			float rotation;
+			float acceleration, deacceleration, max_speed;
 	};
 }
 

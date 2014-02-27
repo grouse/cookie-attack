@@ -11,16 +11,16 @@ namespace JEngine {
 	class Direction : public Component {
 		public:
 			Direction(float, float, float);
-			~Direction();
+			virtual ~Direction();
 
 			float x, y, z;
 		
 			virtual bool canAttach(Entity&);
 
-			void rotate(float);
-			void setRotation(float);
+			void rotate(double);
+			void setRotation(double);
 	
-			float rotation;
+			double rotation;
 	};
 }
 

@@ -2,10 +2,14 @@
 
 namespace JEngine {
 
-	Velocity::Velocity(float x, float y, float z) : Component(Component::VELOCITY) {
+	Velocity::Velocity(float x, float y, float z, float acceleration, float deacceleration, float max_speed) : Component(Component::VELOCITY) {
 		this->x = x;
 		this->y = y;
 		this->z = z;
+
+		this->acceleration = acceleration;
+		this->deacceleration = deacceleration;
+		this->max_speed = max_speed;
 
 		rotation = 0;
 	}
