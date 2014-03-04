@@ -1,5 +1,7 @@
 #include "velocity.h"
 
+#include <iostream>
+
 namespace JEngine {
 
 	Velocity::Velocity(float x, float y, float z, float acceleration, float deacceleration, float max_speed) : Component(Component::VELOCITY) {
@@ -31,10 +33,12 @@ namespace JEngine {
 		this->y = ny;
 
 		rotation += angle;
+
+		//std::cout << angle << "\n";
 	}
 
 	void Velocity::setRotation(float angle) {
-		rotate(-rotation);
+		rotate(-rotation);				
 		rotate(angle);
 	}
 }

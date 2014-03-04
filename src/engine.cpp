@@ -247,8 +247,6 @@ namespace JEngine {
 					angle += PI;
 					
 					s->setRotation(angle);
-
-
 				}
 
 				glVertexPointer(
