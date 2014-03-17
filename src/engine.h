@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <list>
+#include <vector>
 
 #include "entity.h"
 #include "component.h"
@@ -39,7 +40,7 @@ namespace JEngine {
 			// tmp test ptrs
 			std::list<Entity*> entities;
 			std::list<Component*> components;
-			std::list<Collision*> collision_components;
+			std::vector<Collision*> collision_components;
 
 			Entity* player;
 			

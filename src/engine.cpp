@@ -73,6 +73,23 @@ namespace JEngine {
 		components.push_back(d);
 		entities.push_back(player);
 
+		Entity* target = new Entity(200.0f, 200.0f, 0.0f);
+		
+		Shape* s2 = new Shape({
+			-16.0f, -16.0f, 0.0f,
+			16.0f, -16.0f, 0.0f,
+			16.0f, 16.0f, 0.0f,
+			-16.0f, 16.0f, 0.0f,
+		});
+		target->attach(s2);
+		
+		Collision* c2 = new Collision();
+		target->attach(c2);
+
+		collision_components.push_back(c2);
+		components.push_back(s2);
+		entities.push_back(target);
+
 		
 	//	s->rotate(0.785398163);
 
@@ -257,7 +274,16 @@ namespace JEngine {
 				v->y = 0;
 		}
 
-		
+		for (int i = 0; i < collision_components.size()-1; i++) {
+			for (int j = i+1; j < collision_components.size(); j++) {
+				Entity* e1 = collision_components[i]->owner;
+				Entity* e2 = collision_components[j]->owner;
+
+				Shape* s1 = ((Shape*) e1->getComponent(Component::SHAPE));
+				Shape* s2 = ((Shape*) e2->getComponent(Component::SHAPE));
+			}
+		}
+
 		for (auto it = entities.begin(); it != entities.end(); it++) {
 			Entity* e = (*it);
 
