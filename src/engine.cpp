@@ -63,6 +63,11 @@ namespace JEngine {
 		Direction* d = new Direction(1.0f, 0.0f, 0.0f);
 		player->attach(d);
 
+		Collision* c = new Collision();
+		player->attach(c);
+	
+		collision_components.push_back(c);	
+
 		components.push_back(v);
 		components.push_back(s);
 		components.push_back(d);

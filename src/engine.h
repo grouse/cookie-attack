@@ -12,6 +12,7 @@
 #include "shape.h"
 #include "velocity.h"
 #include "direction.h"
+#include "collision.h"
 
 namespace JEngine {
 	class Engine {
@@ -38,7 +39,8 @@ namespace JEngine {
 			// tmp test ptrs
 			std::list<Entity*> entities;
 			std::list<Component*> components;
-		
+			std::list<Collision*> collision_components;
+
 			Entity* player;
 			
 			bool input_w = false, input_s = false, input_a = false, input_d = false;
