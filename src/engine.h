@@ -45,6 +45,18 @@ namespace JEngine {
 			Entity* player;
 			
 			bool input_w = false, input_s = false, input_a = false, input_d = false;
+
+			// collision functions
+			void transformToEntity(Shape*, Entity*, int);
+
+			void calculateAxis(float*, float*, float, float, float, float); // &ax, &ay, v1x, v1y, v2x, v2y
+			void calculateProjection(float*, float*, float, float, float, float); // &px, &py, v1x, v1y, v2x, v2y
+			float calculateScalar(float, float, float, float); // v1x, v1y, v2x, v2y
+
+			float findMin(float, float, float, float);
+			float findMax(float, float, float, float);
+
+
 	};
 }
 

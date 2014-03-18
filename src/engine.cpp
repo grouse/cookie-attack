@@ -286,496 +286,280 @@ namespace JEngine {
 
 				// separating axis theorem
 				
-				// transform shape to world space
-				s1->vertices[0] += e1->x;
-				s1->vertices[1] += e1->y;
-				s1->vertices[3] += e1->x; 
-			   	s1->vertices[4] += e1->y;
-				s1->vertices[6] += e1->x;
-				s1->vertices[7] += e1->y;
-				s1->vertices[9] += e1->x;
-				s1->vertices[10] += e1->y;	
-
-				s2->vertices[0] += e2->x;
-				s2->vertices[1] += e2->y;
-				s2->vertices[3] += e2->x; 
-			   	s2->vertices[4] += e2->y;
-				s2->vertices[6] += e2->x;
-				s2->vertices[7] += e2->y;
-				s2->vertices[9] += e2->x;
-				s2->vertices[10] += e2->y;	
+				// transform shape to entity (world) space
+				transformToEntity(s1, e1, 1);
+				transformToEntity(s2, e2, 1);
 
 				// calculate the 4 axis
-				float a1x = s1->vertices[3] - s1->vertices[0]; // Axis1.x = A.UR.x - A.UL.x
-				float a1y = s1->vertices[4] - s1->vertices[1]; // Axis1.y = A.UR.y - A.UL.y
+				float a1x, a1y;
+				calculateAxis(&a1x, &a1y, s1->vertices[3], s1->vertices[4], s1->vertices[0], s1->vertices[1]);
 
-				float a2x = s1->vertices[3] - s1->vertices[6]; // Axis2.x = A.UR.x - A.LR.x
-				float a2y = s1->vertices[4] - s1->vertices[7]; // Axis2.y = A.UR.y - A.LR.y
+				float a2x, a2y;
+				calculateAxis(&a2x, &a2y, s1->vertices[3], s1->vertices[4], s1->vertices[6], s1->vertices[7]);
+
+				float a3x, a3y;
+				calculateAxis(&a3x, &a3y, s2->vertices[0], s2->vertices[1], s2->vertices[9], s2->vertices[10]);
+
+				float a4x, a4y;
+				calculateAxis(&a4x, &a4y, s2->vertices[0], s2->vertices[1], s2->vertices[3], s2->vertices[4]);
 				
-				float a3x = s2->vertices[0] - s2->vertices[9]; // Axis3.x = B.UL.x - B.LL.x
-				float a3y = s2->vertices[1] - s2->vertices[10]; // Axis3.y = B.UL.y - B.LL.y
-				
-				float a4x = s2->vertices[0] - s2->vertices[3]; // Axis4.x = B.UL.x - B.UR.x
-				float a4y = s2->vertices[1] - s2->vertices[4]; // Axis4.y = B.UL.y - B.UR.y
 				
 				// calculate projections
 				
 				// axis 1
+				
 				// A.UL
-				float paa1ul = (s1->vertices[0] * a1x + s1->vertices[1] * a1y) / (a1x*a1x + a1y * a1y);
-				float paa1ulx = paa1ul * a1x;
-				float paa1uly = paa1ul * a1y;
+				float paa1ulx, paa1uly;
+				calculateProjection(&paa1ulx, &paa1uly, s1->vertices[0], s1->vertices[1], a1x, a1y);
 
 				// A.UR
-				float paa1ur = (s1->vertices[3] * a1x + s1->vertices[4] * a1y) / (a1x*a1x + a1y * a1y);
-				float paa1urx = paa1ur * a1x;
-				float paa1ury = paa1ur * a1y;
+				float paa1urx, paa1ury;
+				calculateProjection(&paa1urx, &paa1ury, s1->vertices[4], s1->vertices[5], a1x, a1y);
 
 				// A.LR
-				float paa1lr = (s1->vertices[6] * a1x + s1->vertices[7] * a1y) / (a1x*a1x + a1y * a1y);
-				float paa1lrx = paa1lr * a1x;
-				float paa1lry = paa1lr * a1y;
+				float paa1lrx, paa1lry;
+				calculateProjection(&paa1lrx, &paa1lry, s1->vertices[7], s1->vertices[8], a1x, a1y);
 
 				// A.LL
-				float paa1ll = (s1->vertices[9] * a1x + s1->vertices[10] * a1y) / (a1x*a1x + a1y * a1y);
-				float paa1llx = paa1ll * a1x;
-				float paa1lly = paa1ll * a1y;
-				
+				float paa1llx, paa1lly;
+				calculateProjection(&paa1llx, &paa1lly, s1->vertices[9], s1->vertices[10], a1x, a1y);
 
+				
 				// B.UL
-				float pba1ul = (s2->vertices[0] * a1x + s2->vertices[1] * a1y) / (a1x*a1x + a1y * a1y);
-				float pba1ulx = pba1ul * a1x;
-				float pba1uly = pba1ul * a1y;
+				float pba1ulx, pba1uly;
+				calculateProjection(&pba1ulx, &pba1uly, s2->vertices[0], s2->vertices[1], a1x, a1y);
 
 				// B.UR
-				float pba1ur = (s2->vertices[3] * a1x + s2->vertices[4] * a1y) / (a1x*a1x + a1y * a1y);
-				float pba1urx = pba1ur * a1x;
-				float pba1ury = pba1ur * a1y;
+				float pba1urx, pba1ury;
+				calculateProjection(&pba1urx, &pba1ury, s2->vertices[4], s2->vertices[5], a1x, a1y);
 
 				// B.LR
-				float pba1lr = (s2->vertices[6] * a1x + s2->vertices[7] * a1y) / (a1x*a1x + a1y * a1y);
-				float pba1lrx = pba1lr * a1x;
-				float pba1lry = pba1lr * a1y;
+				float pba1lrx, pba1lry;
+				calculateProjection(&pba1lrx, &pba1lry, s2->vertices[7], s2->vertices[8], a1x, a1y);
 
 				// B.LL
-				float pba1ll = (s2->vertices[9] * a1x + s2->vertices[10] * a1y) / (a1x*a1x + a1y * a1y);
-				float pba1llx = pba1ll * a1x;
-				float pba1lly = pba1ll * a1y;
-				
-				
+				float pba1llx, pba1lly;
+				calculateProjection(&pba1llx, &pba1lly, s2->vertices[9], s2->vertices[10], a1x, a1y);
+
+
 				// axis 2
+				
 				// A.UL
-				float paa2ul = (s1->vertices[0] * a2x + s1->vertices[1] * a2y) / (a2x*a2x + a2y * a2y);
-				float paa2ulx = paa2ul * a2x;
-				float paa2uly = paa2ul * a2y;
+				float paa2ulx, paa2uly;
+				calculateProjection(&paa2ulx, &paa2uly, s1->vertices[0], s1->vertices[1], a2x, a2y);
 
 				// A.UR
-				float paa2ur = (s1->vertices[3] * a2x + s1->vertices[4] * a2y) / (a2x*a2x + a2y * a2y);
-				float paa2urx = paa2ur * a2x;
-				float paa2ury = paa2ur * a2y;
+				float paa2urx, paa2ury;
+				calculateProjection(&paa2urx, &paa2ury, s1->vertices[4], s1->vertices[5], a2x, a2y);
 
 				// A.LR
-				float paa2lr = (s1->vertices[6] * a2x + s1->vertices[7] * a2y) / (a2x*a2x + a2y * a2y);
-				float paa2lrx = paa2lr * a2x;
-				float paa2lry = paa2lr * a2y;
+				float paa2lrx, paa2lry;
+				calculateProjection(&paa2lrx, &paa2lry, s1->vertices[7], s1->vertices[8], a2x, a2y);
 
 				// A.LL
-				float paa2ll = (s1->vertices[9] * a2x + s1->vertices[10] * a2y) / (a2x*a2x + a2y * a2y);
-				float paa2llx = paa2ll * a2x;
-				float paa2lly = paa2ll * a2y;
-				
+				float paa2llx, paa2lly;
+				calculateProjection(&paa2llx, &paa2lly, s1->vertices[9], s1->vertices[10], a2x, a2y);
 
+				
 				// B.UL
-				float pba2ul = (s2->vertices[0] * a2x + s2->vertices[1] * a2y) / (a2x*a2x + a2y * a2y);
-				float pba2ulx = pba2ul * a2x;
-				float pba2uly = pba2ul * a2y;
+				float pba2ulx, pba2uly;
+				calculateProjection(&pba2ulx, &pba2uly, s2->vertices[0], s2->vertices[1], a2x, a2y);
 
 				// B.UR
-				float pba2ur = (s2->vertices[3] * a2x + s2->vertices[4] * a2y) / (a2x*a2x + a2y * a2y);
-				float pba2urx = pba2ur * a2x;
-				float pba2ury = pba2ur * a2y;
+				float pba2urx, pba2ury;
+				calculateProjection(&pba2urx, &pba2ury, s2->vertices[4], s2->vertices[5], a2x, a2y);
 
 				// B.LR
-				float pba2lr = (s2->vertices[6] * a2x + s2->vertices[7] * a2y) / (a2x*a2x + a2y * a2y);
-				float pba2lrx = pba2lr * a2x;
-				float pba2lry = pba2lr * a2y;
+				float pba2lrx, pba2lry;
+				calculateProjection(&pba2lrx, &pba2lry, s2->vertices[7], s2->vertices[8], a2x, a2y);
 
 				// B.LL
-				float pba2ll = (s2->vertices[9] * a2x + s2->vertices[10] * a2y) / (a2x*a2x + a2y * a2y);
-				float pba2llx = pba2ll * a2x;
-				float pba2lly = pba2ll * a2y;
-				
+				float pba2llx, pba2lly;
+				calculateProjection(&pba2llx, &pba2lly, s2->vertices[9], s2->vertices[10], a2x, a2y);
+
 
 				// axis 3
+				
 				// A.UL
-				float paa3ul = (s1->vertices[0] * a3x + s1->vertices[1] * a3y) / (a3x*a3x + a3y * a3y);
-				float paa3ulx = paa3ul * a3x;
-				float paa3uly = paa3ul * a3y;
+				float paa3ulx, paa3uly;
+				calculateProjection(&paa3ulx, &paa3uly, s1->vertices[0], s1->vertices[1], a3x, a3y);
 
 				// A.UR
-				float paa3ur = (s1->vertices[3] * a3x + s1->vertices[4] * a3y) / (a3x*a3x + a3y * a3y);
-				float paa3urx = paa3ur * a3x;
-				float paa3ury = paa3ur * a3y;
+				float paa3urx, paa3ury;
+				calculateProjection(&paa3urx, &paa3ury, s1->vertices[4], s1->vertices[5], a3x, a3y);
 
 				// A.LR
-				float paa3lr = (s1->vertices[6] * a3x + s1->vertices[7] * a3y) / (a3x*a3x + a3y * a3y);
-				float paa3lrx = paa3lr * a3x;
-				float paa3lry = paa3lr * a3y;
+				float paa3lrx, paa3lry;
+				calculateProjection(&paa3lrx, &paa3lry, s1->vertices[7], s1->vertices[8], a3x, a3y);
 
 				// A.LL
-				float paa3ll = (s1->vertices[9] * a3x + s1->vertices[10] * a3y) / (a3x*a3x + a3y * a3y);
-				float paa3llx = paa3ll * a3x;
-				float paa3lly = paa3ll * a3y;
-				
+				float paa3llx, paa3lly;
+				calculateProjection(&paa3llx, &paa3lly, s1->vertices[9], s1->vertices[10], a3x, a3y);
 
+				
 				// B.UL
-				float pba3ul = (s2->vertices[0] * a3x + s2->vertices[1] * a3y) / (a3x*a3x + a3y * a3y);
-				float pba3ulx = pba3ul * a3x;
-				float pba3uly = pba3ul * a3y;
+				float pba3ulx, pba3uly;
+				calculateProjection(&pba3ulx, &pba3uly, s2->vertices[0], s2->vertices[1], a3x, a3y);
 
 				// B.UR
-				float pba3ur = (s2->vertices[3] * a3x + s2->vertices[4] * a3y) / (a3x*a3x + a3y * a3y);
-				float pba3urx = pba3ur * a3x;
-				float pba3ury = pba3ur * a3y;
+				float pba3urx, pba3ury;
+				calculateProjection(&pba3urx, &pba3ury, s2->vertices[4], s2->vertices[5], a3x, a3y);
 
 				// B.LR
-				float pba3lr = (s2->vertices[6] * a3x + s2->vertices[7] * a3y) / (a3x*a3x + a3y * a3y);
-				float pba3lrx = pba3lr * a3x;
-				float pba3lry = pba3lr * a3y;
+				float pba3lrx, pba3lry;
+				calculateProjection(&pba3lrx, &pba3lry, s2->vertices[7], s2->vertices[8], a3x, a3y);
 
 				// B.LL
-				float pba3ll = (s2->vertices[9] * a3x + s2->vertices[10] * a3y) / (a3x*a3x + a3y * a3y);
-				float pba3llx = pba3ll * a3x;
-				float pba3lly = pba3ll * a3y;
-				
-				
+				float pba3llx, pba3lly;
+				calculateProjection(&pba3llx, &pba3lly, s2->vertices[9], s2->vertices[10], a3x, a3y);
+
+
 				// axis 4
+				
 				// A.UL
-				float paa4ul = (s1->vertices[0] * a4x + s1->vertices[1] * a4y) / (a4x*a4x + a4y * a4y);
-				float paa4ulx = paa4ul * a4x;
-				float paa4uly = paa4ul * a4y;
+				float paa4ulx, paa4uly;
+				calculateProjection(&paa4ulx, &paa4uly, s1->vertices[0], s1->vertices[1], a4x, a4y);
 
 				// A.UR
-				float paa4ur = (s1->vertices[3] * a4x + s1->vertices[4] * a4y) / (a4x*a4x + a4y * a4y);
-				float paa4urx = paa4ur * a4x;
-				float paa4ury = paa4ur * a4y;
+				float paa4urx, paa4ury;
+				calculateProjection(&paa4urx, &paa4ury, s1->vertices[4], s1->vertices[5], a4x, a4y);
 
 				// A.LR
-				float paa4lr = (s1->vertices[6] * a4x + s1->vertices[7] * a4y) / (a4x*a4x + a4y * a4y);
-				float paa4lrx = paa4lr * a4x;
-				float paa4lry = paa4lr * a4y;
+				float paa4lrx, paa4lry;
+				calculateProjection(&paa4lrx, &paa4lry, s1->vertices[7], s1->vertices[8], a4x, a4y);
 
 				// A.LL
-				float paa4ll = (s1->vertices[9] * a4x + s1->vertices[10] * a4y) / (a4x*a4x + a4y * a4y);
-				float paa4llx = paa4ll * a4x;
-				float paa4lly = paa4ll * a4y;
-				
+				float paa4llx, paa4lly;
+				calculateProjection(&paa4llx, &paa4lly, s1->vertices[9], s1->vertices[10], a4x, a4y);
 
+				
 				// B.UL
-				float pba4ul = (s2->vertices[0] * a4x + s2->vertices[1] * a4y) / (a4x*a4x + a4y * a4y);
-				float pba4ulx = pba4ul * a4x;
-				float pba4uly = pba4ul * a4y;
+				float pba4ulx, pba4uly;
+				calculateProjection(&pba4ulx, &pba4uly, s2->vertices[0], s2->vertices[1], a4x, a4y);
 
 				// B.UR
-				float pba4ur = (s2->vertices[3] * a4x + s2->vertices[4] * a4y) / (a4x*a4x + a4y * a4y);
-				float pba4urx = pba4ur * a4x;
-				float pba4ury = pba4ur * a4y;
+				float pba4urx, pba4ury;
+				calculateProjection(&pba4urx, &pba4ury, s2->vertices[4], s2->vertices[5], a4x, a4y);
 
 				// B.LR
-				float pba4lr = (s2->vertices[6] * a4x + s2->vertices[7] * a4y) / (a4x*a4x + a4y * a4y);
-				float pba4lrx = pba4lr * a4x;
-				float pba4lry = pba4lr * a4y;
+				float pba4lrx, pba4lry;
+				calculateProjection(&pba4lrx, &pba4lry, s2->vertices[7], s2->vertices[8], a4x, a4y);
 
 				// B.LL
-				float pba4ll = (s2->vertices[9] * a4x + s2->vertices[10] * a4y) / (a4x*a4x + a4y * a4y);
-				float pba4llx = pba4ll * a4x;
-				float pba4lly = pba4ll * a4y;
-
+				float pba4llx, pba4lly;
+				calculateProjection(&pba4llx, &pba4lly, s2->vertices[9], s2->vertices[10], a4x, a4y);
 
 				// calculate projected scalar values
 
 				// axis 1
-				float psaa1ul = paa1ulx * a1x + paa1uly * a1y;
-				float psaa1ur = paa1urx * a1x + paa1ury * a1y;
-				float psaa1lr = paa1lrx * a1x + paa1lry * a1y;
-				float psaa1ll = paa1llx * a1x + paa1lly * a1y;
-
-				float psba1ul = pba1ulx * a1x + pba1uly * a1y;
-				float psba1ur = pba1urx * a1x + pba1ury * a1y;
-				float psba1lr = pba1lrx * a1x + pba1lry * a1y;
-				float psba1ll = pba1llx * a1x + pba1lly * a1y;
-
-
+				float psaa1ul = calculateScalar(paa1ulx, paa1uly, a1x, a1y);
+				float psaa1ur = calculateScalar(paa1urx, paa1ury, a1x, a1y);
+				float psaa1lr = calculateScalar(paa1lrx, paa1lry, a1x, a1y);
+				float psaa1ll = calculateScalar(paa1llx, paa1lly, a1x, a1y);
+				
+				float psba1ul = calculateScalar(pba1ulx, pba1uly, a1x, a1y);
+				float psba1ur = calculateScalar(pba1urx, pba1ury, a1x, a1y);
+				float psba1lr = calculateScalar(pba1lrx, pba1lry, a1x, a1y);
+				float psba1ll = calculateScalar(pba1llx, pba1lly, a1x, a1y);
+				
 				// axis 2
-				float psaa2ul = paa2ulx * a2x + paa2uly * a2y;
-				float psaa2ur = paa2urx * a2x + paa2ury * a2y;
-				float psaa2lr = paa2lrx * a2x + paa2lry * a2y;
-				float psaa2ll = paa2llx * a2x + paa2lly * a2y;
-
-				float psba2ul = pba2ulx * a2x + pba2uly * a2y;
-				float psba2ur = pba2urx * a2x + pba2ury * a2y;
-				float psba2lr = pba2lrx * a2x + pba2lry * a2y;
-				float psba2ll = pba2llx * a2x + pba2lly * a2y;
-
+				float psaa2ul = calculateScalar(paa2ulx, paa2uly, a2x, a2y);
+				float psaa2ur = calculateScalar(paa2urx, paa2ury, a2x, a2y);
+				float psaa2lr = calculateScalar(paa2lrx, paa2lry, a2x, a2y);
+				float psaa2ll = calculateScalar(paa2llx, paa2lly, a2x, a2y);
+		
+				float psba2ul = calculateScalar(pba2ulx, pba2uly, a2x, a2y);
+				float psba2ur = calculateScalar(pba2urx, pba2ury, a2x, a2y);
+				float psba2lr = calculateScalar(pba2lrx, pba2lry, a2x, a2y);
+				float psba2ll = calculateScalar(pba2llx, pba2lly, a2x, a2y);
 
 				// axis 3
-				float psaa3ul = paa3ulx * a3x + paa3uly * a3y;
-				float psaa3ur = paa3urx * a3x + paa3ury * a3y;
-				float psaa3lr = paa3lrx * a3x + paa3lry * a3y;
-				float psaa3ll = paa3llx * a3x + paa3lly * a3y;
-
-				float psba3ul = pba3ulx * a3x + pba3uly * a3y;
-				float psba3ur = pba3urx * a3x + pba3ury * a3y;
-				float psba3lr = pba3lrx * a3x + pba3lry * a3y;
-				float psba3ll = pba3llx * a3x + pba3lly * a3y;
-
-
-				// axis 4
-				float psaa4ul = paa4ulx * a4x + paa4uly * a4y;
-				float psaa4ur = paa4urx * a4x + paa4ury * a4y;
-				float psaa4lr = paa4lrx * a4x + paa4lry * a4y;
-				float psaa4ll = paa4llx * a4x + paa4lly * a4y;
-
-				float psba4ul = pba4ulx * a4x + pba4uly * a4y;
-				float psba4ur = pba4urx * a4x + pba4ury * a4y;
-				float psba4lr = pba4lrx * a4x + pba4lry * a4y;
-				float psba4ll = pba4llx * a4x + pba4lly * a4y;
-
+				float psaa3ul = calculateScalar(paa3ulx, paa3uly, a3x, a3y);
+				float psaa3ur = calculateScalar(paa3urx, paa3ury, a3x, a3y);
+				float psaa3lr = calculateScalar(paa3lrx, paa3lry, a3x, a3y);
+				float psaa3ll = calculateScalar(paa3llx, paa3lly, a3x, a3y);
 				
+				float psba3ul = calculateScalar(pba3ulx, pba3uly, a3x, a3y);
+				float psba3ur = calculateScalar(pba3urx, pba3ury, a3x, a3y);
+				float psba3lr = calculateScalar(pba3lrx, pba3lry, a3x, a3y);
+				float psba3ll = calculateScalar(pba3llx, pba3lly, a3x, a3y);
+				
+				// axis 4
+				float psaa4ul = calculateScalar(paa4ulx, paa4uly, a4x, a4y);
+				float psaa4ur = calculateScalar(paa4urx, paa4ury, a4x, a4y);
+				float psaa4lr = calculateScalar(paa4lrx, paa4lry, a4x, a4y);
+				float psaa4ll = calculateScalar(paa4llx, paa4lly, a4x, a4y);
+				
+				float psba4ul = calculateScalar(pba4ulx, pba4uly, a4x, a4y);
+				float psba4ur = calculateScalar(pba4urx, pba4ury, a4x, a4y);
+				float psba4lr = calculateScalar(pba4lrx, pba4lry, a4x, a4y);
+				float psba4ll = calculateScalar(pba4llx, pba4lly, a4x, a4y);
+
+
+
 				// find min and max projected scalar
-
-				// axis 1
-				float minaa1 = psaa1ul;
-
-				if (minaa1 > psaa1ur) 
-					minaa1 = psaa1ur;
-	
-				if (minaa1 > psaa1lr)
-					minaa1 = psaa1lr;
-
-				if (minaa1 > psaa1ll)
-					minaa1 = psaa1ll;
-
-
-				float minba1 = psba1ul;
-
-				if (minba1 > psba1ur) 
-					minba1 = psba1ur;
-	
-				if (minba1 > psba1lr)
-					minba1 = psba1lr;
-
-				if (minba1 > psba1ll)
-					minba1 = psba1ll;
-
-
-				float maxaa1 = psaa1ul;
-
-				if (maxaa1 < psaa1ur) 
-					maxaa1 = psaa1ur;
-	
-				if (maxaa1 < psaa1lr)
-					maxaa1 = psaa1lr;
-
-				if (maxaa1 < psaa1ll)
-					maxaa1 = psaa1ll;
-
 				
-				float maxba1 = psba1ul;
+				// min/max a
+				float minaa1 = findMin(psaa1ul, psaa1ur, psaa1lr, psaa1ll);
+				float minaa2 = findMin(psaa2ul, psaa2ur, psaa2lr, psaa2ll);
+				float minaa3 = findMin(psaa3ul, psaa3ur, psaa3lr, psaa3ll);
+				float minaa4 = findMin(psaa4ul, psaa4ur, psaa4lr, psaa4ll);
 
-				if (maxba1 < psba1ur) 
-					maxba1 = psba1ur;
-	
-				if (maxba1 < psba1lr)
-					maxba1 = psba1lr;
+				float maxaa1 = findMax(psaa1ul, psaa1ur, psaa1lr, psaa1ll);
+				float maxaa2 = findMax(psaa2ul, psaa2ur, psaa2lr, psaa2ll);
+				float maxaa3 = findMax(psaa3ul, psaa3ur, psaa3lr, psaa3ll);
+				float maxaa4 = findMax(psaa4ul, psaa4ur, psaa4lr, psaa4ll);
 
-				if (maxba1 < psba1ll)
-					maxba1 = psba1ll;
+				// min/max b
+				float minba1 = findMin(psba1ul, psba1ur, psaa1lr, psaa1ll);
+				float minba2 = findMin(psba2ul, psba2ur, psaa2lr, psaa2ll);
+				float minba3 = findMin(psba3ul, psba3ur, psaa3lr, psaa3ll);
+				float minba4 = findMin(psba4ul, psba4ur, psaa4lr, psaa4ll);
 
-
-				// axis 2
-				float minaa2 = psaa2ul;
-
-				if (minaa2 > psaa2ur) 
-					minaa2 = psaa2ur;
-	
-				if (minaa2 > psaa2lr)
-					minaa2 = psaa2lr;
-
-				if (minaa2 > psaa2ll)
-					minaa2 = psaa2ll;
-
-
-				float minba2 = psba2ul;
-
-				if (minba2 > psba2ur) 
-					minba2 = psba2ur;
-	
-				if (minba2 > psba2lr)
-					minba2 = psba2lr;
-
-				if (minba2 > psba2ll)
-					minba2 = psba2ll;
-
-
-				float maxaa2 = psaa2ul;
-
-				if (maxaa2 < psaa2ur) 
-					maxaa2 = psaa2ur;
-	
-				if (maxaa2 < psaa1lr)
-					maxaa2 = psaa2lr;
-
-				if (maxaa2 < psaa2ll)
-					maxaa2 = psaa2ll;
-
-				
-				float maxba2 = psba2ul;
-
-				if (maxba2 < psba2ur) 
-					maxba2 = psba2ur;
-
-				if (maxba2 < psba2lr)
-					maxba2 = psba2lr;
-
-				if (maxba2 < psba2ll)
-					maxba2 = psba2ll;
-
-
-				// axis 3
-				float minaa3 = psaa3ul;
-
-				if (minaa3 > psaa3ur) 
-					minaa3 = psaa3ur;
-	
-				if (minaa3 > psaa3lr)
-					minaa3 = psaa3lr;
-
-				if (minaa3 > psaa3ll)
-					minaa3 = psaa3ll;
-
-
-				float minba3 = psba3ul;
-
-				if (minba3 > psba3ur) 
-					minba3 = psba3ur;
-	
-				if (minba3 > psba3lr)
-					minba3 = psba3lr;
-
-				if (minba3 > psba3ll)
-					minba3 = psba3ll;
-
-
-				float maxaa3 = psaa3ul;
-
-				if (maxaa3 < psaa3ur) 
-					maxaa3 = psaa3ur;
-	
-				if (maxaa3 < psaa3lr)
-					maxaa3 = psaa3lr;
-
-				if (maxaa3 < psaa3ll)
-					maxaa3 = psaa3ll;
-
-				
-				float maxba3 = psba3ul;
-
-				if (maxba3 < psba3ur) 
-					maxba3 = psba3ur;
-	
-				if (maxba3 < psba3lr)
-					maxba3 = psba3lr;
-
-				if (maxba3 < psba3ll)
-					maxba3 = psba3ll;
-
-
-				// axis 4
-				float minaa4 = psaa4ul;
-
-				if (minaa4 > psaa4ur) 
-					minaa4 = psaa4ur;
-	
-				if (minaa4 > psaa4lr)
-					minaa4 = psaa4lr;
-
-				if (minaa4 > psaa4ll)
-					minaa4 = psaa4ll;
-
-
-				float minba4 = psba4ul;
-
-				if (minba4 > psba4ur) 
-					minba4 = psba4ur;
-	
-				if (minba4 > psba4lr)
-					minba4 = psba4lr;
-
-				if (minba4 > psba4ll)
-					minba4 = psba4ll;
-
-
-				float maxaa4 = psaa4ul;
-
-				if (maxaa4 < psaa4ur) 
-					maxaa4 = psaa4ur;
-	
-				if (maxaa4 < psaa4lr)
-					maxaa4 = psaa4lr;
-
-				if (maxaa4 < psaa4ll)
-					maxaa4 = psaa4ll;
-
-				
-				float maxba4 = psba4ul;
-
-				if (maxba4 < psba4ur) 
-					maxba4 = psba4ur;
-	
-				if (maxba4 < psba4lr)
-					maxba4 = psba4lr;
-
-				if (maxba4 < psba1ll)
-					maxba4 = psba4ll;
-
+				float maxba1 = findMax(psba1ul, psba1ur, psba1lr, psba1ll);
+				float maxba2 = findMax(psba2ul, psba2ur, psba2lr, psba2ll);
+				float maxba3 = findMax(psba3ul, psba3ur, psba3lr, psba3ll);
+				float maxba4 = findMax(psba4ul, psba4ur, psba4lr, psba4ll);
 				
 				// finally, check for collision
-				bool collision = true;
+				bool collision1 = true;
 
-				collision = collision && minba1 <= minaa4;
-				collision = collision && maxba1 >= minaa4;
+				collision1 = collision1 && minba1 <= minaa1;
+				collision1 = collision1 && maxba1 >= minaa1;
 
-				collision = collision && minba2 <= minaa4;
-				collision = collision && maxba2 >= minaa4;
+				collision1 = collision1 && minba2 <= minaa2;
+				collision1 = collision1 && maxba2 >= minaa2;
 
-				collision = collision && minba3 <= minaa4;
-				collision = collision && maxba3 >= minaa4;
+				collision1 = collision1 && minba3 <= minaa3;
+				collision1 = collision1 && maxba3 >= minaa3;
 
-				collision = collision && minba4 <= minaa4;
-				collision = collision && maxba4 >= minaa4;
+				collision1 = collision1 && minba4 <= minaa4;
+				collision1 = collision1 && maxba4 >= minaa4;
 
-				if (collision == true)
-					std::cout << "Colliding!\n";
+
+				bool collision2 = true;
+
+				collision2 = collision2 && minaa1 <= minba1;
+				collision2 = collision2 && maxaa1 >= minba1;
+
+				collision2 = collision2 && minaa2 <= minba2;
+				collision2 = collision2 && maxaa2 >= minba2;
+
+				collision2 = collision2 && minaa3 <= minba3;
+				collision2 = collision2 && maxaa3 >= minba3;
+
+				collision2 = collision2 && minaa4 <= minba4;
+				collision2 = collision2 && maxaa4 >= minba4;
+
+				static int n = 0;
+				if (collision1) {
+					std::cout << "Colliding!" << n << "\n";
+					n++;
+				}
 				
 				// transform shape to object space
-				s1->vertices[0] -= e1->x;
-				s1->vertices[1] -= e1->y;
-				s1->vertices[3] -= e1->x; 
-			   	s1->vertices[4] -= e1->y;
-				s1->vertices[6] -= e1->x;
-				s1->vertices[7] -= e1->y;
-				s1->vertices[9] -= e1->x;
-				s1->vertices[10] -= e1->y;	
-
-				s2->vertices[0] -= e2->x;
-				s2->vertices[1] -= e2->y;
-				s2->vertices[3] -= e2->x; 
-			   	s2->vertices[4] -= e2->y;
-				s2->vertices[6] -= e2->x;
-				s2->vertices[7] -= e2->y;
-				s2->vertices[9] -= e2->x;
-				s2->vertices[10] -= e2->y;	
+				transformToEntity(s1, e1, -1);
+				transformToEntity(s2, e2, -1);
 			}
 		}
 
@@ -813,6 +597,54 @@ namespace JEngine {
 		}
 
 		SDL_GL_SwapWindow(window);
+	}
+
+	void Engine::transformToEntity(Shape* s, Entity* e, int sign) {
+		s->vertices[0] += e->x*sign;
+		s->vertices[1] += e->y*sign;
+
+		s->vertices[3] += e->x*sign;
+		s->vertices[4] += e->y*sign;
+
+		s->vertices[6] += e->x*sign;
+		s->vertices[7] += e->y*sign;
+
+		s->vertices[9] += e->x*sign;
+		s->vertices[10] += e->y*sign;
+	}
+
+	void Engine::calculateAxis(float* ax, float* ay, float v1x, float v1y, float v2x, float v2y) {
+		*ax = v1x - v2x;
+		*ay = v1y - v2y;
+	}
+
+	void Engine::calculateProjection(float* px, float* py, float v1x, float v1y, float v2x, float v2y) {
+		float projection = (v1x * v2x + v1y * v2y) / (v2x * v2x + v2y * v2y);
+
+		*px = projection*v2x;
+		*py = projection*v2y;
+	}
+
+	float Engine::calculateScalar(float v1x, float v1y, float v2x, float v2y) {
+		return v1x * v2x + v1y * v2y;
+	}
+
+	float Engine::findMin(float a, float b, float c, float d) {
+		float min = a;
+		min = (min > b) ? b : min;
+		min = (min > c) ? c : min;
+		min = (min > d) ? d : min;
+
+		return min;
+	}
+
+	float Engine::findMax(float a, float b, float c, float d) {
+		float max = a;
+		max = (max < b) ? b : max;
+		max = (max < c) ? c : max;
+		max = (max < d) ? d : max;
+
+		return max;
 	}
 
 	void Engine::quit() {
