@@ -314,11 +314,11 @@ namespace JEngine {
 
 				// A.UR
 				float paa1urx, paa1ury;
-				calculateProjection(&paa1urx, &paa1ury, s1->vertices[4], s1->vertices[5], a1x, a1y);
+				calculateProjection(&paa1urx, &paa1ury, s1->vertices[3], s1->vertices[4], a1x, a1y);
 
 				// A.LR
 				float paa1lrx, paa1lry;
-				calculateProjection(&paa1lrx, &paa1lry, s1->vertices[7], s1->vertices[8], a1x, a1y);
+				calculateProjection(&paa1lrx, &paa1lry, s1->vertices[6], s1->vertices[7], a1x, a1y);
 
 				// A.LL
 				float paa1llx, paa1lly;
@@ -331,11 +331,11 @@ namespace JEngine {
 
 				// B.UR
 				float pba1urx, pba1ury;
-				calculateProjection(&pba1urx, &pba1ury, s2->vertices[4], s2->vertices[5], a1x, a1y);
+				calculateProjection(&pba1urx, &pba1ury, s2->vertices[3], s2->vertices[4], a1x, a1y);
 
 				// B.LR
 				float pba1lrx, pba1lry;
-				calculateProjection(&pba1lrx, &pba1lry, s2->vertices[7], s2->vertices[8], a1x, a1y);
+				calculateProjection(&pba1lrx, &pba1lry, s2->vertices[6], s2->vertices[7], a1x, a1y);
 
 				// B.LL
 				float pba1llx, pba1lly;
@@ -350,11 +350,11 @@ namespace JEngine {
 
 				// A.UR
 				float paa2urx, paa2ury;
-				calculateProjection(&paa2urx, &paa2ury, s1->vertices[4], s1->vertices[5], a2x, a2y);
+				calculateProjection(&paa2urx, &paa2ury, s1->vertices[3], s1->vertices[4], a2x, a2y);
 
 				// A.LR
 				float paa2lrx, paa2lry;
-				calculateProjection(&paa2lrx, &paa2lry, s1->vertices[7], s1->vertices[8], a2x, a2y);
+				calculateProjection(&paa2lrx, &paa2lry, s1->vertices[6], s1->vertices[7], a2x, a2y);
 
 				// A.LL
 				float paa2llx, paa2lly;
@@ -367,11 +367,11 @@ namespace JEngine {
 
 				// B.UR
 				float pba2urx, pba2ury;
-				calculateProjection(&pba2urx, &pba2ury, s2->vertices[4], s2->vertices[5], a2x, a2y);
+				calculateProjection(&pba2urx, &pba2ury, s2->vertices[3], s2->vertices[4], a2x, a2y);
 
 				// B.LR
 				float pba2lrx, pba2lry;
-				calculateProjection(&pba2lrx, &pba2lry, s2->vertices[7], s2->vertices[8], a2x, a2y);
+				calculateProjection(&pba2lrx, &pba2lry, s2->vertices[6], s2->vertices[7], a2x, a2y);
 
 				// B.LL
 				float pba2llx, pba2lly;
@@ -386,11 +386,11 @@ namespace JEngine {
 
 				// A.UR
 				float paa3urx, paa3ury;
-				calculateProjection(&paa3urx, &paa3ury, s1->vertices[4], s1->vertices[5], a3x, a3y);
+				calculateProjection(&paa3urx, &paa3ury, s1->vertices[3], s1->vertices[4], a3x, a3y);
 
 				// A.LR
 				float paa3lrx, paa3lry;
-				calculateProjection(&paa3lrx, &paa3lry, s1->vertices[7], s1->vertices[8], a3x, a3y);
+				calculateProjection(&paa3lrx, &paa3lry, s1->vertices[6], s1->vertices[7], a3x, a3y);
 
 				// A.LL
 				float paa3llx, paa3lly;
@@ -403,11 +403,11 @@ namespace JEngine {
 
 				// B.UR
 				float pba3urx, pba3ury;
-				calculateProjection(&pba3urx, &pba3ury, s2->vertices[4], s2->vertices[5], a3x, a3y);
+				calculateProjection(&pba3urx, &pba3ury, s2->vertices[3], s2->vertices[4], a3x, a3y);
 
 				// B.LR
 				float pba3lrx, pba3lry;
-				calculateProjection(&pba3lrx, &pba3lry, s2->vertices[7], s2->vertices[8], a3x, a3y);
+				calculateProjection(&pba3lrx, &pba3lry, s2->vertices[6], s2->vertices[7], a3x, a3y);
 
 				// B.LL
 				float pba3llx, pba3lly;
@@ -422,11 +422,11 @@ namespace JEngine {
 
 				// A.UR
 				float paa4urx, paa4ury;
-				calculateProjection(&paa4urx, &paa4ury, s1->vertices[4], s1->vertices[5], a4x, a4y);
+				calculateProjection(&paa4urx, &paa4ury, s1->vertices[3], s1->vertices[4], a4x, a4y);
 
 				// A.LR
 				float paa4lrx, paa4lry;
-				calculateProjection(&paa4lrx, &paa4lry, s1->vertices[7], s1->vertices[8], a4x, a4y);
+				calculateProjection(&paa4lrx, &paa4lry, s1->vertices[6], s1->vertices[7], a4x, a4y);
 
 				// A.LL
 				float paa4llx, paa4lly;
@@ -439,11 +439,11 @@ namespace JEngine {
 
 				// B.UR
 				float pba4urx, pba4ury;
-				calculateProjection(&pba4urx, &pba4ury, s2->vertices[4], s2->vertices[5], a4x, a4y);
+				calculateProjection(&pba4urx, &pba4ury, s2->vertices[3], s2->vertices[4], a4x, a4y);
 
 				// B.LR
 				float pba4lrx, pba4lry;
-				calculateProjection(&pba4lrx, &pba4lry, s2->vertices[7], s2->vertices[8], a4x, a4y);
+				calculateProjection(&pba4lrx, &pba4lry, s2->vertices[6], s2->vertices[7], a4x, a4y);
 
 				// B.LL
 				float pba4llx, pba4lly;
@@ -522,40 +522,20 @@ namespace JEngine {
 				float maxba4 = findMax(psba4ul, psba4ur, psba4lr, psba4ll);
 				
 				// finally, check for collision
-				bool collision1 = true;
-
-				collision1 = collision1 && minba1 <= minaa1;
-				collision1 = collision1 && maxba1 >= minaa1;
-
-				collision1 = collision1 && minba2 <= minaa2;
-				collision1 = collision1 && maxba2 >= minaa2;
-
-				collision1 = collision1 && minba3 <= minaa3;
-				collision1 = collision1 && maxba3 >= minaa3;
-
-				collision1 = collision1 && minba4 <= minaa4;
-				collision1 = collision1 && maxba4 >= minaa4;
-
-
-				bool collision2 = true;
-
-				collision2 = collision2 && minaa1 <= minba1;
-				collision2 = collision2 && maxaa1 >= minba1;
-
-				collision2 = collision2 && minaa2 <= minba2;
-				collision2 = collision2 && maxaa2 >= minba2;
-
-				collision2 = collision2 && minaa3 <= minba3;
-				collision2 = collision2 && maxaa3 >= minba3;
-
-				collision2 = collision2 && minaa4 <= minba4;
-				collision2 = collision2 && maxaa4 >= minba4;
-
 				static int n = 0;
+				
+				
+				bool collision1 = true;
+				collision1 = collision1 && minba1 <= maxaa1 && maxba1 >= minaa1;
+				collision1 = collision1 && minba2 <= maxaa2 && maxba2 >= minaa2;
+				collision1 = collision1 && minba3 <= maxaa3 && maxba3 >= minaa3;
+				collision1 = collision1 && minba4 <= maxaa4 && maxba4 >= minaa4;
+
 				if (collision1) {
-					std::cout << "Colliding!" << n << "\n";
+					std::cout << "Colliding! " << n << "\n";
 					n++;
 				}
+				
 				
 				// transform shape to object space
 				transformToEntity(s1, e1, -1);
