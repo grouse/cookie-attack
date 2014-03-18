@@ -511,10 +511,10 @@ namespace JEngine {
 				float maxaa4 = findMax(psaa4ul, psaa4ur, psaa4lr, psaa4ll);
 
 				// min/max b
-				float minba1 = findMin(psba1ul, psba1ur, psaa1lr, psaa1ll);
-				float minba2 = findMin(psba2ul, psba2ur, psaa2lr, psaa2ll);
-				float minba3 = findMin(psba3ul, psba3ur, psaa3lr, psaa3ll);
-				float minba4 = findMin(psba4ul, psba4ur, psaa4lr, psaa4ll);
+				float minba1 = findMin(psba1ul, psba1ur, psba1lr, psba1ll);
+				float minba2 = findMin(psba2ul, psba2ur, psba2lr, psba2ll);
+				float minba3 = findMin(psba3ul, psba3ur, psba3lr, psba3ll);
+				float minba4 = findMin(psba4ul, psba4ur, psba4lr, psba4ll);
 
 				float maxba1 = findMax(psba1ul, psba1ur, psba1lr, psba1ll);
 				float maxba2 = findMax(psba2ul, psba2ur, psba2lr, psba2ll);
