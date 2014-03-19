@@ -18,7 +18,6 @@ namespace JEngine {
 
 			float x, y, z;
 
-		private:
 			Component* components[Component::NUM_TYPES];
 	
 	};

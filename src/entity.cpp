@@ -10,7 +10,14 @@ namespace JEngine {
 		this->z = z;
 	}
 
-	Entity::~Entity() {}
+	Entity::~Entity() {
+		for (int i = 0; i < Component::NUM_TYPES; i++) {
+			if (components[i] != 0) {
+				delete components[i];
+				components[i] = 0 ;
+			}
+		}
+	}
 
 	bool Entity::attach(Component* c) {
 		if (components[c->type] == 0 && c->canAttach(*this)) {

@@ -12,9 +12,6 @@ namespace JEngine {
 	}
 
 	Engine::~Engine() {
-		for (auto it = components.begin(); it != components.end(); it++) 
-			delete (*it);
-		
 		for (auto it = entities.begin(); it != entities.end(); it++) 
 			delete (*it);
 
@@ -63,7 +60,7 @@ namespace JEngine {
 		Direction* d = new Direction(1.0f, 0.0f, 0.0f);
 		player->attach(d);
 
-		Collision* c = new Collision();
+		Collision* c = new Collision(Collision::RIGID_BODY);
 		player->attach(c);
 	
 		collision_components.push_back(c);	
@@ -83,7 +80,7 @@ namespace JEngine {
 		});
 		target->attach(s2);
 		
-		Collision* c2 = new Collision();
+		Collision* c2 = new Collision(Collision::RIGID_BODY);
 		target->attach(c2);
 
 		collision_components.push_back(c2);
@@ -185,6 +182,10 @@ namespace JEngine {
 					projectile->attach(v);
 					components.push_back(v);
 
+					Collision* c = new Collision(Collision::EXPLOSIVE);
+					projectile->attach(c);
+					collision_components.push_back(c);
+
 					Direction* d = new Direction(1.0f, 0.0f, 0.0f);
 
 					int x, y;
@@ -196,6 +197,9 @@ namespace JEngine {
 
 					projectile->attach(d);
 					components.push_back(d);
+
+					projectile->x += d->x*32;
+					projectile->y += d->y*32;
 
 					entities.push_back(projectile);
 					break;
@@ -277,7 +281,13 @@ namespace JEngine {
 
 		// collision detection
 		for (int i = 0; i < collision_components.size()-1; i++) {
+			if (collision_components[i] == 0)
+				continue;
+
 			for (int j = i+1; j < collision_components.size(); j++) {
+				if (collision_components[j] == 0)
+					continue;
+
 				Entity* e1 = collision_components[i]->owner;
 				Entity* e2 = collision_components[j]->owner;
 
@@ -532,14 +542,30 @@ namespace JEngine {
 				collision1 = collision1 && minba4 <= maxaa4 && maxba4 >= minaa4;
 
 				if (collision1) {
-					std::cout << "Colliding! " << n << "\n";
-					n++;
+					Collision* c1 = collision_components[i];
+					Collision* c2 = collision_components[j];
+
+					if (c1->collision_type == Collision::EXPLOSIVE) {
+						std::cout << "exploding!\n";
+						collision_components[i] = 0;
+						deleteEntity(e1);
+						e1 = 0;
+					}
+
+					if (c2->collision_type == Collision::EXPLOSIVE) {
+						std::cout << "exploding!\n";
+						collision_components[j] = 0;
+						deleteEntity(e2);
+						e2 = 0;
+					}
 				}
 				
-				
 				// transform shape to object space
-				transformToEntity(s1, e1, -1);
-				transformToEntity(s2, e2, -1);
+				if (e1 != 0)
+					transformToEntity(s1, e1, -1);
+
+				if (e2 != 0)
+					transformToEntity(s2, e2, -1);
 			}
 		}
 
@@ -625,6 +651,17 @@ namespace JEngine {
 		max = (max < d) ? d : max;
 
 		return max;
+	}
+
+	void Engine::deleteEntity(Entity* e) {
+		for (unsigned int i = 0; i < Component::NUM_TYPES; i++) {
+			if (e->components[i] != 0) {
+				if (e->components[i]->type != Component::COLLISION) 
+					components.remove(e->components[i]);
+			}	
+		}
+
+		delete e;
 	}
 
 	void Engine::quit() {

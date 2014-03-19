@@ -29,6 +29,8 @@ namespace JEngine {
 			void quit();
 			bool isRunning();
 
+			void deleteEntity(Entity*);
+
 		private:
 			SDL_Window* window;
 			SDL_GLContext glcontext;
