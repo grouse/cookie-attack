@@ -18,11 +18,14 @@ namespace JEngine {
 	}
 
 	int System::attachComponent(int e, Component* c) {
-		//if (c->canAttach(entities[e]))
-		//	return -1;
+		if (c->canAttach(*entities[e]))
+			return -1;
 
 		components[c->type].push_back(c);
-		//entities[e]->attach(c->type, components[c->type].size()-1);
+		
+		entities[e]->attach(c->type, components[c->type].size()-1);
+		c->owner = e;		
+		
 		return components[c->type].size()-1;
 	}
 }
