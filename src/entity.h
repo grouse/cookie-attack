@@ -10,16 +10,15 @@ namespace JEngine {
 			Entity(float, float, float);
 			~Entity();
 
-			bool hasComponent(unsigned int);
-			Component* getComponent(unsigned int);
-			
-			bool attach(Component*);
+			float x, y, z;
+	
+			int attach(unsigned int, int);
 			void detach(unsigned int);
 
-			float x, y, z;
+			int getComponent(unsigned int);
 
-			Component* components[Component::NUM_TYPES];
-	
+		private:	
+			int components[Component::NUM_TYPES];
 	};
 }
 

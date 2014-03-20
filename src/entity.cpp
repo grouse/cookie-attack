@@ -3,43 +3,27 @@
 namespace JEngine {
 	Entity::Entity(float x, float y, float z) {
 		for (int i = 0; i < Component::NUM_TYPES; i++) 
-			components[i] = 0;
+			components[i] = -1;
 
 		this->x = x;
 		this->y = y;
 		this->z = z;
 	}
 
-	Entity::~Entity() {
-		for (int i = 0; i < Component::NUM_TYPES; i++) {
-			if (components[i] != 0) {
-				delete components[i];
-				components[i] = 0 ;
-			}
-		}
-	}
+	Entity::~Entity() {}
 
-	bool Entity::attach(Component* c) {
-		if (components[c->type] == 0 && c->canAttach(*this)) {
-			components[c->type] = c;
-			c->owner = this;
+	int Entity::attach(unsigned int c, int i) {
+		if (components[c] != -1)
+			return -1;
 
-			return true;
-		}
-
-		return false;
+		components[c] = i; 
 	}
 
 	void Entity::detach(unsigned int c) {
-		components[c]->owner = 0;
-		components[c] = 0;
+		components[c] = -1;	
 	}
 
-	bool Entity::hasComponent(unsigned int c) {
-		return (components[c] != 0);
-	}
-
-	Component* Entity::getComponent(unsigned int c) {
+	int Entity::getComponent(unsigned int c) {
 		return components[c];
 	}
 }
