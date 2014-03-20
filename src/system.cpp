@@ -46,4 +46,16 @@ namespace JEngine {
 	Component* System::getComponent(unsigned int t, int c) {
 		return objects->components[t][c];
 	}
+
+	void System::deleteEntity(int e) {
+		for (unsigned int i = 0; i < Component::NUM_TYPES; i++) {
+			if (objects->entities[e]->components[i] != -1) {
+				objects->components[i].erase(objects->components[i].begin() + objects->entities[e]->components[i]);
+				delete objects->components[i][objects->entities[e]->components[i]];
+			}
+		}
+
+		objects->entities.erase(objects->entities.begin() + e);
+		delete objects->entities[e];
+	}
 }

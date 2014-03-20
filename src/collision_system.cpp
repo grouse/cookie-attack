@@ -8,6 +8,9 @@ namespace JEngine {
 	CollisionSystem::~CollisionSystem() {}
 
 	void CollisionSystem::update(float dt) {
+		std::vector<int> removal;
+
+
 		for (auto it = objects->components[Component::COLLISION].begin(); it+1 != objects->components[Component::COLLISION].end(); it++) {
 			for (auto jt = objects->components[Component::COLLISION].begin()+1; jt != objects->components[Component::COLLISION].end(); jt++) {
 				Collision* c1 = (Collision*) (*it);
@@ -257,34 +260,29 @@ namespace JEngine {
 				float maxba4 = findMax(psba4ul, psba4ur, psba4lr, psba4ll);
 				
 				// finally, check for collision
-				static int n = 0;
 				
-				
-				bool collision1 = true;
-				collision1 = collision1 && minba1 <= maxaa1 && maxba1 >= minaa1;
-				collision1 = collision1 && minba2 <= maxaa2 && maxba2 >= minaa2;
-				collision1 = collision1 && minba3 <= maxaa3 && maxba3 >= minaa3;
-				collision1 = collision1 && minba4 <= maxaa4 && maxba4 >= minaa4;
+				bool collision = true;
+				collision = collision && minba1 <= maxaa1 && maxba1 >= minaa1;
+				collision = collision && minba2 <= maxaa2 && maxba2 >= minaa2;
+				collision = collision && minba3 <= maxaa3 && maxba3 >= minaa3;
+				collision = collision && minba4 <= maxaa4 && maxba4 >= minaa4;
 
-				if (collision1) {
+				if (collision) {
 
-					if (c1->collision_type == Collision::EXPLOSIVE) {
-						std::cout << "exploding!\n";
-					}
+					if (c1->collision_type == Collision::EXPLOSIVE) 
+						removal.push_back(c1->owner);
 
-					if (c2->collision_type == Collision::EXPLOSIVE) {
-						std::cout << "exploding!\n";
-					}
+					if (c2->collision_type == Collision::EXPLOSIVE) 
+						removal.push_back(c2->owner);
 				}
-				
-				// transform shape to object space
-				if (e1 != 0)
-					transformToEntity(s1, e1, -1);
-
-				if (e2 != 0)
-					transformToEntity(s2, e2, -1);
+		
+				transformToEntity(s1, e1, -1);
+				transformToEntity(s2, e2, -1);
 			}
 		}
+
+		for (unsigned int i = 0; i < removal.size(); i++)
+			deleteEntity(removal[i]);
 	}
 
 	void CollisionSystem::transformToEntity(Shape* s, Entity* e, int sign) {

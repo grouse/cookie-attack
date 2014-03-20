@@ -21,6 +21,8 @@ namespace JEngine {
 			Entity* getEntity(int);
 			Component* getComponent(unsigned int, int);
 
+			void deleteEntity(int);
+
 		protected:
 			GameObjects* objects;
 

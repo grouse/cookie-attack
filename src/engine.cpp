@@ -157,7 +157,7 @@ namespace JEngine {
 					angle += PI;
 					d->setRotation(angle);
 
-					int projectile = system->pushEntity(new Entity(t->x + d->x*40, t->y + d->y*40, t->z + d->z*40));
+					int projectile = system->pushEntity(new Entity(t->x + d->x*50, t->y + d->y*50, t->z + d->z*50));
 					system->attachComponent(projectile, d);
 						
 					system->attachComponent(projectile, new Shape({
