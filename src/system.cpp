@@ -1,5 +1,7 @@
 #include "system.h"
 
+#include <iostream>
+
 namespace JEngine {
 
 	System::System(GameObjects* objects) {
@@ -24,8 +26,10 @@ namespace JEngine {
 	}
 
 	int System::attachComponent(int e, Component* c) {
-		if (c->canAttach(*objects->entities[e]))
+		if (!c->canAttach(*objects->entities[e])) {
+			std::cout << "Failed to attach component: " << c->type << " to entity: " << e << "\n";
 			return -1;
+		}
 
 		objects->components[c->type].push_back(c);
 		
