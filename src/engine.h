@@ -10,10 +10,18 @@
 
 #include "entity.h"
 #include "component.h"
+
+#include "system.h"
+#include "movement_system.h"
+#include "collision_system.h"
+#include "render_system.h"
+
 #include "shape.h"
 #include "velocity.h"
 #include "direction.h"
 #include "collision.h"
+
+#include "game_objects.h"
 
 namespace JEngine {
 	class Engine {
@@ -39,24 +47,14 @@ namespace JEngine {
 
 			void initGL(int, int);
 
-			// tmp test ptrs
-			std::list<Entity*> entities;
-			std::list<Component*> components;
-			std::vector<Collision*> collision_components;
+			GameObjects* objects;
+			System* system;
+			std::list<System*> systems;
 
-			Entity* player;
+			int player;
 			
 			bool input_w = false, input_s = false, input_a = false, input_d = false;
 
-			// collision functions
-			void transformToEntity(Shape*, Entity*, int);
-
-			void calculateAxis(float*, float*, float, float, float, float); // &ax, &ay, v1x, v1y, v2x, v2y
-			void calculateProjection(float*, float*, float, float, float, float); // &px, &py, v1x, v1y, v2x, v2y
-			float calculateScalar(float, float, float, float); // v1x, v1y, v2x, v2y
-
-			float findMin(float, float, float, float);
-			float findMax(float, float, float, float);
 
 
 	};

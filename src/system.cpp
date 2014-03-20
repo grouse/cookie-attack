@@ -2,30 +2,44 @@
 
 namespace JEngine {
 
-	System::System(unsigned int t) : type(t) {}
+	System::System(GameObjects* objects) {
+		this->objects = objects;
+	}
+
 	System::~System() {
-		for (auto it = entities.begin(); it < entities.end(); it++)
+		for (auto it = objects->entities.begin(); it < objects->entities.end(); it++)
 			delete (*it);
 
 		for (unsigned int i = 0; i < Component::NUM_TYPES; i++) 
-			for (auto it = components[i].begin(); it < components[i].end(); it++)
+			for (auto it = objects->components[i].begin(); it < objects->components[i].end(); it++)
 				delete (*it);
 	}
 
+
+	void System::update(float dt) {}
+
 	int System::pushEntity(Entity* e) {
-		entities.push_back(e);
-		return entities.size()-1;
+		objects->entities.push_back(e);
+		return objects->entities.size()-1;
 	}
 
 	int System::attachComponent(int e, Component* c) {
-		if (c->canAttach(*entities[e]))
+		if (c->canAttach(*objects->entities[e]))
 			return -1;
 
-		components[c->type].push_back(c);
+		objects->components[c->type].push_back(c);
 		
-		entities[e]->attach(c->type, components[c->type].size()-1);
+		objects->entities[e]->attach(c->type, objects->components[c->type].size()-1);
 		c->owner = e;		
 		
-		return components[c->type].size()-1;
+		return objects->components[c->type].size()-1;
+	}
+
+	Entity* System::getEntity(int e) {
+		return objects->entities[e];
+	}
+
+	Component* System::getComponent(unsigned int t, int c) {
+		return objects->components[t][c];
 	}
 }

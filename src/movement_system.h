@@ -5,13 +5,13 @@
 #include "entity.h"
 #include "component.h"
 #include "velocity.h"
-#include "diretion.h"
+#include "direction.h"
 
 namespace JEngine {
 
 	class MovementSystem : public System {
 		public:
-			MovementSystem();
+			MovementSystem(GameObjects*);
 			~MovementSystem();
 
 			virtual void update(float dt);

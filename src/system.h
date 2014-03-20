@@ -5,27 +5,24 @@
 
 #include "entity.h"
 #include "component.h"
+#include "game_objects.h"
 
 namespace JEngine {
 	class System {
 		public:
-			System(unsigned int t);
+			System(GameObjects*);
 			virtual ~System();
 
-			const unsigned int type;
-			static const unsigned int
-				RENDER = 0,
-				COLLISION = 1,
-				MOVEMENT = 2,
-				NUM_TYPES = 3;
-
-			virtual void update(float) = 0;
+			virtual void update(float);
 
 			int pushEntity(Entity*);
 			int attachComponent(int, Component*);
+
+			Entity* getEntity(int);
+			Component* getComponent(unsigned int, int);
+
 		protected:
-			static std::vector<Component*> components[Component::NUM_TYPES];
-			static std::vector<Entity*> entities;
+			GameObjects* objects;
 
 	};
 }

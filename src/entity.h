@@ -16,8 +16,6 @@ namespace JEngine {
 			void detach(unsigned int);
 
 			int getComponent(unsigned int);
-
-		private:	
 			int components[Component::NUM_TYPES];
 	};
 }

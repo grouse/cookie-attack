@@ -2,14 +2,19 @@
 
 namespace JEngine {
 	
-	RenderSystem::RenderSystem() : System(System::RENDER) {}
+	RenderSystem::RenderSystem(GameObjects* objects, SDL_Window* w) : System(objects) {
+		window = w;
+	}
 
 	RenderSystem::~RenderSystem() {}
 
 	void RenderSystem::update(float dt) {
-		for (auto it = components[Component::SHAPE].begin(); it != components[Component::SHAPE].end(); it++) {
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
+		for (auto it = objects->components[Component::SHAPE].begin(); it != objects->components[Component::SHAPE].end(); it++) {
 			Shape* s = (Shape*) (*it);
-			Entity* e = entities[s->owner];
+			Entity* e = objects->entities[s->owner];
 
 			glLoadIdentity();
 			glTranslatef(e->x, e->y, e->z);
@@ -25,5 +30,7 @@ namespace JEngine {
 			
 			glTranslatef(-e->x, -e->y, -e->z);
 		}
+		
+		SDL_GL_SwapWindow(window);
 	}
 }
