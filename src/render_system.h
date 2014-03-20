@@ -1,6 +1,8 @@
 #ifndef RENDER_SYSTEM_H
 #define RENDER_SYSTEM_H
 
+#include <SDL2/SDL_opengl.h>
+
 #include "system.h"
 #include "entity.h"
 #include "component.h"

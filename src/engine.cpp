@@ -547,16 +547,10 @@ namespace JEngine {
 
 					if (c1->collision_type == Collision::EXPLOSIVE) {
 						std::cout << "exploding!\n";
-						collision_components[i] = 0;
-						deleteEntity(e1);
-						e1 = 0;
 					}
 
 					if (c2->collision_type == Collision::EXPLOSIVE) {
 						std::cout << "exploding!\n";
-						collision_components[j] = 0;
-						deleteEntity(e2);
-						e2 = 0;
 					}
 				}
 				
@@ -566,39 +560,6 @@ namespace JEngine {
 
 				if (e2 != 0)
 					transformToEntity(s2, e2, -1);
-			}
-		}
-
-		for (auto it = entities.begin(); it != entities.end(); it++) {
-			Entity* e = (*it);
-
-			if (e->hasComponent(Component::VELOCITY) && e->hasComponent(Component::DIRECTION)) {
-				
-				Velocity* v = (Velocity*) e->getComponent(Component::VELOCITY);
-				Direction* d = (Direction*) e->getComponent(Component::DIRECTION);	
-								
-				e->x += v->x*d->x*dt;
-				e->y += v->y*d->y*dt;
-				e->z += v->z*d->z*dt;
-			}
-
-			if (e->hasComponent(Component::SHAPE)) {
-
-				glLoadIdentity();
-
-				glTranslatef(e->x, e->y, e->z);
-				glColor3f(255, 255, 255);
-				
-				Shape* s = (Shape*) e->getComponent(Component::SHAPE);
-
-				glVertexPointer(
-						3, GL_FLOAT, 0, 
-						s->vertices.data()
-					);
-
-				glDrawArrays(GL_QUADS, 0, 4);
-				
-				glTranslatef(-e->x, -e->y, -e->z);
 			}
 		}
 
@@ -651,17 +612,6 @@ namespace JEngine {
 		max = (max < d) ? d : max;
 
 		return max;
-	}
-
-	void Engine::deleteEntity(Entity* e) {
-		for (unsigned int i = 0; i < Component::NUM_TYPES; i++) {
-			if (e->components[i] != 0) {
-				if (e->components[i]->type != Component::COLLISION) 
-					components.remove(e->components[i]);
-			}	
-		}
-
-		delete e;
 	}
 
 	void Engine::quit() {

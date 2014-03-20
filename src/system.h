@@ -16,7 +16,8 @@ namespace JEngine {
 			static const unsigned int
 				RENDER = 0,
 				COLLISION = 1,
-				NUM_TYPES = 2
+				MOVEMENT = 2,
+				NUM_TYPES = 3;
 
 			virtual void update(float) = 0;
 
