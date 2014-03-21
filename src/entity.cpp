@@ -2,7 +2,7 @@
 
 namespace JEngine {
 	Entity::Entity(float x, float y, float z) {
-		for (int i = 0; i < Component::NUM_TYPES; i++) 
+		for (unsigned int i = 0; i < Component::NUM_TYPES; i++) 
 			components[i] = 0;
 
 		this->x = x;

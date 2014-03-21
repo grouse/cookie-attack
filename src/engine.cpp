@@ -171,16 +171,8 @@ namespace JEngine {
 					break;
 			}
 		}
-
-		
-		if (e.type == SDL_MOUSEMOTION) {
-			SDL_MouseMotionEvent motion = e.motion;
-
-			float angle = atan2(player->y-e.motion.y, player->x-e.motion.x);
-			angle += PI;
-
-		}
 	}
+
 	void Engine::update(float dt) {
 		Direction* d = (Direction*) player->components[Component::DIRECTION];
 		Velocity* v = (Velocity*) player->components[Component::VELOCITY];
