@@ -10,8 +10,8 @@ namespace JEngine {
 	class GameObjects {
 
 		public: 
-			GameObjects() {}
-			~GameObjects() {}
+			GameObjects();
+			~GameObjects();
 
 			std::list<Component*> components[Component::NUM_TYPES];
 			std::list<Entity*> entities;

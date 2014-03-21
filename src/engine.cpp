@@ -15,6 +15,9 @@ namespace JEngine {
 		SDL_DestroyWindow(window);
 		SDL_GL_DeleteContext(glcontext);
 		SDL_Quit();
+
+		delete system;
+		delete objects;
 	}
 
 	int Engine::init(const char* title, int w, int h) {

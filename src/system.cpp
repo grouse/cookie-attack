@@ -8,14 +8,7 @@ namespace JEngine {
 		this->objects = objects;
 	}
 
-	System::~System() {
-		for (auto it = objects->entities.begin(); it != objects->entities.end(); it++)
-			delete (*it);
-
-		for (unsigned int i = 0; i < Component::NUM_TYPES; i++) 
-			for (auto it = objects->components[i].begin(); it != objects->components[i].end(); it++)
-				delete (*it);
-	}
+	System::~System() {}
 
 
 	void System::update(float dt) {}
