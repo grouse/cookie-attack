@@ -9,13 +9,11 @@ namespace JEngine {
 		for (auto it = objects->components[Component::VELOCITY].begin(); it != objects->components[Component::VELOCITY].end(); it++) {
 
 			Velocity* v = (Velocity*) (*it);
-			Entity* e = objects->entities[v->owner];
+			Entity* e = v->owner;;
 
-			int direction = e->getComponent(Component::DIRECTION);
+			Direction* d = (Direction*) e->components[Component::DIRECTION];
 
-			if (direction != -1) {
-				Direction* d = (Direction*) (objects->components[Component::DIRECTION][direction]);
-
+			if (d != 0) {
 				e->x += v->x*d->x*dt;
 				e->y += v->y*d->y*dt;
 				e->z += v->z*d->z*dt;

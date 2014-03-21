@@ -8,19 +8,24 @@ namespace JEngine {
 	CollisionSystem::~CollisionSystem() {}
 
 	void CollisionSystem::update(float dt) {
-		std::vector<int> removal;
+		std::list<Entity*> removal;
 
+		auto itr = objects->components[Component::COLLISION].rbegin();
+		itr++;
 
-		for (auto it = objects->components[Component::COLLISION].begin(); it+1 != objects->components[Component::COLLISION].end(); it++) {
-			for (auto jt = objects->components[Component::COLLISION].begin()+1; jt != objects->components[Component::COLLISION].end(); jt++) {
+		for (auto it = objects->components[Component::COLLISION].begin(); it != --(itr.base()); it++) {
+			
+			auto jt = it;
+
+			for (jt++; jt != objects->components[Component::COLLISION].end(); jt++) {
 				Collision* c1 = (Collision*) (*it);
 				Collision* c2 = (Collision*) (*jt);
 
-				Entity* e1 = objects->entities[c1->owner];
-				Entity* e2 = objects->entities[c2->owner];
+				Entity* e1 = c1->owner;
+				Entity* e2 = c2->owner;
 
-				Shape* s1 = (Shape*) (objects->components[Component::SHAPE][e1->components[Component::SHAPE]]);
-				Shape* s2 = (Shape*) (objects->components[Component::SHAPE][e2->components[Component::SHAPE]]);
+				Shape* s1 = (Shape*) (e1->components[Component::SHAPE]);
+				Shape* s2 = (Shape*) (e2->components[Component::SHAPE]);
 				
 				// separating axis theorem
 				
@@ -270,10 +275,10 @@ namespace JEngine {
 				if (collision) {
 
 					if (c1->collision_type == Collision::EXPLOSIVE) 
-						removal.push_back(c1->owner);
+						removal.push_back(e1);
 
 					if (c2->collision_type == Collision::EXPLOSIVE) 
-						removal.push_back(c2->owner);
+						removal.push_back(e2);
 				}
 		
 				transformToEntity(s1, e1, -1);
@@ -281,8 +286,9 @@ namespace JEngine {
 			}
 		}
 
-		for (unsigned int i = 0; i < removal.size(); i++)
-			deleteEntity(removal[i]);
+		for (auto it = removal.begin(); it != removal.end(); it++)
+			deleteEntity((*it));
+	
 	}
 
 	void CollisionSystem::transformToEntity(Shape* s, Entity* e, int sign) {

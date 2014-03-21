@@ -61,7 +61,7 @@ namespace JEngine {
 		system->attachComponent(player, new Direction(1.0f, 0.0f, 0.0f));
 		system->attachComponent(player, new Collision(Collision::RIGID_BODY));
 
-		int target = system->pushEntity(new Entity(200.0f, 200.0f, 0.0f));
+		Entity* target = system->pushEntity(new Entity(200.0f, 200.0f, 0.0f));
 	
 		system->attachComponent(target, new Shape({
 			-16.0f, -16.0f, 0.0f,
@@ -146,18 +146,16 @@ namespace JEngine {
 					break;
 
 				case SDLK_f:
-					Entity* t = system->getEntity(player);
-					
 					Direction* d = new Direction(1.0f, 0.0f, 0.0f);
 
 					int x, y;
 					SDL_GetMouseState(&x, &y);
 
-					float angle = atan2(t->y-y, t->x-x);
+					float angle = atan2(player->y-y, player->x-x);
 					angle += PI;
 					d->setRotation(angle);
 
-					int projectile = system->pushEntity(new Entity(t->x + d->x*50, t->y + d->y*50, t->z + d->z*50));
+					Entity* projectile = system->pushEntity(new Entity(player->x + d->x*50, player->y + d->y*50, player->z + d->z*50));
 					system->attachComponent(projectile, d);
 						
 					system->attachComponent(projectile, new Shape({
@@ -177,26 +175,22 @@ namespace JEngine {
 		
 		if (e.type == SDL_MOUSEMOTION) {
 			SDL_MouseMotionEvent motion = e.motion;
-			Entity* t = system->getEntity(player);
 
-			float angle = atan2(t->y-e.motion.y, t->x-e.motion.x);
+			float angle = atan2(player->y-e.motion.y, player->x-e.motion.x);
 			angle += PI;
 
-			((Direction*) system->getComponent(Component::DIRECTION, t->components[Component::DIRECTION]));
 		}
 	}
 	void Engine::update(float dt) {
-		Entity* t = system->getEntity(player);
-
-		Direction* d = (Direction*) system->getComponent(Component::DIRECTION, t->components[Component::DIRECTION]);
-		Velocity* v = (Velocity*) system->getComponent(Component::VELOCITY, t->components[Component::VELOCITY]);
-		Shape* s = (Shape*) system->getComponent(Component::SHAPE, t->components[Component::SHAPE]);
+		Direction* d = (Direction*) player->components[Component::DIRECTION];
+		Velocity* v = (Velocity*) player->components[Component::VELOCITY];
+		Shape* s = (Shape*) player->components[Component::SHAPE];
 
 		int x, y;
 		SDL_GetMouseState(&x, &y);
 
 		double angle;
-		angle = atan2(t->y-y, t->x-x);
+		angle = atan2(player->y-y, player->x-x);
 		angle += PI;
 
 		s->setRotation(angle);

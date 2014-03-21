@@ -6,8 +6,8 @@
 namespace JEngine {
 	
 	Shape::Shape(std::initializer_list<GLfloat> v) : 
-		vertices(v),
-		Component(Component::SHAPE) {
+		Component(Component::SHAPE),
+  		vertices(v)	{
 		
 			rotation = 0;
 	}

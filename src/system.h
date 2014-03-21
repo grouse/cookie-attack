@@ -15,13 +15,13 @@ namespace JEngine {
 
 			virtual void update(float);
 
-			int pushEntity(Entity*);
-			int attachComponent(int, Component*);
+			Entity* pushEntity(Entity*);
+			Component* attachComponent(Entity*, Component*);
 
 			Entity* getEntity(int);
 			Component* getComponent(unsigned int, int);
 
-			void deleteEntity(int);
+			void deleteEntity(Entity*);
 
 		protected:
 			GameObjects* objects;

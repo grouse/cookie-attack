@@ -14,7 +14,7 @@ namespace JEngine {
 		
 		for (auto it = objects->components[Component::SHAPE].begin(); it != objects->components[Component::SHAPE].end(); it++) {
 			Shape* s = (Shape*) (*it);
-			Entity* e = objects->entities[s->owner];
+			Entity* e = s->owner;
 
 			glLoadIdentity();
 			glTranslatef(e->x, e->y, e->z);

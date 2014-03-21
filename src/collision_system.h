@@ -1,6 +1,8 @@
 #ifndef COLLISION_SYSTEM_H
 #define COLLISION_SYSTEM_H
 
+#include <list>
+
 #include "system.h"
 #include "entity.h"
 #include "component.h"

@@ -1,7 +1,7 @@
 #ifndef GAME_OBJECTS_H
 #define GAME_OBJECTS_H
 
-#include <vector>
+#include <list>
 
 #include "entity.h"
 #include "component.h"
@@ -13,8 +13,8 @@ namespace JEngine {
 			GameObjects() {}
 			~GameObjects() {}
 
-			std::vector<Component*> components[Component::NUM_TYPES];
-			std::vector<Entity*> entities;
+			std::list<Component*> components[Component::NUM_TYPES];
+			std::list<Entity*> entities;
 	};
 }
 

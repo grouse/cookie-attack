@@ -51,7 +51,7 @@ namespace JEngine {
 			System* system;
 			std::list<System*> systems;
 
-			int player;
+			Entity* player;
 			
 			bool input_w = false, input_s = false, input_a = false, input_d = false;
 

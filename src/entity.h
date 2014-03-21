@@ -12,11 +12,9 @@ namespace JEngine {
 
 			float x, y, z;
 	
-			int attach(unsigned int, int);
-			void detach(unsigned int);
+			int attach(unsigned int, Component*);
 
-			int getComponent(unsigned int);
-			int components[Component::NUM_TYPES];
+			Component* components[Component::NUM_TYPES];
 	};
 }
 

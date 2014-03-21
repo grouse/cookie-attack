@@ -9,53 +9,49 @@ namespace JEngine {
 	}
 
 	System::~System() {
-		for (auto it = objects->entities.begin(); it < objects->entities.end(); it++)
+		for (auto it = objects->entities.begin(); it != objects->entities.end(); it++)
 			delete (*it);
 
 		for (unsigned int i = 0; i < Component::NUM_TYPES; i++) 
-			for (auto it = objects->components[i].begin(); it < objects->components[i].end(); it++)
+			for (auto it = objects->components[i].begin(); it != objects->components[i].end(); it++)
 				delete (*it);
 	}
 
 
 	void System::update(float dt) {}
 
-	int System::pushEntity(Entity* e) {
+	Entity* System::pushEntity(Entity* e) {
 		objects->entities.push_back(e);
-		return objects->entities.size()-1;
+		return e;
 	}
 
-	int System::attachComponent(int e, Component* c) {
-		if (!c->canAttach(*objects->entities[e])) {
+	Component* System::attachComponent(Entity* e, Component* c) {
+		if (!c->canAttach(*e)) {
 			std::cout << "Failed to attach component: " << c->type << " to entity: " << e << "\n";
-			return -1;
+			return 0;
 		}
 
 		objects->components[c->type].push_back(c);
-		
-		objects->entities[e]->attach(c->type, objects->components[c->type].size()-1);
+	
+		e->attach(c->type, c);
 		c->owner = e;		
 		
-		return objects->components[c->type].size()-1;
+		return c;
 	}
-
-	Entity* System::getEntity(int e) {
-		return objects->entities[e];
-	}
-
-	Component* System::getComponent(unsigned int t, int c) {
-		return objects->components[t][c];
-	}
-
-	void System::deleteEntity(int e) {
+	
+	void System::deleteEntity(Entity* e) {
 		for (unsigned int i = 0; i < Component::NUM_TYPES; i++) {
-			if (objects->entities[e]->components[i] != -1) {
-				objects->components[i].erase(objects->components[i].begin() + objects->entities[e]->components[i]);
-				delete objects->components[i][objects->entities[e]->components[i]];
+			if (e->components[i] != 0) {
+				objects->components[i].remove(e->components[i]);
+				
+				delete e->components[i];
+				e->components[i] = 0;
 			}
 		}
 
-		objects->entities.erase(objects->entities.begin() + e);
-		delete objects->entities[e];
+		objects->entities.remove(e);
+		
+		delete e;
+		e = 0;
 	}
 }
