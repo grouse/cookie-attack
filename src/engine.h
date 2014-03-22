@@ -15,11 +15,13 @@
 #include "movement_system.h"
 #include "collision_system.h"
 #include "render_system.h"
+#include "life_time_system.h"
 
 #include "shape.h"
 #include "velocity.h"
 #include "direction.h"
 #include "collision.h"
+#include "life_time.h"
 
 #include "game_objects.h"
 

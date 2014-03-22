@@ -47,6 +47,7 @@ namespace JEngine {
 		objects = new GameObjects();
 		system = new System(objects);
 
+		systems.push_back(new LifeTimeSystem(objects));
 		systems.push_back(new MovementSystem(objects));
 		systems.push_back(new CollisionSystem(objects));
 		systems.push_back(new RenderSystem(objects, window));
@@ -170,6 +171,7 @@ namespace JEngine {
 
 					system->attachComponent(projectile, new Velocity(1000.0f, 1000.0f, 0.0f, 1.0f, 1.0f, 100.0f));
 					system->attachComponent(projectile, new Collision(Collision::EXPLOSIVE));
+					system->attachComponent(projectile, new LifeTime(5));
 				
 					break;
 			}

@@ -16,7 +16,8 @@ namespace JEngine {
 				TEXTURE = 2,
 				DIRECTION = 3,
 				COLLISION = 4,
-				NUM_TYPES = 5;
+				LIFETIME = 5,
+				NUM_TYPES = 6;
 
 			
 			const unsigned int type;
