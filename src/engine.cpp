@@ -63,7 +63,10 @@ namespace JEngine {
 
 		system->attachComponent(player, new Velocity(0.0f, 0.0f, 0.0f, 1000.0f, 1000.0f, 400.0f));
 		system->attachComponent(player, new Direction(1.0f, 0.0f, 0.0f));
-		system->attachComponent(player, new Collision(Collision::RIGID_BODY));
+
+		system->attachComponent(player, new Collision([] (Entity* e1, Entity* e2) {
+			std::cout << "test\n";				
+		}));
 
 		Entity* target = system->pushEntity(new Entity(200.0f, 200.0f, 0.0f));
 	
@@ -74,7 +77,9 @@ namespace JEngine {
 			-16.0f, 16.0f, 0.0f,
 		}));
 	
-		system->attachComponent(target, new Collision(Collision::RIGID_BODY));
+		system->attachComponent(target, new Collision([] (Entity* e1, Entity* e2) {
+			std::cout << "test\n";				
+		}));
 
 		run = true;
 		return 0;
@@ -170,7 +175,10 @@ namespace JEngine {
 					}));
 
 					system->attachComponent(projectile, new Velocity(1000.0f, 1000.0f, 0.0f, 1.0f, 1.0f, 100.0f));
-					system->attachComponent(projectile, new Collision(Collision::EXPLOSIVE));
+					system->attachComponent(projectile, new Collision([] (Entity* e1, Entity* e2) {
+						std::cout << "test\n";				
+					}));
+		
 					system->attachComponent(projectile, new LifeTime(5));
 				
 					break;

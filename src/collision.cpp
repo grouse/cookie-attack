@@ -1,9 +1,9 @@
 #include "collision.h"
 
 namespace JEngine {
-	Collision::Collision(unsigned int t) : 
-		Component(Component::COLLISION),
-   		collision_type(t)	{}
+	Collision::Collision(void (*response)(Entity*, Entity*)) : Component(Component::COLLISION)	{
+		this->response = response;
+	}
 
 	Collision::~Collision() {}
 

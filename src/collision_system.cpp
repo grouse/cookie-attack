@@ -273,12 +273,8 @@ namespace JEngine {
 				collision = collision && minba4 <= maxaa4 && maxba4 >= minaa4;
 
 				if (collision) {
-
-					if (c1->collision_type == Collision::EXPLOSIVE) 
-						removal.push_back(e1);
-
-					if (c2->collision_type == Collision::EXPLOSIVE) 
-						removal.push_back(e2);
+					c1->response(e1, e2);
+					c2->response(e2, e1);
 				}
 		
 				transformToEntity(s1, e1, -1);

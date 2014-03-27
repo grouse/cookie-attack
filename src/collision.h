@@ -7,16 +7,11 @@
 namespace JEngine {
 	class Collision : public Component {
 		public:
-			Collision(unsigned int);
+			Collision(void (*response)(Entity*, Entity*));
 			virtual ~Collision();
 
 			virtual bool canAttach(Entity&);
-
-			static const unsigned int
-				EXPLOSIVE = 0,
-				RIGID_BODY = 1;
-
-			const unsigned int collision_type;
+			void (*response)(Entity*, Entity*);
 	};
 }
 
