@@ -22,6 +22,7 @@
 #include "direction.h"
 #include "collision.h"
 #include "life_time.h"
+#include "texture.h"
 
 #include "game_objects.h"
 

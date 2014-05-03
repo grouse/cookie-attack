@@ -2,6 +2,9 @@
 
 #include <math.h>
 
+
+#include <stb_image.h>
+
 static const double PI = 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348;
 
 namespace JEngine {
@@ -68,6 +71,22 @@ namespace JEngine {
 			std::cout << "test\n";				
 		}));
 
+		Texture* t = new Texture("data/ship.png");
+
+		glGenTextures(1, &t->GLid);
+		glActiveTexture(GL_TEXTURE0);
+		
+		glBindTexture(GL_TEXTURE_2D, t->GLid);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		unsigned char* data = stbi_load(t->filename, &t->width, &t->height, &t->components, 0);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, t->width, t->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		stbi_image_free(data);
+
+		system->attachComponent(player, t);
+
 		Entity* target = system->pushEntity(new Entity(200.0f, 200.0f, 0.0f));
 	
 		system->attachComponent(target, new Shape({
@@ -92,7 +111,9 @@ namespace JEngine {
 		glShadeModel(GL_SMOOTH);
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClearDepth(1.0f);
+		
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_TEXTURE_2D);
 		glEnableClientState(GL_VERTEX_ARRAY);
 
 
