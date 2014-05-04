@@ -19,10 +19,12 @@ namespace JEngine {
 
 			virtual void update(float);
 
+			
+
 		private:
 			SDL_Window* window;
 
-			float uv[12];
+			float uv[8];
 	};
 }
 

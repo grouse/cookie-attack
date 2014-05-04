@@ -1,5 +1,7 @@
 #include "texture.h"
 
+#include <iostream>
+
 namespace JEngine {
 	
 	Texture::Texture(const char* filename) : Component(Component::TEXTURE) {
@@ -19,11 +21,11 @@ namespace JEngine {
 
 		stbi_image_free(pixels);
 
-		glBindTexture(GL_TEXTURE_2D, NULL);
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
 	Texture::~Texture() {
-	
+		glDeleteTextures(1, &GLtex);
 	}
 
 	bool Texture::canAttach(Entity& e) {

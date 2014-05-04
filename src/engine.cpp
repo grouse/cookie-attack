@@ -71,7 +71,7 @@ namespace JEngine {
 			std::cout << "test\n";				
 		}));
 
-		system->attachComponent(player, new Texture("/home/grouse/Projects/cookie-attack/assets/ship.png");
+		system->attachComponent(player, new Texture("assets/ship.png"));
 
 		Entity* target = system->pushEntity(new Entity(200.0f, 200.0f, 0.0f));
 	
@@ -85,6 +85,8 @@ namespace JEngine {
 		system->attachComponent(target, new Collision([] (Entity* e1, Entity* e2) {
 			std::cout << "test\n";				
 		}));
+
+		std::cout << glGetString(GL_VERSION) << "\n";
 
 		run = true;
 		return 0;
@@ -205,9 +207,9 @@ namespace JEngine {
 
 		double angle;
 		angle = atan2(player->y-y, player->x-x);
-		angle += PI;
+		angle += PI;	
 
-		s->setRotation(angle);
+		s->setRotation(angle + PI/2);
 
 		if (input_w || input_a || input_s || input_d) {
 			d->setRotation(angle);

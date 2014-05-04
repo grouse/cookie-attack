@@ -24,6 +24,8 @@ namespace JEngine {
 			std::vector<GLfloat> vertices;
 
 			double rotation;
+
+			GLuint vbo;
 	};
 }
 

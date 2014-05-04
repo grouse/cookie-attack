@@ -10,14 +10,15 @@ namespace JEngine {
 		uv[0] = 0.0f;
 		uv[1] = 0.0f;
 
-		uv[2] = 32.0f;
+		uv[2] = 1.0f;
 		uv[3] = 0.0f;
 
-		uv[4] = 32.0f;
-		uv[5] = 32.0f;
+		uv[4] = 1.0f;
+		uv[5] = 1.0f;
 
 		uv[6] = 0.0f;
-		uv[7] = 32.0f;
+		uv[7] = 1.0f;
+
 	}
 
 	RenderSystem::~RenderSystem() {}
@@ -33,24 +34,24 @@ namespace JEngine {
 			glLoadIdentity();
 			glTranslatef(e->x, e->y, e->z);
 
-			if (e->components[Component::TEXTURE] != 0) {
-				Texture* t = (Texture*) e->components[Component::TEXTURE];
-				glBindTexture(GL_TEXTURE_2D, t->GLtex);
-	
-				glTexCoordPointer(2, GL_FLOAT, sizeof(float)*6, (GLvoid*)(sizeof(float)*3));
-			} else {
-				glColor3f(255, 255, 255);
-			}
 
 			glVertexPointer(
 				3, GL_FLOAT, 0,
 				s->vertices.data()
 			);
+			
+			if (e->components[Component::TEXTURE] != 0) {
+				Texture* t = (Texture*) e->components[Component::TEXTURE];
+				glBindTexture(GL_TEXTURE_2D, t->GLtex);
+				glTexCoordPointer(2, GL_FLOAT, 0, uv);
 
-			glDrawArrays(GL_QUADS, 0, 4);
-
-			if (e->components[Component::TEXTURE] != 0)
+				glDrawArrays(GL_QUADS, 0, 4);
 				glBindTexture(GL_TEXTURE_2D, 0);
+			} else {
+				glColor3f(255, 255, 255);
+				glDrawArrays(GL_QUADS, 0, 4);
+			}
+
 			
 			glTranslatef(-e->x, -e->y, -e->z);
 		}
