@@ -1,18 +1,19 @@
 CPP_FILES := $(wildcard src/*.cpp)
-OBJ_FILES := $(addprefix obj/,$(notdir $(CPP_FILES:.cpp=.o))) obj/stb_image.o
+OBJ_FILES := obj/stb_image.o $(addprefix obj/,$(notdir $(CPP_FILES:.cpp=.o)))
 
 CC = g++
 DEBUG = -g -Wall
 CFLAGS = -c -std=c++11 -MMD $(DEBUG)
 LFLAGS = -lGL -lSDL2 $(DEBUG)
+INC = -Ilib/stb
 
 cookie-attack: $(OBJ_FILES)
 	$(CC) $(LFLAGS) -o $@ $^
 
-obj/stb_image.o: ext/stb_image.c
+obj/stb_image.o: ext/stb/stb_image.c ext/stb/stb_image.h
 	$(CC) $(CFLAGS) -o $@ $<
 
 obj/%.o: src/%.cpp
-	$(CC) $(CFLAGS) -o $@ $<
+	$(CC) $(CFLAGS) $(INC) -o $@ $<
 
 -include $(OBJ_FILES:.o=.d)

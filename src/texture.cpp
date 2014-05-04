@@ -2,8 +2,8 @@
 
 namespace JEngine {
 	
-	Texture::Texture(char* filename) : Component(Component::TEXTURE) {
-		
+	Texture::Texture(const char* filename) : Component(Component::TEXTURE) {
+		this->filename = filename;
 	}
 
 	Texture::~Texture() {

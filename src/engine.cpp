@@ -3,7 +3,7 @@
 #include <math.h>
 
 
-#include <stb_image.h>
+#include "stb_image.c"
 
 static const double PI = 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348;
 
@@ -73,10 +73,10 @@ namespace JEngine {
 
 		Texture* t = new Texture("data/ship.png");
 
-		glGenTextures(1, &t->GLid);
+		glGenTextures(1, &t->GLtex);
 		glActiveTexture(GL_TEXTURE0);
 		
-		glBindTexture(GL_TEXTURE_2D, t->GLid);
+		glBindTexture(GL_TEXTURE_2D, t->GLtex);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
