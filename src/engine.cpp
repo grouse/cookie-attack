@@ -71,23 +71,7 @@ namespace JEngine {
 			std::cout << "test\n";				
 		}));
 
-		Texture* t = new Texture("/home/grouse/Projects/cookie-attack/assets/ship.png");
-
-		unsigned char* data = stbi_load(t->filename, &t->width, &t->height, &t->components, 0);
-		glGenTextures(1, &t->GLtex);
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, t->GLtex);
-	
-
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, t->width, t->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-
-		stbi_image_free(data);
-
-		system->attachComponent(player, t);
+		system->attachComponent(player, new Texture("/home/grouse/Projects/cookie-attack/assets/ship.png");
 
 		Entity* target = system->pushEntity(new Entity(200.0f, 200.0f, 0.0f));
 	

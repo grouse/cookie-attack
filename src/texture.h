@@ -20,6 +20,8 @@ namespace JEngine {
 			int width, height;
 			int components;
 
+			GLuint vbo, ibo;
+
 
 	};
 }
