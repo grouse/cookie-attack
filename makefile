@@ -10,7 +10,7 @@ INC = -Ilib/stb
 cookie-attack: $(OBJ_FILES)
 	$(CC) $(LFLAGS) -o $@ $^
 
-obj/stb_image.o: ext/stb/stb_image.c ext/stb/stb_image.h
+obj/stb_image.o: lib/stb/stb_image.c lib/stb/stb_image.h
 	$(CC) $(CFLAGS) -o $@ $<
 
 obj/%.o: src/%.cpp

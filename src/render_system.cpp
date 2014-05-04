@@ -1,9 +1,23 @@
 #include "render_system.h"
 
+#include <iostream>
+
 namespace JEngine {
 	
 	RenderSystem::RenderSystem(GameObjects* objects, SDL_Window* w) : System(objects) {
 		window = w;
+
+		uv[0] = 0.0f;
+		uv[1] = 0.0f;
+
+		uv[2] = 32.0f;
+		uv[3] = 0.0f;
+
+		uv[4] = 32.0f;
+		uv[5] = 32.0f;
+
+		uv[6] = 0.0f;
+		uv[7] = 32.0f;
 	}
 
 	RenderSystem::~RenderSystem() {}
@@ -19,7 +33,19 @@ namespace JEngine {
 			glLoadIdentity();
 			glTranslatef(e->x, e->y, e->z);
 
-			glColor3f(255, 255, 255);
+			if (e->components[Component::TEXTURE] != 0) {
+				Texture* t = (Texture*) e->components[Component::TEXTURE];
+				glBindTexture(GL_TEXTURE_2D, t->GLtex);
+	
+				unsigned int vbo;
+				glBindBuffer(GL_ARRAY_BUFFER, vbo);
+				glBufferData(GL_ARRAY_BUFFER, sizeof(uv), uv, GL_STATIC_DRAW);
+
+
+				glTexCoordPointer(2, GL_FLOAT, sizeof(float)*6, (GLvoid*)(sizeof(float)*3));
+			} else {
+				glColor3f(255, 255, 255);
+			}
 
 			glVertexPointer(
 				3, GL_FLOAT, 0,
@@ -27,6 +53,9 @@ namespace JEngine {
 			);
 
 			glDrawArrays(GL_QUADS, 0, 4);
+
+			if (e->components[Component::TEXTURE] != 0)
+				glBindTexture(GL_TEXTURE_2D, 0);
 			
 			glTranslatef(-e->x, -e->y, -e->z);
 		}

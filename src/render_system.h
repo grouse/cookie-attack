@@ -9,6 +9,7 @@
 #include "entity.h"
 #include "component.h"
 #include "shape.h"
+#include "texture.h"
 
 namespace JEngine {
 	class RenderSystem : public System {
@@ -20,6 +21,8 @@ namespace JEngine {
 
 		private:
 			SDL_Window* window;
+
+			float uv[12];
 	};
 }
 
