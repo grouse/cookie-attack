@@ -86,8 +86,6 @@ namespace JEngine {
 			std::cout << "test\n";				
 		}));
 
-		std::cout << glGetString(GL_VERSION) << "\n";
-
 		run = true;
 		return 0;
 	}
@@ -97,17 +95,21 @@ namespace JEngine {
 		
 		
 		glShadeModel(GL_SMOOTH);
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClearDepth(1.0f);
 		
 		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LESS);
+		
 		glEnable(GL_TEXTURE_2D);
+
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 
-		glDepthFunc(GL_LEQUAL);
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
 		// Set viewport
@@ -116,7 +118,7 @@ namespace JEngine {
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 
-		glOrtho(0.0f, w, h, 0.0f, 0.0f, 1.0f);
+		glOrtho(0.0f, w, h, 0.0f, -1.0f, 1.0f);
 
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
@@ -175,7 +177,7 @@ namespace JEngine {
 					angle += PI;
 					d->setRotation(angle);
 
-					Entity* projectile = system->pushEntity(new Entity(player->x + d->x*50, player->y + d->y*50, player->z + d->z*50));
+					Entity* projectile = system->pushEntity(new Entity(player->x + d->x*25, player->y + d->y*25, player->z + d->z*25));
 					system->attachComponent(projectile, d);
 						
 					system->attachComponent(projectile, new Shape({

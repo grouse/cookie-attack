@@ -1,5 +1,4 @@
 cookie-attack
 *.swp
 *.o
-data/
 obj/
