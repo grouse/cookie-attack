@@ -11,18 +11,15 @@ namespace JEngine {
 			Velocity* v = (Velocity*) (*it);
 			Entity* e = v->owner;;
 
-			Direction* d = (Direction*) e->components[Component::DIRECTION];
 
-			if (d != 0) {
-				e->x += v->x*d->x*dt;
-				e->y += v->y*d->y*dt;
-				e->z += v->z*d->z*dt;
+			
+			//Direction* d = (Direction*) e->components[Component::DIRECTION];
 
-			} else {
-				e->x += v->x*dt;
-				e->y += v->y*dt;
-				v->z += v->z*dt;
-			}
+			e->pos += v->vec3 * dt;
+
+			//e->x += v->x*dt;
+			//e->y += v->y*dt;
+			//v->z += v->z*dt;
 		}
 	}
 }

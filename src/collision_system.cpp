@@ -288,17 +288,17 @@ namespace JEngine {
 	}
 
 	void CollisionSystem::transformToEntity(Shape* s, Entity* e, int sign) {
-		s->vertices[0] += e->x*sign;
-		s->vertices[1] += e->y*sign;
+		s->vertices[0] += e->pos.x*sign;
+		s->vertices[1] += e->pos.y*sign;
 
-		s->vertices[3] += e->x*sign;
-		s->vertices[4] += e->y*sign;
+		s->vertices[3] += e->pos.x*sign;
+		s->vertices[4] += e->pos.y*sign;
 
-		s->vertices[6] += e->x*sign;
-		s->vertices[7] += e->y*sign;
+		s->vertices[6] += e->pos.x*sign;
+		s->vertices[7] += e->pos.y*sign;
 
-		s->vertices[9] += e->x*sign;
-		s->vertices[10] += e->y*sign;
+		s->vertices[9] += e->pos.x*sign;
+		s->vertices[10] += e->pos.y*sign;
 	}
 
 	void CollisionSystem::calculateAxis(float* ax, float* ay, float v1x, float v1y, float v2x, float v2y) {

@@ -1,6 +1,8 @@
 #ifndef MOVEMENT_SYSTEM_H
 #define MOVEMENT_SYSTEM_H
 
+#include <glm/glm.hpp>
+
 #include "system.h"
 #include "entity.h"
 #include "component.h"

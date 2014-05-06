@@ -5,6 +5,12 @@
 
 #include "stb_image.c"
 
+#define GLM_FORCE_RADIANS
+#include <glm/glm.hpp>
+#include <glm/gtx/rotate_vector.hpp>
+
+
+
 static const double PI = 3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348;
 
 namespace JEngine {
@@ -64,11 +70,11 @@ namespace JEngine {
 			-16.0f, 16.0f, 0.0f		
 		}));
 
-		system->attachComponent(player, new Velocity(0.0f, 0.0f, 0.0f, 1000.0f, 1000.0f, 400.0f));
+		system->attachComponent(player, new Velocity(0.0f, 0.0f, 0.0f, 1000.0f, 2.0f, 400.0f));
 		system->attachComponent(player, new Direction(1.0f, 0.0f, 0.0f));
 
 		system->attachComponent(player, new Collision([] (Entity* e1, Entity* e2) {
-			std::cout << "test\n";				
+			//std::cout << "test\n";				
 		}));
 
 		system->attachComponent(player, new Texture("assets/ship.png"));
@@ -83,7 +89,7 @@ namespace JEngine {
 		}));
 	
 		system->attachComponent(target, new Collision([] (Entity* e1, Entity* e2) {
-			std::cout << "test\n";				
+			//std::cout << "test\n";				
 		}));
 
 		run = true;
@@ -129,6 +135,16 @@ namespace JEngine {
 		if (e.type == SDL_QUIT)
 			quit();
 
+		if (e.type == SDL_MOUSEMOTION) {
+			Shape* s = (Shape*) player->components[Component::SHAPE];
+		
+			glm::vec3 mouse = glm::vec3(e.motion.x, e.motion.y, 0.0f);
+			glm::vec3 direction = mouse - player->pos;
+			
+			float angle = atan2(direction.y, direction.x);
+			s->setRotation(angle + PI/2);
+		}	
+
 		if (e.type == SDL_KEYDOWN) {
 			switch (e.key.keysym.sym) {
 				case SDLK_w: 	
@@ -168,17 +184,10 @@ namespace JEngine {
 					break;
 
 				case SDLK_f:
-					Direction* d = new Direction(1.0f, 0.0f, 0.0f);
+					glm::vec3 rotation = glm::rotateZ(glm::vec3(1.0f, 0.0f, 0.0f), (float)(((Shape*) player->components[Component::SHAPE])->rotation - PI/2.0f));
+					glm::vec3 pos = player->pos + rotation*25.0f;
 
-					int x, y;
-					SDL_GetMouseState(&x, &y);
-
-					float angle = atan2(player->y-y, player->x-x);
-					angle += PI;
-					d->setRotation(angle);
-
-					Entity* projectile = system->pushEntity(new Entity(player->x + d->x*25, player->y + d->y*25, player->z + d->z*25));
-					system->attachComponent(projectile, d);
+					Entity* projectile = system->pushEntity(new Entity(pos));
 						
 					system->attachComponent(projectile, new Shape({
 						-4.0f, -4.0f, 0.0f,
@@ -187,9 +196,9 @@ namespace JEngine {
 						-4.0f, 4.0f, 0.0f		
 					}));
 
-					system->attachComponent(projectile, new Velocity(1000.0f, 1000.0f, 0.0f, 1.0f, 1.0f, 100.0f));
+					system->attachComponent(projectile, new Velocity(rotation.x*1000, rotation.y*1000, 0.0f, 1.0f, 0.0f, 100.0f));
 					system->attachComponent(projectile, new Collision([] (Entity* e1, Entity* e2) {
-						std::cout << "test\n";				
+						//std::cout << "test\n";				
 					}));
 		
 					system->attachComponent(projectile, new LifeTime(5));
@@ -200,7 +209,59 @@ namespace JEngine {
 	}
 
 	void Engine::update(float dt) {
-		Direction* d = (Direction*) player->components[Component::DIRECTION];
+
+		
+		Velocity* v = (Velocity*) player->components[Component::VELOCITY];
+		Shape* s = (Shape*) player->components[Component::SHAPE];
+
+		if (input_w || input_a || input_s || input_d) {
+			glm::vec3 thrust;
+
+			if (input_a && input_s) {
+				thrust = glm::vec3(-1.0f, 1.0f, 0.0f);
+			} else if (input_a && input_w) {
+				thrust = glm::vec3(-1.0f, -1.0f, 0.0f);
+			} else if (input_d && input_s) {
+				thrust = glm::vec3(1.0f, 1.0f, 0.0f);
+			} else if (input_d && input_w) {
+				thrust = glm::vec3(1.0f, -1.0f, 0.0f);
+			} else if (input_a) {
+				thrust = glm::vec3(-1.0f, 0.0f, 0.0f);
+			} else if (input_d) {
+				thrust = glm::vec3(1.0f, 0.0f, 0.0f);
+			} else if (input_s) {
+				thrust = glm::vec3(0.0f, 1.0f, 0.0f);
+			} else if (input_w) {
+				thrust = glm::vec3(0.0f, -1.0f, 0.0f);
+			}
+
+			thrust = glm::normalize(thrust);
+			thrust = glm::rotateZ(thrust, s->rotation);
+	
+			v->vec3 += thrust*v->acceleration*dt;
+
+		} else {
+			glm::vec3 new_v = v->vec3 - v->vec3*v->deacceleration*dt;
+
+			/**if (glm::length(new_v) != 0) {
+				glm::vec3 amount = v->vec3*v->deacceleration*dt;
+
+
+				std::cout << "deacceleration: " << v->deacceleration << "\n";
+				std::cout << "deacceleration amount: (" << amount.x << ", " << amount.y << ")\n";
+				std::cout << "deacceleration length: " << glm::length(amount) << "\n";
+				std::cout << "new velocity: (" << new_v.x << ", " << new_v.y << ")\n";
+			} **/
+			
+			if (glm::length(new_v) >= glm::length(v->vec3)) {
+				v->vec3 = glm::vec3(0.0f);
+			} else {
+				v->vec3 = new_v;	
+			}
+		}
+
+
+		/**Direction* d = (Direction*) player->components[Component::DIRECTION];
 		Velocity* v = (Velocity*) player->components[Component::VELOCITY];
 		Shape* s = (Shape*) player->components[Component::SHAPE];
 
@@ -255,7 +316,7 @@ namespace JEngine {
 
 			if (v->y < 0)
 				v->y = 0;
-		}
+		} **/
 
 
 		for (auto it = systems.begin(); it != systems.end(); it++)

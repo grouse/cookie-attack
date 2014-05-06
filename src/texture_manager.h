@@ -17,8 +17,7 @@ namespace JEngine {
 
 		Texture* load(char*);
 		void remove(char*);	
-		
-
+	
 	};
 }
 

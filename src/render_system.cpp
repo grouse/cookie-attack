@@ -32,7 +32,7 @@ namespace JEngine {
 			Entity* e = s->owner;
 
 			glLoadIdentity();
-			glTranslatef(e->x, e->y, e->z);
+			glTranslatef(e->pos.x, e->pos.y, e->pos.z);
 
 
 			glVertexPointer(
@@ -53,7 +53,7 @@ namespace JEngine {
 			}
 
 			
-			glTranslatef(-e->x, -e->y, -e->z);
+			glTranslatef(-e->pos.x, -e->pos.y, -e->pos.z);
 		}
 		
 		SDL_GL_SwapWindow(window);
