@@ -3,6 +3,8 @@
 
 #include <math.h>
 
+#include <glm/vec3.hpp>
+
 #include "entity.h"
 #include "component.h"
 
@@ -13,15 +15,13 @@ namespace JEngine {
 			Velocity(float, float, float, float, float, float);
 			virtual ~Velocity();
 
-			float x, y, z;
-		
+			glm::vec3 vec3;
+
 			virtual bool canAttach(Entity&);
 
-			void rotate(float);
-			void setRotation(float);
-	
 			float rotation;
 			float acceleration, deacceleration, max_speed;
+
 	};
 }
 

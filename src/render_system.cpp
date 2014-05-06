@@ -24,7 +24,7 @@ namespace JEngine {
 	RenderSystem::~RenderSystem() {}
 
 	void RenderSystem::update(float dt) {
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		for (auto it = objects->components[Component::SHAPE].begin(); it != objects->components[Component::SHAPE].end(); it++) {
@@ -32,7 +32,7 @@ namespace JEngine {
 			Entity* e = s->owner;
 
 			glLoadIdentity();
-			glTranslatef(e->x, e->y, e->z);
+			glTranslatef(e->pos.x, e->pos.y, e->pos.z);
 
 
 			glVertexPointer(
@@ -53,7 +53,7 @@ namespace JEngine {
 			}
 
 			
-			glTranslatef(-e->x, -e->y, -e->z);
+			glTranslatef(-e->pos.x, -e->pos.y, -e->pos.z);
 		}
 		
 		SDL_GL_SwapWindow(window);
