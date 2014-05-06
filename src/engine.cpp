@@ -86,6 +86,8 @@ namespace JEngine {
 			std::cout << "test\n";				
 		}));
 
+		std::cout << glGetString(GL_VERSION) << "\n";
+
 		run = true;
 		return 0;
 	}
