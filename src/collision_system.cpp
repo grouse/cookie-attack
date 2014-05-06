@@ -8,7 +8,6 @@ namespace JEngine {
 	CollisionSystem::~CollisionSystem() {}
 
 	void CollisionSystem::update(float dt) {
-		std::list<Entity*> removal;
 
 		auto itr = objects->components[Component::COLLISION].rbegin();
 		itr++;
@@ -273,18 +272,14 @@ namespace JEngine {
 				collision = collision && minba4 <= maxaa4 && maxba4 >= minaa4;
 
 				if (collision) {
-					c1->response(e1, e2);
-					c2->response(e2, e1);
+					c1->response(e1, e2, objects);
+					c2->response(e2, e1, objects);
 				}
 		
 				transformToEntity(s1, e1, -1);
 				transformToEntity(s2, e2, -1);
 			}
 		}
-
-		for (auto it = removal.begin(); it != removal.end(); it++)
-			deleteEntity((*it));
-	
 	}
 
 	void CollisionSystem::transformToEntity(Shape* s, Entity* e, int sign) {

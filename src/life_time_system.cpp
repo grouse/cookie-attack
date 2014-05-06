@@ -13,11 +13,7 @@ namespace JEngine {
 
 			c->remaining -= dt;
 			if (c->remaining <= 0)
-				removal.push_back(c);
+				objects->trashEntity(c->owner);
 		}
-
-		for (auto it = removal.begin(); it != removal.end(); it++) 
-			deleteEntity((*it)->owner);
 	}
-
 }

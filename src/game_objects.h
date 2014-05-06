@@ -15,6 +15,12 @@ namespace JEngine {
 
 			std::list<Component*> components[Component::NUM_TYPES];
 			std::list<Entity*> entities;
+
+			void trashEntity(Entity*);
+			void processTrash();
+
+		private:
+			std::list<Entity*> trash;
 	};
 }
 

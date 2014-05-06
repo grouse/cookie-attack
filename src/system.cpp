@@ -11,7 +11,9 @@ namespace JEngine {
 	System::~System() {}
 
 
-	void System::update(float dt) {}
+	void System::update(float dt) {
+		objects->processTrash();
+	}
 
 	Entity* System::pushEntity(Entity* e) {
 		objects->entities.push_back(e);
@@ -30,21 +32,5 @@ namespace JEngine {
 		c->owner = e;		
 		
 		return c;
-	}
-	
-	void System::deleteEntity(Entity* e) {
-		for (unsigned int i = 0; i < Component::NUM_TYPES; i++) {
-			if (e->components[i] != 0) {
-				objects->components[i].remove(e->components[i]);
-				
-				delete e->components[i];
-				e->components[i] = 0;
-			}
-		}
-
-		objects->entities.remove(e);
-		
-		delete e;
-		e = 0;
 	}
 }

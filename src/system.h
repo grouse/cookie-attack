@@ -2,6 +2,7 @@
 #define SYSTEM_H
 
 #include <vector>
+#include <list>
 
 #include "entity.h"
 #include "component.h"
@@ -20,11 +21,10 @@ namespace JEngine {
 
 			Entity* getEntity(int);
 			Component* getComponent(unsigned int, int);
-
-			void deleteEntity(Entity*);
-
+		
 		protected:
 			GameObjects* objects;
+			
 
 	};
 }

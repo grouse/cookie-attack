@@ -28,7 +28,6 @@ namespace JEngine {
 		for (auto it = systems.begin(); it != systems.end(); it++)
 			delete (*it);
 
-		delete system;
 		delete objects;
 	}
 
@@ -59,6 +58,7 @@ namespace JEngine {
 		objects = new GameObjects();
 		system = new System(objects);
 
+		systems.push_back(system);
 		systems.push_back(new LifeTimeSystem(objects));
 		systems.push_back(new MovementSystem(objects));
 		systems.push_back(new CollisionSystem(objects));
@@ -76,11 +76,9 @@ namespace JEngine {
 		system->attachComponent(player, new Velocity(0.0f, 0.0f, 0.0f, 1000.0f, 2.0f, 400.0f));
 		system->attachComponent(player, new Direction(1.0f, 0.0f, 0.0f));
 
-		system->attachComponent(player, new Collision([] (Entity* e1, Entity* e2) {
-			//std::cout << "test\n";				
-		}));
+		system->attachComponent(player, new Collision(CollisionResponse::rigid_body));;
 
-		system->attachComponent(player, new Texture("assets/ship.tga"));
+		system->attachComponent(player, new Texture("assets/ship.png"));
 
 		Entity* target = system->pushEntity(new Entity(200.0f, 200.0f, 0.0f));
 	
@@ -91,9 +89,7 @@ namespace JEngine {
 			-16.0f, 16.0f, 0.0f,
 		}));
 	
-		system->attachComponent(target, new Collision([] (Entity* e1, Entity* e2) {
-			//std::cout << "test\n";				
-		}));
+		system->attachComponent(target, new Collision(CollisionResponse::rigid_body));
 
 		std::cout << glGetString(GL_VERSION) << "\n";
 
@@ -209,12 +205,10 @@ namespace JEngine {
 				
 
 					system->attachComponent(projectile, new Velocity(rotation.x*1000, rotation.y*1000, 0.0f, 1.0f, 0.0f, 100.0f));
-					system->attachComponent(projectile, new Collision([] (Entity* e1, Entity* e2) {
-						//std::cout << "test\n";				
-					}));
+					system->attachComponent(projectile, new Collision(CollisionResponse::projectile));
 		
 					system->attachComponent(projectile, new Texture("assets/projectile.png"));
-					system->attachComponent(projectile, new LifeTime(5));
+					system->attachComponent(projectile, new LifeTime(1));
 				
 					break;
 			}
