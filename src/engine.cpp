@@ -77,7 +77,7 @@ namespace JEngine {
 			//std::cout << "test\n";				
 		}));
 
-		system->attachComponent(player, new Texture("assets/ship.png"));
+		system->attachComponent(player, new Texture("assets/ship.tga"));
 
 		Entity* target = system->pushEntity(new Entity(200.0f, 200.0f, 0.0f));
 	
@@ -189,18 +189,26 @@ namespace JEngine {
 
 					Entity* projectile = system->pushEntity(new Entity(pos));
 						
-					system->attachComponent(projectile, new Shape({
+				
+					Shape* p_shape = new Shape({
 						-4.0f, -4.0f, 0.0f,
 						4.0f, -4.0f, 0.0f,
 						4.0f, 4.0f, 0.0f,
 						-4.0f, 4.0f, 0.0f		
-					}));
+							
+					});
+					p_shape->rotate(((Shape*) player->components[Component::SHAPE])->rotation);
+
+					system->attachComponent(projectile, p_shape);
+
+				
 
 					system->attachComponent(projectile, new Velocity(rotation.x*1000, rotation.y*1000, 0.0f, 1.0f, 0.0f, 100.0f));
 					system->attachComponent(projectile, new Collision([] (Entity* e1, Entity* e2) {
 						//std::cout << "test\n";				
 					}));
 		
+					system->attachComponent(projectile, new Texture("assets/projectile.png"));
 					system->attachComponent(projectile, new LifeTime(5));
 				
 					break;
