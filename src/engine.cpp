@@ -25,6 +25,9 @@ namespace JEngine {
 		SDL_GL_DeleteContext(glcontext);
 		SDL_Quit();
 
+		for (auto it = systems.begin(); it != systems.end(); it++)
+			delete (*it);
+
 		delete system;
 		delete objects;
 	}
@@ -60,7 +63,7 @@ namespace JEngine {
 		systems.push_back(new MovementSystem(objects));
 		systems.push_back(new CollisionSystem(objects));
 		systems.push_back(new RenderSystem(objects, window));
-
+		
 		player = system->pushEntity(new Entity(100.0f, 100.0f, 0.0f));
 
 		system->attachComponent(player, new Shape({
@@ -92,6 +95,8 @@ namespace JEngine {
 			//std::cout << "test\n";				
 		}));
 
+
+
 		run = true;
 		return 0;
 	}
@@ -116,7 +121,7 @@ namespace JEngine {
 		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 
-		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
+		//glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 
 		// Set viewport
 
