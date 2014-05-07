@@ -12,10 +12,9 @@ namespace JEngine {
 		auto itr = objects->components[Component::COLLISION].rbegin();
 		itr++;
 
-		for (auto it = objects->components[Component::COLLISION].begin(); it != --(itr.base()); it++) {
-			
+		for (auto it = objects->components[Component::COLLISION].begin(); it != objects->components[Component::COLLISION].end(); it++) {
 			auto jt = it;
-
+			
 			for (jt++; jt != objects->components[Component::COLLISION].end(); jt++) {
 				Collision* c1 = (Collision*) (*it);
 				Collision* c2 = (Collision*) (*jt);

@@ -208,7 +208,7 @@ namespace JEngine {
 					system->attachComponent(projectile, new Velocity(rotation.x*1000, rotation.y*1000, 0.0f, 1.0f, 0.0f, 100.0f));
 					system->attachComponent(projectile, new Collision(CollisionResponse::projectile));
 					system->attachComponent(projectile, new Texture("assets/projectile.png"));
-					system->attachComponent(projectile, new Damage(100.0f));
+					system->attachComponent(projectile, new Damage(10.0f));
 					system->attachComponent(projectile, new LifeTime(1));
 				
 					break;
