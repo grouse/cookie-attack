@@ -6,6 +6,9 @@
 
 #include "game_objects.h"
 
+#include "damage.h"
+#include "health.h"
+
 namespace JEngine {
 	class CollisionSystem;
 

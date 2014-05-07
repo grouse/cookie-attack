@@ -62,6 +62,7 @@ namespace JEngine {
 		systems.push_back(new LifeTimeSystem(objects));
 		systems.push_back(new MovementSystem(objects));
 		systems.push_back(new CollisionSystem(objects));
+		systems.push_back(new HealthSystem(objects));
 		systems.push_back(new RenderSystem(objects, window));
 		
 		player = system->pushEntity(new Entity(100.0f, 100.0f, 0.0f));
@@ -75,10 +76,9 @@ namespace JEngine {
 
 		system->attachComponent(player, new Velocity(0.0f, 0.0f, 0.0f, 1000.0f, 2.0f, 400.0f));
 		system->attachComponent(player, new Direction(1.0f, 0.0f, 0.0f));
-
 		system->attachComponent(player, new Collision(CollisionResponse::rigid_body));;
-
 		system->attachComponent(player, new Texture("assets/ship.png"));
+		system->attachComponent(player, new Health(100.0f));
 
 		Entity* target = system->pushEntity(new Entity(200.0f, 200.0f, 0.0f));
 	
@@ -90,6 +90,7 @@ namespace JEngine {
 		}));
 	
 		system->attachComponent(target, new Collision(CollisionResponse::rigid_body));
+		system->attachComponent(target, new Health(100.0f));
 
 		std::cout << glGetString(GL_VERSION) << "\n";
 
@@ -206,8 +207,8 @@ namespace JEngine {
 
 					system->attachComponent(projectile, new Velocity(rotation.x*1000, rotation.y*1000, 0.0f, 1.0f, 0.0f, 100.0f));
 					system->attachComponent(projectile, new Collision(CollisionResponse::projectile));
-		
 					system->attachComponent(projectile, new Texture("assets/projectile.png"));
+					system->attachComponent(projectile, new Damage(100.0f));
 					system->attachComponent(projectile, new LifeTime(1));
 				
 					break;

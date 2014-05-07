@@ -17,7 +17,9 @@ namespace JEngine {
 				DIRECTION = 3,
 				COLLISION = 4,
 				LIFETIME = 5,
-				NUM_TYPES = 6;
+				DAMAGE = 6,
+				HEALTH = 7,
+				NUM_TYPES = 8;
 
 			
 			const unsigned int type;

@@ -1,5 +1,7 @@
 #include "game_objects.h"
 
+
+#include <iostream>
 namespace JEngine {
 
 	GameObjects::GameObjects() {}
@@ -15,12 +17,13 @@ namespace JEngine {
 
 	void GameObjects::trashEntity(Entity* e) {
 		trash.push_back(e);
+		trash.unique();
 	}
 
 	void GameObjects::processTrash() { 
 		for (auto it = trash.begin(); it != trash.end(); it++) {
 			Entity* e = (*it);
-
+			
 			for (unsigned int i = 0; i < Component::NUM_TYPES; i++) {
 				if (e->components[i] != 0) {
 					components[i].remove(e->components[i]);
