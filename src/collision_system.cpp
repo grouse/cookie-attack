@@ -266,13 +266,16 @@ namespace JEngine {
 				
 				bool collision = true;
 				collision = collision && minba1 <= maxaa1 && maxba1 >= minaa1;
+
 				collision = collision && minba2 <= maxaa2 && maxba2 >= minaa2;
 				collision = collision && minba3 <= maxaa3 && maxba3 >= minaa3;
 				collision = collision && minba4 <= maxaa4 && maxba4 >= minaa4;
 
 				if (collision) {
-					c1->response(e1, e2, objects);
-					c2->response(e2, e1, objects);
+					glm::vec2 overlap = glm::vec2(0.0f);
+					
+					c1->response(e1, e2, overlap, objects);
+					c2->response(e2, e1, overlap, objects);
 				}
 		
 				transformToEntity(s1, e1, -1);

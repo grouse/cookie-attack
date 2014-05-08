@@ -3,6 +3,8 @@
 
 #include <list>
 
+#include <glm/glm.hpp>
+
 #include "system.h"
 #include "entity.h"
 #include "component.h"

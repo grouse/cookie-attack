@@ -1,6 +1,8 @@
 #ifndef COLLISION_H
 #define COLLISION_H
 
+#include <glm/vec2.hpp>
+
 #include "entity.h"
 #include "component.h"
 
@@ -14,16 +16,16 @@ namespace JEngine {
 
 	class Collision : public Component {
 		public:
-			Collision(void (*response)(Entity*, Entity*, GameObjects*));
+			Collision(void (*response)(Entity*, Entity*, glm::vec2, GameObjects*));
 			virtual ~Collision();
 
 			virtual bool canAttach(Entity&);
-			void (*response)(Entity*, Entity*, GameObjects*);
+			void (*response)(Entity*, Entity*, glm::vec2, GameObjects*);
 	};
 
 	namespace CollisionResponse {
-		void rigid_body(Entity*, Entity*, GameObjects*);
-		void projectile(Entity*, Entity*, GameObjects*);
+		void rigid_body(Entity*, Entity*, glm::vec2,  GameObjects*);
+		void projectile(Entity*, Entity*, glm::vec2, GameObjects*);
 
 	}
 }
