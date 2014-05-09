@@ -185,6 +185,21 @@ namespace JEngine {
 					input_d = false;
 					break;
 
+				case SDLK_y:
+					Entity* t20;
+				   	t20	= system->pushEntity(new Entity(player->pos + glm::vec3(50.0f, 50.0f, 0.0f)));
+				
+					system->attachComponent(t20, new Shape({
+						-16.0f, -16.0f, 0.0f,
+						16.0f, -16.0f, 0.0f,
+						16.0f, 16.0f, 0.0f,
+						-16.0f, 16.0f, 0.0f,
+					}));
+				
+					system->attachComponent(t20, new Collision(CollisionResponse::rigid_body));
+					system->attachComponent(t20, new Health(100.0f));
+					break;
+
 				case SDLK_f:
 					glm::vec3 rotation = glm::rotateZ(glm::vec3(1.0f, 0.0f, 0.0f), (float)(((Shape*) player->components[Component::SHAPE])->rotation - PI/2.0f));
 					glm::vec3 pos = player->pos + rotation*25.0f;
@@ -208,7 +223,7 @@ namespace JEngine {
 					system->attachComponent(projectile, new Velocity(rotation.x*1000, rotation.y*1000, 0.0f, 1.0f, 0.0f, 100.0f));
 					system->attachComponent(projectile, new Collision(CollisionResponse::projectile));
 					system->attachComponent(projectile, new Texture("assets/projectile.png"));
-					system->attachComponent(projectile, new Damage(10.0f));
+					system->attachComponent(projectile, new Damage(40.0f));
 					system->attachComponent(projectile, new LifeTime(1));
 				
 					break;
