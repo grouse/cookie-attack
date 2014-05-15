@@ -1,7 +1,7 @@
 #ifndef COLLISION_H
 #define COLLISION_H
 
-#include <glm/vec2.hpp>
+#include <glm/glm.hpp>
 
 #include "entity.h"
 #include "component.h"
@@ -10,6 +10,7 @@
 
 #include "damage.h"
 #include "health.h"
+#include "velocity.h"
 
 namespace JEngine {
 	class CollisionSystem;

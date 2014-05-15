@@ -65,8 +65,8 @@ namespace JEngine {
 					}	
 				}
 				if (collision) {
-					c1->response(e1, e2, overlapScalar*overlapVec, objects);
-					c2->response(e2, e1, overlapScalar*overlapVec, objects);
+					c1->response(e1, e2, glm::vec3(overlapScalar, 0.0f, 0.0f), objects);
+					c2->response(e2, e1, glm::vec3(overlapScalar, 0.0f, 0.0f), objects);
 				}
 				
 			}

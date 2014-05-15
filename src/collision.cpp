@@ -16,12 +16,10 @@ namespace JEngine {
 
 	namespace CollisionResponse {
 		void rigid_body(Entity* e1, Entity* e2, glm::vec3 overlap, GameObjects* objects) {
-			std::cout << "overlap: (" << overlap.x << ", " << overlap.y << ")\n";
-			
-			e1->pos += overlap;
+			Velocity* v = (Velocity*) e1->components[Component::VELOCITY];
+			e1->pos += -overlap.x * glm::normalize(v->vec3);
 
-			//std::cout << "test\n";
-			//std::cout << "overlap: (" << overlap.x << ", " << overlap.y << ")\n";
+			v->vec3 = glm::vec3(0.0f, 0.0f, 0.0f);
 		}
 		
 		void static_body(Entity* e1, Entity* e2, glm::vec3 overlap, GameObjects* objects) {}
