@@ -16,16 +16,17 @@ namespace JEngine {
 
 	class Collision : public Component {
 		public:
-			Collision(void (*response)(Entity*, Entity*, glm::vec2, GameObjects*));
+			Collision(void (*response)(Entity*, Entity*, glm::vec3, GameObjects*));
 			virtual ~Collision();
 
 			virtual bool canAttach(Entity&);
-			void (*response)(Entity*, Entity*, glm::vec2, GameObjects*);
+			void (*response)(Entity*, Entity*, glm::vec3, GameObjects*);
 	};
 
 	namespace CollisionResponse {
-		void rigid_body(Entity*, Entity*, glm::vec2,  GameObjects*);
-		void projectile(Entity*, Entity*, glm::vec2, GameObjects*);
+		void rigid_body(Entity*, Entity*, glm::vec3,  GameObjects*);
+		void static_body(Entity*, Entity*, glm::vec3,  GameObjects*);
+		void projectile(Entity*, Entity*, glm::vec3, GameObjects*);
 
 	}
 }

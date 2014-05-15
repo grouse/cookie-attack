@@ -22,6 +22,14 @@ namespace JEngine {
 
 		private:
 			// collision functions
+			bool overlaps(glm::vec3, glm::vec3);
+			float getOverlap(glm::vec3, glm::vec3);
+
+			bool contains(float, glm::vec3);
+			glm::vec3 project(glm::vec3*, glm::vec3);
+			glm::vec3 perp(glm::vec3);
+
+
 			void transformToEntity(Shape*, Entity*, int);
 
 			void calculateAxis(float*, float*, float, float, float, float); // &ax, &ay, v1x, v1y, v2x, v2y

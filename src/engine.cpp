@@ -89,7 +89,7 @@ namespace JEngine {
 			-16.0f, 16.0f, 0.0f,
 		}));
 	
-		system->attachComponent(target, new Collision(CollisionResponse::rigid_body));
+		system->attachComponent(target, new Collision(CollisionResponse::static_body));
 		system->attachComponent(target, new Health(100.0f));
 
 		std::cout << glGetString(GL_VERSION) << "\n";

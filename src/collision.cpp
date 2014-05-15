@@ -3,7 +3,7 @@
 #include <iostream>
 
 namespace JEngine {
-	Collision::Collision(void (*response)(Entity*, Entity*, glm::vec2, GameObjects*)) : Component(Component::COLLISION)	{
+	Collision::Collision(void (*response)(Entity*, Entity*, glm::vec3, GameObjects*)) : Component(Component::COLLISION)	{
 		this->response = response;
 	}
 
@@ -15,12 +15,18 @@ namespace JEngine {
 
 
 	namespace CollisionResponse {
-		void rigid_body(Entity* e1, Entity* e2, glm::vec2 overlap, GameObjects* objects) {
-			//std::cout << "test\n";
+		void rigid_body(Entity* e1, Entity* e2, glm::vec3 overlap, GameObjects* objects) {
 			std::cout << "overlap: (" << overlap.x << ", " << overlap.y << ")\n";
-		}
+			
+			e1->pos += overlap;
 
-		void projectile(Entity* e1, Entity* e2, glm::vec2 overlap, GameObjects* objects) {
+			//std::cout << "test\n";
+			//std::cout << "overlap: (" << overlap.x << ", " << overlap.y << ")\n";
+		}
+		
+		void static_body(Entity* e1, Entity* e2, glm::vec3 overlap, GameObjects* objects) {}
+
+		void projectile(Entity* e1, Entity* e2, glm::vec3 overlap, GameObjects* objects) {
 			if (e1->components[Component::DAMAGE] != 0 && e2->components[Component::HEALTH] != 0) {
 				Damage* d = (Damage*) e1->components[Component::DAMAGE];
 				Health* h = (Health*) e2->components[Component::HEALTH];
