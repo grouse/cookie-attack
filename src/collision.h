@@ -1,7 +1,10 @@
 #ifndef COLLISION_H
 #define COLLISION_H
 
+#define GLM_FORCE_RADIANS
+
 #include <glm/glm.hpp>
+#include <glm/gtx/rotate_vector.hpp>
 
 #include "entity.h"
 #include "component.h"
