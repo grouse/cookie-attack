@@ -196,7 +196,7 @@ namespace JEngine {
 						-16.0f, 16.0f, 0.0f,
 					}));
 				
-					system->attachComponent(t20, new Collision(CollisionResponse::rigid_body));
+					system->attachComponent(t20, new Collision(CollisionResponse::static_body));
 					system->attachComponent(t20, new Health(100.0f));
 					break;
 
